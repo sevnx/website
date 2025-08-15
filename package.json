@@ -9,6 +9,10 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@webtui/css": "^0.1.4",
     "astro": "^5.12.8"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
   }
 }
