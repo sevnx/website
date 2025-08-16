@@ -1,0 +1,38 @@
+@layer base, utils, components;
+
+@import '@webtui/css/base.css';
+
+/* Utils */
+@import '@webtui/css/utils/box.css';
+
+/* Components */
+@import '@webtui/css/components/button.css';
+@import '@webtui/css/components/typography.css';
+
+/* Themes */
+@import '@webtui/theme-catppuccin';
+
+@layer base {
+  :root {
+    --font-size: 20px;
+    --font-family: 'JetBrainsMono', monospace;
+  }
+
+  @media (max-width: 100ch) {
+    :root {
+      --font-size: 18px;
+    }
+  }
+}
+
+:root {
+  --bg: #1d2021;
+  --fg: #ebdbb2;
+  --font: 'Source Code Pro', monospace;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--fg);
+}
