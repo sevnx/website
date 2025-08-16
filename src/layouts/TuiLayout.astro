@@ -1,0 +1,76 @@
+---
+import Layout from './Layout.astro';
+---
+
+<Layout>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="profile-card" box-="square">
+        <!-- Avatar -->
+        <div></div>
+        <!-- Name + Status -->
+        <div class="me">
+          <div>Name</div>
+          <div>Polish Flag</div>
+          <div>● Online</div>
+        </div>
+      </div>
+      <nav class="nav-menu" box-="square">
+        <ul>
+          <li>Profile</li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="content" box-="square">
+      <slot />
+    </main>
+    <footer class="footer" box-="square">
+      <span>Footer</span>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  body {
+    height: 100vh;
+  }
+
+  .app {
+    /* Grid display */
+    display: grid;
+    grid-template-columns: 24ch 1fr;
+    grid-template-rows: 1fr 4ch;
+
+    /* Padding / Gap */
+    gap: 0ch 1ch;
+    padding: 1ch;
+
+    /* Size */
+    height: 100%;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-menu {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .nav-menu li {
+    padding: 0lh 1ch;
+  }
+
+  .content {
+    padding: 1lh 2ch;
+  }
+
+  .footer {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

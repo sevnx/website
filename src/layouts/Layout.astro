@@ -1,9 +1,9 @@
 ---
-import Styles from "../styles/Styles.astro";
+import '@/styles/global.css';
 ---
 
 <!doctype html>
-<html data-webtui-theme="catpuccin" lang="en">
+<html lang="en" data-webtui-theme="catppuccin">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -11,78 +11,6 @@ import Styles from "../styles/Styles.astro";
     <title>Astro Basics</title>
   </head>
   <body>
-    <div class="app-container">
-      <aside class="sidebar">
-        <div class="profile-card" box-="square">
-          <div class="avatar"></div>
-          <div class="me">
-            <div class="name">Your Name</div>
-            <div class="status">● Online</div>
-          </div>
-        </div>
-        <nav class="nav-menu" box-="square">
-          <ul>
-            <li>Profile</li>
-          </ul>
-        </nav>
-      </aside>
-      <main class="content" box-="square">
-        <slot />
-      </main>
-      <footer class="footer" box-="square">
-        Footer
-      </footer>
-    </div>
+    <slot />
   </body>
-  <Styles />
 </html>
-
-<style>
-  body {
-    height: 100vh;
-  }
-
-  .app-container {
-    display: grid;
-    grid-template-columns: 24ch 1fr;
-    grid-template-rows: 1fr 4ch;
-    gap: 0ch 1ch;
-    height: 100%;
-    padding: 1ch;
-  }
-
-  .footer {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .sidebar {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  
-  .nav-menu {
-    flex: 1;
-    overflow-y: auto;
-  }
-  .nav-menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .nav-menu li {
-    padding: 0lh 1ch;
-  }
-
-  .content {
-    padding: 1lh 2ch;
-  }
-
-  .avatar {
-    width: 6ch;
-    height: 6ch;
-  }
-</style>

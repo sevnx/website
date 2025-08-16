@@ -13,26 +13,14 @@
 @import '@webtui/theme-catppuccin';
 
 @layer base {
-  :root {
-    --font-size: 20px;
-    --font-family: 'JetBrainsMono', monospace;
-  }
-
-  @media (max-width: 100ch) {
     :root {
-      --font-size: 18px;
+        --font-size: 20px;
+        --font-family: 'JetBrainsMono', monospace;
     }
-  }
-}
 
-:root {
-  --bg: #1d2021;
-  --fg: #ebdbb2;
-  --font: 'Source Code Pro', monospace;
-}
-
-body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--fg);
+    @media (max-width: 100ch) {
+        :root {
+            --font-size: 18px;
+        }
+    }
 }
