@@ -1,28 +1,57 @@
 ---
+import type { AstroInstance } from 'astro';
 import Layout from './Layout.astro';
+
+export interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+
+const sections: (AstroInstance & Props)[] = Object.values(import.meta.glob('../pages/*.astro', { eager: true }));
 ---
 
 <Layout>
   <div class="app">
     <aside class="sidebar">
-      <div class="profile-card" box-="square">
+      <div class="profile-card" box-="square" shear-="top">
+        <div class="header">
+          <span>Status</span>
+        </div>
         <!-- Avatar -->
         <div></div>
         <!-- Name + Status -->
         <div class="me">
-          <div>Name</div>
-          <div>Polish Flag</div>
-          <div>● Online</div>
+          <div>#</div>
+          <div>#</div>
+          <div>#</div>
+          <div>#</div>
+          <div>#</div>
+          <div>#</div>
         </div>
       </div>
-      <nav class="nav-menu" box-="square">
+      <nav class="nav-menu" box-="square" shear-="top">
+        <div class="header">
+          <span>Sections</span>
+        </div>
         <ul>
-          <li>Profile</li>
+          {
+            sections.map((page) => (
+              <li class:list={{ active: page.name === name }}>
+                <a href={page.url === '' ? '/' : page.url}>{page.name}</a>
+              </li>
+            ))
+          }
         </ul>
       </nav>
     </aside>
-    <main class="content" box-="square">
-      <slot />
+    <main box-="square" shear-="top">
+      <div class="header">
+        <span>{name}</span>
+      </div>
+      <div class="content">
+        <slot />
+      </div>
     </main>
     <footer class="footer" box-="square">
       <span>Footer</span>
@@ -35,10 +64,20 @@ import Layout from './Layout.astro';
     height: 100vh;
   }
 
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  span {
+    background-color: var(--background0);
+    padding: 0 1ch;
+  }
+
   .app {
     /* Grid display */
     display: grid;
-    grid-template-columns: 24ch 1fr;
+    grid-template-columns: 32ch 1fr;
     grid-template-rows: 1fr 4ch;
 
     /* Padding / Gap */
@@ -47,6 +86,9 @@ import Layout from './Layout.astro';
 
     /* Size */
     height: 100%;
+
+    /* Boxes */
+    --box-border-color: #4c4f69;
   }
 
   .sidebar {
@@ -63,8 +105,22 @@ import Layout from './Layout.astro';
     padding: 0lh 1ch;
   }
 
+  .nav-menu ul li:before {
+    content: ' ';
+  }
+
+  .nav-menu ul li.active:before {
+    color: inherit;
+    content: '∗';
+  }
+
+  .nav-menu a {
+    text-decoration: none;
+    color: inherit;
+  }
+
   .content {
-    padding: 1lh 2ch;
+    padding: 0lh 1ch;
   }
 
   .footer {
