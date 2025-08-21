@@ -8,7 +8,45 @@ export interface Props {
 
 const { name } = Astro.props;
 
-const sections: (AstroInstance & Props)[] = Object.values(import.meta.glob('../pages/*.astro', { eager: true }));
+interface Section {
+  name: string;
+  url: string;
+}
+
+const sections: Section[] = [
+  {
+    name: 'Profile',
+    url: '/',
+  },
+  {
+    name: 'Experience',
+    url: '/experience',
+  },
+  {
+    name: 'Projects',
+    url: '/projects',
+  },
+  {
+    name: 'Skills',
+    url: '/skills',
+  },
+  {
+    name: 'Blog',
+    url: '/blog',
+  },
+  {
+    name: 'Stats',
+    url: '/stats',
+  },
+  {
+    name: 'Hobbies',
+    url: '/hobbies',
+  },
+  {
+    name: 'Contact',
+    url: '/contact',
+  },
+];
 ---
 
 <Layout>
