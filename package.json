@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@webtui/css": "^0.1.5",
+    "@webtui/plugin-nf": "^0.1.1",
     "@webtui/theme-catppuccin": "^0.0.3",
     "astro": "^5.12.8"
   },

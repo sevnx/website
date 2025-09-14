@@ -8,6 +8,10 @@
 /* Components */
 @import '@webtui/css/components/button.css';
 @import '@webtui/css/components/typography.css';
+@import '@webtui/css/components/dialog.css';
+
+/* Nerd font */
+@import '@webtui/plugin-nf';
 
 /* Themes */
 @import '@webtui/theme-catppuccin';
@@ -15,7 +19,7 @@
 @layer base {
   :root {
     --font-size: 20px;
-    --font-family: 'JetBrainsMono', monospace;
+    --font-family: 'JetBrainsMono', monospace, Menlo, Monaco, monospace, "Symbols Nerd Font";
   }
 
   @media (max-width: 100ch) {
