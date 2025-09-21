@@ -1,0 +1,19 @@
+---
+import { getDurationString } from '@/lib/time';
+import FormattedTime from '@/components/FormattedTime.astro';
+
+interface Props {
+  startDate: Date;
+  endDate: Date | null;
+}
+
+const { startDate, endDate } = Astro.props;
+
+---
+
+<span class="duration-badge" is-="badge">
+  <FormattedTime date={startDate} />
+  <span>&nbsp;-&nbsp;</span>
+  {endDate ? <FormattedTime date={endDate} /> : 'Present'}
+  <span>&nbsp;({getDurationString(startDate, endDate)})</span>
+</span>

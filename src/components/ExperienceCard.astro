@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from "astro:content";
+import DurationBadge from "./DurationBadge.astro";
+
+export interface Props {
+  experience: CollectionEntry<"experience">;
+}
+
+const { experience } = Astro.props;
+---
+
+<div class="experience-card" box-="square">
+  <div class="content">
+    <h2>## {experience.data.jobTitle} @ {experience.data.company}</h2>
+      <DurationBadge startDate={experience.data.startDate} endDate={experience.data.endDate === 'Present' ? null : experience.data.endDate} />
+      <span>{experience.data.location}</span>
+    <span>{experience.data.employmentType}</span>
+    <span>{experience.data.shortDescription}</span>
+  </div>
+</div>
+
+<style>
+  .experience-card {
+    padding: 2ch;
+  }
+
+  .experience-card h2 {
+    margin-bottom: 1ch
+  }
+</style>

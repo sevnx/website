@@ -1,10 +1,15 @@
 ---
-import TuiLayout from "../layouts/TuiLayout.astro";
+import { getCollection } from 'astro:content';
+import TuiLayout from '../layouts/TuiLayout.astro';
+import ExperienceCard from '@/components/ExperienceCard.astro';
 
-export const name = "Experience"
+export const name = 'Experience';
+
+const experiences = await getCollection('experience');
 ---
 
 <TuiLayout name={name}>
-	<h1>Hello World</h1>
-</TuiLayout>
+  <h1># My professional journey and work experience</h1>
 
+  {experiences.map((experience) => <ExperienceCard experience={experience} />)}
+</TuiLayout>

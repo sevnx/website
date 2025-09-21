@@ -9,6 +9,7 @@
 @import '@webtui/css/components/button.css';
 @import '@webtui/css/components/typography.css';
 @import '@webtui/css/components/dialog.css';
+@import '@webtui/css/components/badge.css';
 
 /* Nerd font */
 @import '@webtui/plugin-nf';
@@ -19,7 +20,7 @@
 @layer base {
   :root {
     --font-size: 20px;
-    --font-family: 'JetBrainsMono', monospace, Menlo, Monaco, monospace, "Symbols Nerd Font";
+    --font-family: 'JetBrainsMono', monospace, Menlo, Monaco, monospace, 'Symbols Nerd Font';
   }
 
   @media (max-width: 100ch) {
