@@ -12,9 +12,9 @@ technologies: ['Rust', 'GitLab']
 ### Validation & Verification Tool
 
 * Contributed to a tool for validation and verification of software components in a distributed system, that use DDS (Data Distribution Service) as their middleware.
-* Extended test scenarios supported by the tool, to cover more use cases.
-* Implemented QoL features, to make the tool more user-friendly.
-* Prototyped an integration with the CI/CD pipeline, to automate the process, in order to catch regressions early.
+* Extended test scenarios supported by the tool, covering more use cases.
+* Implemented QoL features, making the tool more user-friendly.
+* Prototyped an integration with the CI/CD pipeline, automating the process, allowing to catch regressions early.
 
 ### Bench software configuration tool
 

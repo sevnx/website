@@ -9,9 +9,11 @@ export type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
 export type HEX = `#${string}`;
 
 export type Color = RGB | RGBA | HEX;
+export type TextColor = 'white' | 'black';
 
 export interface Technology {
   name: string;
   nerdFontLogo: string;
-  color: Color;
+  textColor: TextColor;
+  backgroundColor: Color;
 }
