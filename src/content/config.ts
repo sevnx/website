@@ -1,5 +1,5 @@
 import { defineCollection, z } from 'astro:content';
-import { employmentType, locationType, technologyNameSchema } from '@/types/schema';
+import { employmentType, technologyNameSchema } from '@/types/schema';
 
 const experience = defineCollection({
   type: 'content',
@@ -9,7 +9,7 @@ const experience = defineCollection({
     company: z.string(),
     startDate: z.coerce.date(),
     endDate: z.union([z.coerce.date(), z.literal('Present')]),
-    location: locationType,
+    location: z.string(),
     employmentType: employmentType,
     shortDescription: z.string(),
     technologies: z.array(technologyNameSchema),

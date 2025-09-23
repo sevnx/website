@@ -1,21 +1,41 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import DurationBadge from "./DurationBadge.astro";
+import type { CollectionEntry } from 'astro:content';
+import DurationBadge from './DurationBadge.astro';
 
 export interface Props {
-  experience: CollectionEntry<"experience">;
+  experience: CollectionEntry<'experience'>;
 }
 
 const { experience } = Astro.props;
+
+const contentHtml = experience.body.replace(/\n/g, '<br>').replace(/\-/g, '*').replace(/\*/g, '∗');
 ---
 
 <div class="experience-card" box-="square">
-  <div class="content">
-    <h2>## {experience.data.jobTitle} @ {experience.data.company}</h2>
-      <DurationBadge startDate={experience.data.startDate} endDate={experience.data.endDate === 'Present' ? null : experience.data.endDate} />
-      <span>{experience.data.location}</span>
-    <span>{experience.data.employmentType}</span>
+  <div class="header">
+    <div class="header-title">
+      <h2>## {experience.data.jobTitle} @ {experience.data.company}</h2>
+      <DurationBadge
+        startDate={experience.data.startDate}
+        endDate={experience.data.endDate === 'Present' ? null : experience.data.endDate}
+      />
+    </div>
+    <div class="header-info">
+      <div is-="badge">
+        <span>{experience.data.location}</span>
+      </div>
+      <div is-="badge">
+        <span>{experience.data.employmentType}</span>
+      </div>
+    </div>
+  </div>
+  <div class="header-description">
     <span>{experience.data.shortDescription}</span>
+  </div>
+  <div class="separator" is-="separator"/>
+  <div class="content">
+    <span set:html={contentHtml}>
+    </span>
   </div>
 </div>
 
@@ -25,6 +45,23 @@ const { experience } = Astro.props;
   }
 
   .experience-card h2 {
-    margin-bottom: 1ch
+    margin-bottom: 1ch;
+  }
+
+  .experience-card .header-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .experience-card .header-info {
+    margin-bottom: 1ch;
+  }
+
+  .experience-card div[is-='separator'] {
+    display: flex;
+    flex-direction: column;
+    --separator-color: var(--box-border-color);
+    --separator-width: 1px;
   }
 </style>
