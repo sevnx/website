@@ -1,6 +1,5 @@
 ---
 jobTitle: 'Software Developer'
-logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKiuFgqmYUrppfk0PmEn81cR-ttQb-xAbE4g&s'
 company: 'Sirius Space Services'
 startDate: 2023-12-04
 endDate: 2025-08-31

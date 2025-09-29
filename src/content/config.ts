@@ -5,7 +5,6 @@ const experience = defineCollection({
   type: 'content',
   schema: z.object({
     jobTitle: z.string(),
-    logo: z.string(),
     company: z.string(),
     startDate: z.coerce.date(),
     endDate: z.union([z.coerce.date(), z.literal('Present')]),
