@@ -1,5 +1,5 @@
 import { defineCollection, z } from 'astro:content';
-import { employmentType, technologyNameSchema } from '@/types/schema';
+import { applicationType, employmentType, projectType, technologyNameSchema } from '@/types/schema';
 
 const experience = defineCollection({
   type: 'content',
@@ -15,6 +15,20 @@ const experience = defineCollection({
   }),
 });
 
+const project = defineCollection({
+  type: 'content',
+  schema: z.object({
+    name: z.string(),
+    startDate: z.coerce.date(),
+    endDate: z.union([z.coerce.date(), z.literal('Present')]),
+    projectType: projectType,
+    shortDescription: z.string(),
+    technologies: z.array(technologyNameSchema),
+    applicationType: z.array(applicationType),
+  })
+})
+
 export const collections = {
   experience,
+  project
 };
