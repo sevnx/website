@@ -97,7 +97,7 @@ export const technologies: Technology[] = [
     color: '#FF5D01',
   },
   {
-    name: 'Next.js',
+    name: 'NextJS',
     nerdFontLogo: '',
     color: '#000000',
   },

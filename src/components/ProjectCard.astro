@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import DurationBadge from './DurationBadge.astro';
+
+export interface Props {
+  project: CollectionEntry<'project'>;
+}
+
+const { project } = Astro.props;
+
+const contentHtml = project.body.replace(/\n/g, '<br>').replace(/\-/g, '*').replace(/\*/g, '∗');
+---
+
+<div class="project-card" box-="square">
+  <div class="header">
+    <div class="header-title">
+      <h2>## {project.data.name}</h2>
+      <DurationBadge
+        startDate={project.data.startDate}
+        endDate={project.data.endDate === 'Present' ? null : project.data.endDate}
+        withDuration={false}
+      />
+    </div>
+  </div>
+  <div class="header-description">
+    <span>{project.data.shortDescription}</span>
+  </div>
+  <div class="separator" is-="separator"/>
+  <div class="content">
+    <span set:html={contentHtml}>
+    </span>
+  </div>
+</div>
+
+<style>
+  .project-card {
+    flex: 1;
+    align-items: stretch;
+  }
+
+  .project-card h2 {
+    margin-bottom: 1ch;
+  }
+
+  .project-card .header-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .project-card .header-description {
+    margin-bottom: 1ch;
+  }
+</style>

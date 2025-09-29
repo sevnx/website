@@ -5,9 +5,10 @@ import FormattedTime from '@/components/FormattedTime.astro';
 interface Props {
   startDate: Date;
   endDate: Date | null;
+  withDuration: boolean;
 }
 
-const { startDate, endDate } = Astro.props;
+const { startDate, endDate, withDuration } = Astro.props;
 
 function getDurationString(start: Date, end: Date | null) {
   const duration = getDuration(start, end);
@@ -42,6 +43,6 @@ function getDurationString(start: Date, end: Date | null) {
   <FormattedTime date={startDate} />
   <span>&nbsp;-&nbsp;</span>
   {endDate ? <FormattedTime date={endDate} /> : 'Present'}
-  <span>&nbsp;({getDurationString(startDate, endDate)})</span>
+  {withDuration && <span>&nbsp;({getDurationString(startDate, endDate)})</span>}
 </span>
 

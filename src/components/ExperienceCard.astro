@@ -18,6 +18,7 @@ const contentHtml = experience.body.replace(/\n/g, '<br>').replace(/\-/g, '*').r
       <DurationBadge
         startDate={experience.data.startDate}
         endDate={experience.data.endDate === 'Present' ? null : experience.data.endDate}
+        withDuration={true}
       />
     </div>
     <div class="header-info">
