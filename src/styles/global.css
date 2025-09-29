@@ -18,10 +18,18 @@
 /* Themes */
 @import '@webtui/theme-catppuccin';
 
+@font-face {
+  font-family: "CommitMono Nerd Font";
+  src: url("./fonts/CommitMonoNerdFontMono-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --font-size: 20px;
-    --font-family: 'JetBrainsMono', monospace, Menlo, Monaco, monospace, 'Symbols Nerd Font';
+    --font-family: 'CommitMono Nerd Font', monospace, Menlo, Monaco, monospace, 'Symbols Nerd Font';
   }
 
   @media (max-width: 100ch) {
