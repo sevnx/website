@@ -17,9 +17,9 @@ export const projectType = z.union([
 export const applicationType = z.union([
   z.literal('Web'),
   z.literal('Desktop'),
-  z.literal('Embedded'),
   z.literal('Mobile'),
   z.literal('CLI'),
+  z.literal('TUI'),
 ]);
 
 export const technologyNames = technologies.map((technology) => technology.name);

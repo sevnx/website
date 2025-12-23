@@ -7,9 +7,6 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "module": "esnext",
-    "moduleResolution": "node",
-    "target": "esnext",
     "esModuleInterop": true
   }
 }

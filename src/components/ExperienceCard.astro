@@ -1,14 +1,14 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import DurationBadge from './DurationBadge.astro';
+import { technologies } from '@/data/technologies';
+import TechnologyBadge from './TechnologyBadge.astro';
 
 export interface Props {
   experience: CollectionEntry<'experience'>;
 }
 
 const { experience } = Astro.props;
-
-const contentHtml = experience.body.replace(/\n/g, '<br>').replace(/\-/g, '*').replace(/\*/g, '∗');
 ---
 
 <div class="experience-card" box-="square">
@@ -23,20 +23,30 @@ const contentHtml = experience.body.replace(/\n/g, '<br>').replace(/\-/g, '*').r
     </div>
     <div class="header-info">
       <div is-="badge">
-        <span>{experience.data.location}</span>
+        <span> {experience.data.location}</span>
       </div>
       <div is-="badge">
-        <span>{experience.data.employmentType}</span>
+        <span> {experience.data.employmentType}</span>
       </div>
+      {
+        experience.data.technologies
+          .map((technology) => technologies.find((t) => t.name === technology)!)
+          .map((technology) => {
+            return (
+              <>
+                <TechnologyBadge technology={technology} />
+              </>
+            );
+          })
+      }
     </div>
   </div>
   <div class="header-description">
     <span>{experience.data.shortDescription}</span>
   </div>
-  <div class="separator" is-="separator"/>
+  <div class="separator" is-="separator"></div>
   <div class="content">
-    <span set:html={contentHtml}>
-    </span>
+    <span set:html={experience.body.replace(/\n/g, '<br>')} />
   </div>
 </div>
 

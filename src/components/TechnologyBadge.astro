@@ -1,0 +1,13 @@
+---
+import type { Technology } from '@/types';
+
+interface Props {
+  technology: Technology;
+}
+
+const { technology } = Astro.props;
+---
+
+<div is-="badge" style={`--badge-color: ${technology.color};`}>
+  <span>{technology.nerdFontLogo}&nbsp;{technology.name}</span>
+</div>
