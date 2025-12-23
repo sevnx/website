@@ -57,15 +57,23 @@ const sections: Section[] = [
           <span>Status</span>
         </div>
         <!-- Avatar -->
-        <div></div>
+        <div class="avatar">
+        </div>
         <!-- Name + Status -->
         <div class="me">
-          <div>#</div>
-          <div>#</div>
-          <div>#</div>
-          <div>#</div>
-          <div>#</div>
-          <div>#</div>
+          <div>
+            <span>
+              <img src="https://flagcdn.com/16x12/pl.png" alt="🇵🇱"/>
+              Seweryn Czykinowski
+            </span>
+          </div>
+          <div is-="separator" style="width: 100%;"></div>
+          <div>
+            <span> SW Engineer @ Nokia</span>
+          </div>
+          <div>
+            <span> Paris, France</span>
+          </div>
         </div>
       </div>
       <nav class="nav-menu" box-="square" shear-="top">
@@ -89,7 +97,7 @@ const sections: Section[] = [
         <div class="links">
           <div class="email">
             <dialog id="email-dialog" popover>
-              <p>My email : <a href="mailto:sevveryn.czykinowski@gmail.com">sevveryn.czykinowski@gmail.com</a> </p>
+              <p>My email : <a href="mailto:sevveryn.czykinowski@gmail.com">sevveryn.czykinowski@gmail.com</a></p>
               <div id="email-dialog-buttons">
                 <button box-="round" onclick="document.getElementById('email-dialog').hidePopover()">Close</button>
               </div>
@@ -117,11 +125,18 @@ const sections: Section[] = [
         <slot />
       </div>
     </main>
-    <Footer/>
+    <Footer />
   </div>
 </Layout>
 
 <style>
+  .profile-card img {
+    display: inline-block;
+    width: 1ch;
+    height: auto;
+    vertical-align: middle;
+  }
+
   body {
     height: 100vh;
   }
@@ -151,6 +166,7 @@ const sections: Section[] = [
 
     /* Boxes */
     --box-border-color: #4c4f69;
+    --separator-color: #4c4f69;
   }
 
   .sidebar {
