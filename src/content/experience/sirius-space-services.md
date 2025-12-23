@@ -5,12 +5,19 @@ startDate: 2023-12-04
 endDate: 2025-08-31
 location: 'Nanterre, France'
 employmentType: 'Apprenticeship'
-shortDescription: 'During my apprenticeship, I contributed to various software tools written in Rust used by the software team.'
+shortDescription: 'Worked on various internal software tools to support and assist other developers.'
 technologies: ['Rust', 'GitLab']
 ---
 
-# Key responsibilities
+### Validation & Verification Tool
 
-- Contributed to a validation and verification tool, that uses the Data Distribution Service (DDS) middleware to test different software components.
-- Rewrote a prototype written in Python to Rust, that handles the generation of configuration files for test benches software, and then the deployment of said configurations on target.
-- Prototyped a GUI for the test benches tool, using Tauri, in order to facilitate the use of the tool by non-technical users.
+* Contributed to a tool for validation and verification of software components in a distributed system, that use DDS (Data Distribution Service) as their middleware.
+* Extended test scenarios supported by the tool, to cover more use cases.
+* Implemented QoL features, to make the tool more user-friendly.
+* Prototyped an integration with the CI/CD pipeline, to automate the process, in order to catch regressions early.
+
+### Bench software configuration tool
+
+* Rewrote the prototype of the tool from Python to Rust, to align with other software.
+* Established an architecture to improve modularity, separation of concerns, and error handling.
+* Prototyped a GUI for the tool, using Tauri, to facilitate its usage by non-technical users.

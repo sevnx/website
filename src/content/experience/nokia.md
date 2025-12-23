@@ -5,10 +5,8 @@ startDate: 2025-09-01
 endDate: 'Present'
 location: 'Nozay, France'
 employmentType: 'Apprenticeship'
-shortDescription: 'As a trainee, I worked on porting embedded software components from current to next-generation platforms.'
-technologies: ['C']
+shortDescription: 'Refactoring a large software component to improve performance, reusability and maintainability.'
+technologies: ['C', 'C++']
 ---
 
-# Key responsibilities
-
-Details will be added as my apprenticeship progresses.
+<!-- More details will be added as my apprenticeship progresses. -->
