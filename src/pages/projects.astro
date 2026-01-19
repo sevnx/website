@@ -9,7 +9,7 @@ const projects = await getCollection('project');
 ---
 
 <TuiLayout name={name}>
-  <h1># The things I've worked on</h1>
+  <h1># The cool things I have had the opportunity to work on</h1>
 
   <div class="projects">
     {
@@ -24,15 +24,12 @@ const projects = await getCollection('project');
 
 <style>
   .projects {
-    display: flex;
-	align-items: stretch;
-	flex-wrap: wrap;
-	flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1ch;
   }
 
   .project {
-	flex: 1 1 49%;
-	max-width: 49%;
+    display: flex;
   }
 </style>
