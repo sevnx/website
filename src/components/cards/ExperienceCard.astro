@@ -1,10 +1,10 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import DurationBadge from './DurationBadge.astro';
-import SkillBadge from './SkillBadge.astro';
+import DurationBadge from '@/components/badges/DurationBadge.astro';
+import SkillBadge from '@/components/badges/SkillBadge.astro';
 import { technologies } from '@/data/technologies';
-import LocationBadge from './LocationBadge.astro';
-import EmploymentTypeBadge from './EmploymentTypeBadge.astro';
+import LocationBadge from '@/components/badges/LocationBadge.astro';
+import EmploymentTypeBadge from '@/components/badges/EmploymentTypeBadge.astro';
 
 export interface Props {
   experience: CollectionEntry<'experience'>;

@@ -1,6 +1,6 @@
 ---
 import { getDuration } from '@/lib/time';
-import FormattedTime from '@/components/FormattedTime.astro';
+import FormattedTime from '@/components/ui/FormattedTime.astro';
 
 interface Props {
   startDate: Date;
@@ -34,40 +34,13 @@ function getDurationString(start: Date, end: Date | null) {
   return `${amount}${end === null ? '+' : ''} ${unit}`;
 }
 
-
-function getDurationString(start: Date, end: Date | null) {
-  const duration = getDuration(start, end);
-
-  let amount = 0;
-  let unit = '';
-
-  if (duration.years >= 2) {
-    amount = duration.years;
-    unit = 'year' + (duration.years !== 1 ? 's' : '');
-  } else {
-    const totalMonths = duration.years * 12 + duration.months;
-    
-    if (totalMonths >= 1) {
-      amount = totalMonths;
-      unit = 'month' + (totalMonths !== 1 ? 's' : '');
-    } else {
-      amount = duration.days;
-      unit = 'day' + (duration.days !== 1 ? 's' : '');
-    }
-  }
-
-  return `${amount}${end === null ? '+' : ''} ${unit}`;
-}
-
-
 ---
 
 <span class="duration-badge" is-="badge">
-  <span></span>
+  <span></span>
   &nbsp;
   <FormattedTime date={startDate} />
   <span>&nbsp;-&nbsp;</span>
   {endDate ? <FormattedTime date={endDate} /> : 'Present'}
   {withDuration && <span>&nbsp;({getDurationString(startDate, endDate)})</span>}
 </span>
-
