@@ -9,7 +9,7 @@ shortDescription: 'Refactoring a large software component to improve performance
 technologies: ['C', 'C++']
 ---
 
-# Key responsibilities
+### Key responsibilities
 
 - Porting an embedded software component from current to next-generation platforms.
 - Refactoring with a focus on performance, and making the code future-proof.

@@ -1,0 +1,20 @@
+---
+import type { EmploymentType } from '@/types';
+
+export interface Props {
+    employmentType: EmploymentType;
+}
+
+const { employmentType } = Astro.props;
+
+const employmentTypeBadge = {
+    'Full-time': '󰦑',
+    'Apprenticeship': '',
+}
+
+const employmentTypeLogo = employmentTypeBadge[employmentType];
+---
+
+<div is-="badge">
+    <span>{employmentTypeLogo} {employmentType}</span>
+</div>

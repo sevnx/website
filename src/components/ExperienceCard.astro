@@ -3,6 +3,8 @@ import type { CollectionEntry } from 'astro:content';
 import DurationBadge from './DurationBadge.astro';
 import SkillBadge from './SkillBadge.astro';
 import { technologies } from '@/data/technologies';
+import LocationBadge from './LocationBadge.astro';
+import EmploymentTypeBadge from './EmploymentTypeBadge.astro';
 
 export interface Props {
   experience: CollectionEntry<'experience'>;
@@ -24,12 +26,8 @@ const contentHtml = experience.body.replace(/^-/gm, '*').replace(/^\*/gm, '∗')
       />
     </div>
     <div class="header-info">
-      <div is-="badge">
-        <span> {experience.data.location}</span>
-      </div>
-      <div is-="badge">
-        <span> {experience.data.employmentType}</span>
-      </div>
+      <LocationBadge location={experience.data.location} />
+      <EmploymentTypeBadge employmentType={experience.data.employmentType} />
       {
         experience.data.technologies.map((technology) => (
           <SkillBadge technology={technologies.find((t) => t.name === technology)} />

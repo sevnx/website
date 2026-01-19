@@ -3,9 +3,7 @@ import { z } from 'astro:content';
 
 export const employmentType = z.union([
   z.literal('Full-time'),
-  z.literal('Internship'),
   z.literal('Apprenticeship'),
-  z.literal('Part-time'),
 ]);
 
 export const projectType = z.union([
