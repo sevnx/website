@@ -37,7 +37,7 @@ const sections: Section[] = [
   {
     name: 'Blog',
     url: '/blog',
-  }
+  },
 ];
 ---
 
@@ -48,14 +48,13 @@ const sections: Section[] = [
         <div class="header">
           <span>Status</span>
         </div>
-        <!-- Avatar -->
-        <div class="avatar">
-        </div>
-        <!-- Name + Status -->
         <div class="me">
           <div>
             <span>
-              <img src="https://avatars.githubusercontent.com/u/115710692?s=400&u=61779faa8bcd9d3e60ca4de54ab8192b6cb77567&v=4" alt="🇵🇱"/>
+              <img
+                src="https://avatars.githubusercontent.com/u/115710692?s=400&u=61779faa8bcd9d3e60ca4de54ab8192b6cb77567&v=4"
+                alt="GitHub Avatar"
+              />
               Seweryn Czykinowski
             </span>
           </div>
@@ -117,6 +116,7 @@ const sections: Section[] = [
         <slot />
       </div>
     </main>
+
     <Footer />
   </div>
 </Layout>
@@ -208,7 +208,17 @@ const sections: Section[] = [
     background-color: rgba(0, 0, 0, 0.5);
   }
 
+  main {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
   .content {
     padding: 0lh 1ch;
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--box-border-color) transparent;
   }
 </style>
