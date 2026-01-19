@@ -13,5 +13,3 @@ technologies: ['C', 'C++']
 
 - Porting an embedded software component from current to next-generation platforms.
 - Refactoring with a focus on performance, and making the code future-proof.
-
-<!-- More details will be added as my apprenticeship progresses. -->
