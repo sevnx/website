@@ -9,5 +9,3 @@ applicationType: ['Web']
 ---
 
 # Portfolio
-
-This very website you're looking at.

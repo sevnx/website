@@ -8,6 +8,7 @@ technologies: ['Rust']
 applicationType: ['CLI']
 ---
 
-# lolfetch
+# Key features
 
-lolfetch is a CLI tool to display data from the League of Legends API in a neofetch-like style
+- Gather data from the League of Legends API and display it in a neofetch-like style.
+- Various configuration options to customize the output, and what information is displayed.
