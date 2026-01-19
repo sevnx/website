@@ -1,16 +1,9 @@
 import { technologies } from '@/data/technologies';
 import { z } from 'astro:content';
 
-export const employmentType = z.union([
-  z.literal('Full-time'),
-  z.literal('Apprenticeship'),
-]);
+export const employmentType = z.union([z.literal('Full-time'), z.literal('Apprenticeship')]);
 
-export const projectType = z.union([
-  z.literal('Personal'),
-  z.literal('Academic'),
-  z.literal('Professional'),
-]);
+export const projectType = z.union([z.literal('Personal'), z.literal('Academic'), z.literal('Professional')]);
 
 export const applicationType = z.union([
   z.literal('Web'),

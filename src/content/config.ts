@@ -25,10 +25,10 @@ const project = defineCollection({
     shortDescription: z.string(),
     technologies: z.array(technologyNameSchema),
     applicationType: z.array(applicationType),
-  })
-})
+  }),
+});
 
 export const collections = {
   experience,
-  project
+  project,
 };

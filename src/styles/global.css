@@ -19,8 +19,8 @@
 @import '@webtui/theme-catppuccin';
 
 @font-face {
-  font-family: "CommitMono Nerd Font";
-  src: url("/fonts/CommitMonoNerdFontMono-Regular.otf") format("opentype");
+  font-family: 'CommitMono Nerd Font';
+  src: url('/fonts/CommitMonoNerdFontMono-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;

@@ -11,4 +11,3 @@ applicationType: ['TUI']
 # ParkTui
 
 ParkTui is a parking lot management simulator, in the terminal.
-
