@@ -1,14 +1,14 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import DurationBadge from '@/components/badges/DurationBadge.astro';
+import SkillBadge from '@/components/badges/SkillBadge.astro';
+import { technologies } from '@/data/technologies';
 
 export interface Props {
   project: CollectionEntry<'project'>;
 }
 
 const { project } = Astro.props;
-
-const contentHtml = project.body.replace(/\n/g, '<br>').replace(/\-/g, '*').replace(/\*/g, '∗');
 ---
 
 <div class="project-card" box-="square">
@@ -22,20 +22,41 @@ const contentHtml = project.body.replace(/\n/g, '<br>').replace(/\-/g, '*').repl
       />
     </div>
   </div>
-  <div class="header-description">
+  <div class="project-summary" box-="square">
     <span>{project.data.shortDescription}</span>
   </div>
-  <div class="separator" is-="separator"/>
-  <div class="content">
-    <span set:html={contentHtml}>
-    </span>
+  <div class="project-technologies" box-="square">
+    <div class="technology-list">
+      {
+        project.data.technologies.map((technology) => (
+          <SkillBadge technology={technologies.find((t) => t.name === technology)} />
+        ))
+      }
+    </div>
+  </div>
+  <div class="project-actions">
+    <a href={`/projects/${project.slug}`} box-="round">View more</a>
+    {
+      project.data.websiteUrl && (
+        <a href={project.data.websiteUrl} target="_blank" rel="noreferrer" box-="round">Website</a>
+      )
+    }
+    {
+      project.data.githubUrl && (
+        <a href={project.data.githubUrl} target="_blank" rel="noreferrer" box-="round">GitHub</a>
+      )
+    }
   </div>
 </div>
 
 <style>
   .project-card {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     align-items: stretch;
+    gap: 1ch;
+    padding: 2ch;
   }
 
   .project-card h2 {
@@ -48,7 +69,37 @@ const contentHtml = project.body.replace(/\n/g, '<br>').replace(/\-/g, '*').repl
     justify-content: space-between;
   }
 
-  .project-card .header-description {
-    margin-bottom: 1ch;
+  .project-card .project-summary {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 1ch;
+  }
+
+  .project-card .project-technologies {
+    padding: 1ch;
+  }
+
+  .project-card .technology-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1ch;
+    justify-content: center;
+  }
+
+  .project-card .project-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1ch;
+    justify-content: flex-end;
+    margin-top: auto;
+  }
+
+  .project-card .project-actions a {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    height: 1lh;
+    padding: 0 1ch;
   }
 </style>

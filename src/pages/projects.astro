@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import TuiLayout from '../layouts/TuiLayout.astro';
-import ProjectCard from '@/components/cards/ProjectCard.astro';
+import ProjectGrid from '@/components/projects/ProjectGrid.astro';
 
 export const name = 'Projects';
 
@@ -10,26 +10,5 @@ const projects = await getCollection('project');
 
 <TuiLayout name={name}>
   <h1># The cool things I have had the opportunity to work on</h1>
-
-  <div class="projects">
-    {
-      projects.map((project) => (
-        <div class="project">
-          <ProjectCard project={project} />
-        </div>
-      ))
-    }
-  </div>
+  <ProjectGrid projects={projects} />
 </TuiLayout>
-
-<style>
-  .projects {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1ch;
-  }
-
-  .project {
-    display: flex;
-  }
-</style>

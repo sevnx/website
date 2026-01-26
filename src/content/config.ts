@@ -26,6 +26,7 @@ const project = defineCollection({
     technologies: z.array(technologyNameSchema),
     applicationType: z.array(applicationType),
     githubUrl: z.string().url().optional(),
+    websiteUrl: z.string().url().optional(),
   }),
 });
 
