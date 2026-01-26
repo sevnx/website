@@ -7,6 +7,8 @@
 
 /* Components */
 @import '@webtui/css/components/button.css';
+@import '@webtui/css/components/input.css';
+@import '@webtui/css/components/textarea.css';
 @import '@webtui/css/components/typography.css';
 @import '@webtui/css/components/dialog.css';
 @import '@webtui/css/components/badge.css';

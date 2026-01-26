@@ -86,14 +86,48 @@ const sections: Section[] = [
           <span>Contact & Links</span>
         </div>
         <div class="links">
-          <div class="email">
-            <dialog id="email-dialog" popover>
-              <p>My email : <a href="mailto:sevveryn.czykinowski@gmail.com">sevveryn.czykinowski@gmail.com</a></p>
-              <div id="email-dialog-buttons">
-                <button box-="round" onclick="document.getElementById('email-dialog').hidePopover()">Close</button>
-              </div>
+          <div class="contact">
+            <dialog id="contact-dialog" popover>
+              <form method="POST" action="" class="contact-form" box-="square" shear-="top">
+                <div class="header">
+                  <span>Message</span>
+                </div>
+                <div class="form-container">
+                  <div box-="square" shear-="top">
+                    <div class="header">
+                      <span>Name</span>
+                    </div>
+                    <div class="form-content">
+                      <input type="text" name="name" placeholder="Your name" required />
+                    </div>
+                  </div>
+                  <div box-="square" shear-="top">
+                    <div class="header">
+                      <span>Subject</span>
+                    </div>
+                    <div class="form-content">
+                      <input type="text" name="subject" placeholder="Your subject" required />
+                    </div>
+                  </div>
+                  <div box-="square" shear-="top">
+                    <div class="header">
+                      <span>Content</span>
+                    </div>
+                    <div class="form-content">
+                      <textarea name="content" placeholder="Your message..." maxlength="280" rows="6" required
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="form-buttons">
+                    <button type="button" box-="round" onclick="document.getElementById('contact-dialog').hidePopover()"
+                      >Cancel</button
+                    >
+                    <button type="submit" box-="round">Send</button>
+                  </div>
+                </div>
+              </form>
             </dialog>
-            <button id="email-dialog-button" popovertarget="email-dialog"><span>>  Email </span></button>
+            <button id="contact-dialog-button" popovertarget="contact-dialog"><span>>  Message</span></button>
           </div>
           <div class="social">
             <a href="https://linkedin.com/in/sewerynczykinowski" target="_blank">
@@ -193,19 +227,54 @@ const sections: Section[] = [
     color: var(--text);
   }
 
-  #email-dialog-button {
+  #contact-dialog-button {
     height: 1lh;
     color: var(--text);
     padding: 0;
   }
 
-  .email dialog {
-    padding: 1lh;
-    border: 1px solid var(--box-border-color);
+  .contact dialog {
+    padding: 0;
+    border: none;
+    width: 100%;
+    background: transparent;
   }
 
-  .email dialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
+  .contact dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  .contact-form {
+    background-color: var(--background0);
+  }
+
+  .form-content {
+    display: flex;
+    gap: 1lh;
+    padding: 0lh 1ch;
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5lh 1ch;
+    padding: 1lh 0.5ch 0lh;
+  }
+
+  .form-content input,
+  .form-content textarea {
+    width: 100%;
+    background-color: var(--background0);
+    resize: none;
+  }
+
+  .form-content textarea {
+  }
+
+  .form-buttons {
+    display: flex;
+    gap: 1ch;
+    justify-content: flex-end;
   }
 
   main {
