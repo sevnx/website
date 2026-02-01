@@ -68,7 +68,7 @@ export const technologies: Technology[] = [
     textColor: 'white',
   },
   {
-    name: 'TailwindCSS',
+    name: 'Tailwind',
     nerdFontLogo: '󱏿',
     backgroundColor: '#06B6D4',
     textColor: 'black',
