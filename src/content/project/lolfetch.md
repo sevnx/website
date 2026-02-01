@@ -6,6 +6,7 @@ projectType: 'Personal'
 shortDescription: 'A CLI tool to display data from the League of Legends API in a neofetch-like style.'
 technologies: ['Rust']
 applicationType: ['CLI']
+githubUrl: 'https://github.com/sevnx/lolfetch'
 ---
 
 # Key features

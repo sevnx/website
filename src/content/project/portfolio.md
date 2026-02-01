@@ -7,6 +7,7 @@ shortDescription: "This very website you're looking at."
 technologies: ['Astro', 'CSS']
 applicationType: ['Web']
 websiteUrl: 'https://sevnx.dev/'
+githubUrl: 'https://github.com/sevnx/website'
 ---
 
 # Portfolio

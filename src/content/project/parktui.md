@@ -6,6 +6,7 @@ projectType: 'Academic'
 shortDescription: 'A parking lot management simulator, in the terminal.'
 technologies: ['C']
 applicationType: ['TUI']
+githubUrl: 'https://github.com/sevnx/parktui'
 ---
 
 # ParkTui

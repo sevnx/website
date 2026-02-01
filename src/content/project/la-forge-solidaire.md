@@ -1,0 +1,12 @@
+---
+name: 'La Forge Solidaire'
+startDate: '2025-06-01'
+endDate: '2025-06-30'
+projectType: 'Academic'
+shortDescription: 'A neighborhood tool-sharing web application.'
+technologies: ['React', 'TypeScript', 'Tailwind']
+applicationType: ['Web']
+githubUrl: 'https://github.com/sevnx/La-Forge-Solidaire'
+---
+
+# La Forge Solidaire

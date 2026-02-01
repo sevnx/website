@@ -6,6 +6,7 @@ projectType: 'Academic'
 shortDescription: 'Descode, a platform created to teach programming.'
 technologies: ['React', 'TypeScript', 'PostgreSQL', 'Rust', 'NextJS', 'Docker']
 applicationType: ['Web', 'Mobile']
+githubUrl: 'https://github.com/desforgehub/descode'
 ---
 
 # Key responsibilities
