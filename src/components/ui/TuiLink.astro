@@ -1,0 +1,45 @@
+---
+export interface Props {
+  href: string;
+  text: string;
+}
+
+const { href, text } = Astro.props;
+---
+
+<div box-="square" shear-="both" class="tui-link">
+  <div class="header">
+    <span></span>
+    <span></span>
+  </div>
+  <div class="content">
+    {(<a href={href}>{text}</a>)}
+  </div>
+  <div class="header">
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<style>
+  .tui-link .header {
+    display: flex;
+    height: 0.75lh;
+    min-width: 50%;
+    flex: 1;
+    background-color: var(--background0);
+  }
+
+  .tui-link .content {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    padding: 0lh 1ch;
+  }
+
+  .tui-link a {
+    text-decoration: none;
+    color: inherit;
+  }
+</style>

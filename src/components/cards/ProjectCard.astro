@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import DurationBadge from '@/components/badges/DurationBadge.astro';
 import SkillBadge from '@/components/badges/SkillBadge.astro';
+import TuiLink from '@/components/ui/TuiLink.astro';
 import { technologies } from '@/data/technologies';
 
 export interface Props {
@@ -22,54 +23,19 @@ const { project } = Astro.props;
       />
     </div>
   </div>
-  <div box-="square" shear-="top">
-    <div class="header">
-      <span>Summary</span>
-    </div>
-    <div class="content">
-      <span>{project.data.shortDescription}</span>
-    </div>
-  </div>
-  <div box-="square" shear-="top">
-    <div class="header">
-      <span>Technologies</span>
-    </div>
-    <div class="content technology-list">
-      {
-        project.data.technologies.map((technology) => (
-          <SkillBadge technology={technologies.find((t) => t.name === technology)} />
-        ))
-      }
-    </div>
-  </div>
-  <div>
+  <span>{project.data.shortDescription}</span>
+  <div class="separator" is-="separator"></div>
+  <div class="technology-list">
     {
-      project.data.githubUrl && (
-        <div box-="square" shear-="both" class="project-action">
-          <a href={project.data.githubUrl} target="_blank" rel="noreferrer">
-            <span>VIEW ON GITHUB</span>
-          </a>
-        </div>
-      )
+      project.data.technologies.map((technology) => (
+        <SkillBadge technology={technologies.find((t) => t.name === technology)} />
+      ))
     }
-    <div box-="square" shear-="both" class="project-action">
-      <div class="header">
-        <span>Left</span>
-      </div>
-      {(<a href={`/projects/${project.slug}`}>VIEW MORE</a>)}
-      <div class="header">
-        <span>Bottom</span>
-      </div>
-    </div>
-    {
-      project.data.websiteUrl && (
-        <div box-="square" shear-="both" class="project-action">
-          <a href={project.data.websiteUrl} target="_blank" rel="noreferrer">
-            <span>WEBSITE</span>
-          </a>
-        </div>
-      )
-    }
+  </div>
+  <div class="project-links">
+    <TuiLink href={`/projects/${project.slug}`} text="View more" />
+    {project.data.githubUrl && <TuiLink href={project.data.githubUrl} text=" GitHub" />}
+    {project.data.websiteUrl && <TuiLink href={project.data.websiteUrl} text=" Website" />}
   </div>
 </div>
 
@@ -103,17 +69,16 @@ const { project } = Astro.props;
     padding: 0lh 1ch;
   }
 
-  .project-card .project-action {
+  .project-card .project-links {
+    margin-top: 1ch;
     display: flex;
+    gap: 1ch;
     flex: 1;
+    align-items: flex-end;
     justify-content: center;
-    align-items: center;
-    height: 3lh;
-    margin-top: -0.5lh;
   }
 
   span {
     background-color: var(--background0);
-    padding: 0 1ch;
   }
 </style>

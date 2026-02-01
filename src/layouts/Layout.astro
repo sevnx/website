@@ -5,13 +5,7 @@ import '@/styles/global.css';
 <!doctype html>
 <html lang="en" data-webtui-theme="catppuccin">
   <head>
-    <link
-      rel="preload"
-      href="/fonts/CommitMonoNerdFontMono-Regular.otf"
-      as="font"
-      type="font/otf"
-      crossorigin
-    />
+    <link rel="preload" href="/fonts/CommitMonoNerdFontMono-Regular.otf" as="font" type="font/otf" crossorigin />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
@@ -21,3 +15,18 @@ import '@/styles/global.css';
     <slot />
   </body>
 </html>
+
+<style>
+  body {
+    /* Boxes */
+    --box-border-color: #4c4f69;
+    --separator-color: #4c4f69;
+  }
+
+  div[is-='separator'] {
+    display: flex;
+    flex-direction: column;
+    --separator-color: var(--box-border-color);
+    --separator-width: 1px;
+  }
+</style>

@@ -16,102 +16,69 @@ export async function getStaticPaths() {
 
 const { project, projects } = Astro.props;
 const { Content } = await project.render();
-const closeHref = `/projects#project-${project.slug}`;
-const closeHandler = `if (history.length > 1) { history.back(); return false; }`;
+const closeHref = `/projects`;
 ---
 
 <TuiLayout name="Projects">
   <h1># The cool things I have had the opportunity to work on</h1>
   <ProjectGrid projects={projects} />
-  <a class="overlay-backdrop" href={closeHref} aria-label="Close project view" onclick={closeHandler}></a>
-  <div class="overlay" role="dialog" aria-modal="true" aria-label={`Project details: ${project.data.name}`}>
-    <div class="overlay-panel" box-="square">
-      <div class="overlay-header">
-        <h2>## {project.data.name}</h2>
-        <a class="overlay-close" href={closeHref} box-="round" onclick={closeHandler}>Close</a>
-      </div>
-      <div class="overlay-summary" box-="square">
-        <span>{project.data.shortDescription}</span>
-      </div>
-      <div class="overlay-technologies" box-="square">
-        <div class="technology-list">
-          {
-            project.data.technologies.map((technology) => (
-              <SkillBadge technology={technologies.find((t) => t.name === technology)} />
-            ))
-          }
-        </div>
-      </div>
-      <div class="overlay-content" box-="square">
-        <Content />
-      </div>
-      <div class="overlay-links">
+  <a class="dialog-backdrop" href={closeHref} aria-label="Close project view"></a>
+  <dialog open aria-label={`Project details: ${project.data.name}`} class="project-dialog">
+    <div class="project-dialog-panel" box-="square">
+      <h1># {project.data.name}</h1>
+      <span>{project.data.shortDescription}</span>
+      <div is-="separator"></div>
+      <div class="technology-list">
         {
-          project.data.websiteUrl && (
-            <a href={project.data.websiteUrl} target="_blank" rel="noreferrer" box-="round">
-              Website
-            </a>
-          )
-        }
-        {
-          project.data.githubUrl && (
-            <a href={project.data.githubUrl} target="_blank" rel="noreferrer" box-="round">
-              GitHub
-            </a>
-          )
+          project.data.technologies.map((technology) => (
+            <SkillBadge technology={technologies.find((t) => t.name === technology)} />
+          ))
         }
       </div>
+      <Content />
     </div>
-  </div>
+  </dialog>
 </TuiLayout>
 
 <style>
-  .overlay-backdrop {
+  .dialog-backdrop {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.8);
-    z-index: 10;
+    z-index: 99;
     cursor: pointer;
   }
 
-  .overlay {
+  .project-dialog {
     position: fixed;
-    inset: 0;
-    z-index: 20;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 4ch 2ch;
-    overflow: auto;
-    pointer-events: none;
+    min-width: 60%;
+    z-index: 100;
   }
 
-  .overlay-panel {
-    width: min(120ch, 100%);
+  .project-dialog-panel {
     display: flex;
     flex-direction: column;
-    gap: 1.5ch;
-    padding: 2ch;
     pointer-events: auto;
+    padding: 1lh 2ch;
   }
 
-  .overlay-header {
+  .project-dialog-header {
     display: flex;
     justify-content: space-between;
     gap: 1ch;
     align-items: center;
   }
 
-  .overlay-summary {
+  .project-dialog-summary {
     text-align: center;
     padding: 1ch;
   }
 
-  .overlay-technologies {
+  .project-dialog-technologies {
     padding: 1ch;
   }
 
-  .overlay-content {
+  .project-dialog-content {
     padding: 1ch;
   }
 
@@ -122,15 +89,15 @@ const closeHandler = `if (history.length > 1) { history.back(); return false; }`
     justify-content: center;
   }
 
-  .overlay-links {
+  .project-dialog-links {
     display: flex;
     flex-wrap: wrap;
     gap: 1ch;
     justify-content: flex-end;
   }
 
-  .overlay-links a,
-  .overlay-close {
+  .project-dialog-links a,
+  .project-dialog-close {
     text-decoration: none;
     display: inline-flex;
     align-items: center;
