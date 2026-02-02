@@ -111,7 +111,7 @@ export const technologies: Technology[] = [
   },
   {
     name: 'Astro',
-    nerdFontLogo: '',
+    nerdFontLogo: '',
     backgroundColor: '#FF5D01',
     textColor: 'white',
   },
