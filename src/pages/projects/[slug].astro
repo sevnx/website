@@ -4,6 +4,7 @@ import TuiLayout from '../../layouts/TuiLayout.astro';
 import ProjectGrid from '@/components/projects/ProjectGrid.astro';
 import SkillBadge from '@/components/badges/SkillBadge.astro';
 import { technologies } from '@/data/technologies';
+import MarkdownContent from '@/components/ui/MarkdownContent.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('project');
@@ -35,7 +36,7 @@ const closeHref = `/projects`;
           ))
         }
       </div>
-      <Content />
+      <MarkdownContent content={Content} />
     </div>
   </dialog>
 </TuiLayout>

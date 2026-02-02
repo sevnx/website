@@ -5,14 +5,14 @@ import SkillBadge from '@/components/badges/SkillBadge.astro';
 import { technologies } from '@/data/technologies';
 import LocationBadge from '@/components/badges/LocationBadge.astro';
 import EmploymentTypeBadge from '@/components/badges/EmploymentTypeBadge.astro';
+import MarkdownContent from '../ui/MarkdownContent.astro';
 
 export interface Props {
   experience: CollectionEntry<'experience'>;
 }
 
 const { experience } = Astro.props;
-
-const contentHtml = experience.body.replace(/^-/gm, '*').replace(/^\*/gm, '∗').replace(/\n/g, '<br>');
+const { Content } = await experience.render();
 ---
 
 <div class="experience-card" box-="square">
@@ -38,10 +38,8 @@ const contentHtml = experience.body.replace(/^-/gm, '*').replace(/^\*/gm, '∗')
   <div class="header-description">
     <span>{experience.data.shortDescription}</span>
   </div>
-  <div class="separator" is-="separator"></div>
-  <div class="content">
-    <span set:html={contentHtml} />
-  </div>
+  <div is-="separator"></div>
+  <MarkdownContent content={Content} />
 </div>
 
 <style>

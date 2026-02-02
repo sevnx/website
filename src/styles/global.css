@@ -32,11 +32,19 @@
   :root {
     --font-size: 19px;
     --font-family: 'CommitMono Nerd Font', monospace, Menlo, Monaco, monospace, 'Symbols Nerd Font';
+    --box-border-color: #4c4f69;
+    --separator-color: #4c4f69;
+    --separator-width: 1px;
   }
 
   @media (max-width: 100ch) {
     :root {
       --font-size: 18px;
     }
+  }
+
+  div[is-='separator'] {
+    flex-direction: column;
+    width: 100%;
   }
 }
