@@ -27,7 +27,7 @@ const { project } = Astro.props;
   <div class="separator" is-="separator"></div>
   <div class="technology-list">
     {
-      project.data.technologies.map((technology) => (
+      project.data.stack.map((technology) => (
         <SkillBadge technology={technologies.find((t) => t.name === technology)} />
       ))
     }

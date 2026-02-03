@@ -29,11 +29,28 @@ const closeHref = `/projects`;
       <h1># {project.data.name}</h1>
       <span>{project.data.shortDescription}</span>
       <div is-="separator"></div>
-      <div class="technology-list">
+      <div class="technologies-section">
+        <div class="technology-group">
+          <h3>Stack</h3>
+          <div class="technology-list">
+            {
+              project.data.stack.map((technology) => (
+                <SkillBadge technology={technologies.find((t) => t.name === technology)} />
+              ))
+            }
+          </div>
+        </div>
         {
-          project.data.technologies.map((technology) => (
-            <SkillBadge technology={technologies.find((t) => t.name === technology)} />
-          ))
+          project.data.tools && project.data.tools.length > 0 && (
+            <div class="technology-group">
+              <h3>Tools</h3>
+              <div class="technology-list">
+                {project.data.tools.map((technology) => (
+                  <SkillBadge technology={technologies.find((t) => t.name === technology)} />
+                ))}
+              </div>
+            </div>
+          )
         }
       </div>
       <MarkdownContent content={Content} />
@@ -81,6 +98,17 @@ const closeHref = `/projects`;
 
   .project-dialog-content {
     padding: 1ch;
+  }
+
+  .technologies-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2ch;
+  }
+
+  .technology-group h3 {
+    text-align: center;
+    margin-bottom: 1ch;
   }
 
   .technology-list {

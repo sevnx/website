@@ -4,7 +4,8 @@ startDate: '2024-03-01'
 endDate: '2024-06-30'
 projectType: 'Academic'
 shortDescription: "A platform to learn the French language, made for a university partnership with the Académie française."
-technologies: ['React', 'TypeScript', 'MySQL', 'PHP']
+stack: ['React', 'TypeScript', 'PHP']
+tools: ['MySQL']
 applicationType: ['Web']
 ---
 

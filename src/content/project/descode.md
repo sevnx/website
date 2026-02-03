@@ -4,7 +4,8 @@ startDate: 2025-09-01
 endDate: 2025-06-25
 projectType: 'Academic'
 shortDescription: 'Descode, a platform created to teach programming.'
-technologies: ['React', 'TypeScript', 'PostgreSQL', 'Rust', 'NextJS', 'Docker']
+stack: ['React', 'TypeScript', 'Rust', 'NextJS']
+tools: ['PostgreSQL', 'Docker']
 applicationType: ['Web', 'Mobile']
 githubUrl: 'https://github.com/desforgehub/descode'
 ---
