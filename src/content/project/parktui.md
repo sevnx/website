@@ -2,6 +2,7 @@
 name: 'ParkTui'
 startDate: '2025-09-01'
 endDate: '2025-12-31'
+status: 'Completed'
 projectType: 'Academic'
 shortDescription: 'A parking lot management simulator, in the terminal.'
 stack: ['C']

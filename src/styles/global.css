@@ -13,6 +13,7 @@
 @import '@webtui/css/components/dialog.css';
 @import '@webtui/css/components/badge.css';
 @import '@webtui/css/components/separator.css';
+@import '@webtui/css/components/table.css';
 
 /* Nerd font */
 @import '@webtui/plugin-nf';
@@ -35,6 +36,8 @@
     --box-border-color: #4c4f69;
     --separator-color: #4c4f69;
     --separator-width: 1px;
+    --table-border-width: 2px;
+    --table-border-color: #4c4f69;
   }
 
   @media (max-width: 100ch) {

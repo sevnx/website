@@ -18,6 +18,28 @@ export async function getStaticPaths() {
 const { project, projects } = Astro.props;
 const { Content } = await project.render();
 const closeHref = `/projects`;
+
+const statusStyles = {
+  'In progress': { icon: '', color: '#F9E2AF', text: '#1B1B1B' },
+  Completed: { icon: '', color: '#A6E3A1', text: '#1B1B1B' },
+  'In production': { icon: '', color: '#89B4FA', text: '#1B1B1B' },
+};
+
+const projectTypeIcons = {
+  Personal: '',
+  Academic: '',
+  Professional: '',
+};
+
+const applicationTypeIcons = {
+  Web: '',
+  Desktop: '',
+  Mobile: '',
+  CLI: '',
+  TUI: '',
+};
+
+const statusStyle = statusStyles[project.data.status];
 ---
 
 <TuiLayout name="Projects">
@@ -27,32 +49,70 @@ const closeHref = `/projects`;
   <dialog open aria-label={`Project details: ${project.data.name}`} class="project-dialog">
     <div class="project-dialog-panel" box-="square">
       <h1># {project.data.name}</h1>
-      <span>{project.data.shortDescription}</span>
-      <div is-="separator"></div>
-      <div class="technologies-section">
-        <div class="technology-group">
-          <h3>Stack</h3>
-          <div class="technology-list">
-            {
-              project.data.stack.map((technology) => (
-                <SkillBadge technology={technologies.find((t) => t.name === technology)} />
-              ))
-            }
-          </div>
-        </div>
-        {
-          project.data.tools && project.data.tools.length > 0 && (
-            <div class="technology-group">
-              <h3>Tools</h3>
-              <div class="technology-list">
-                {project.data.tools.map((technology) => (
-                  <SkillBadge technology={technologies.find((t) => t.name === technology)} />
-                ))}
+      <table class="project-info-table">
+        <tbody>
+          <tr>
+            <th scope="row">Status</th>
+            <td>
+              <span is-="badge" style={`--badge-color: ${statusStyle.color}; --badge-text: ${statusStyle.text};`}>
+                <span>{statusStyle.icon}&nbsp;{project.data.status}</span>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Project type</th>
+            <td>
+              <span is-="badge">
+                <span>{projectTypeIcons[project.data.projectType]} {project.data.projectType}</span>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Application type</th>
+            <td>
+              <div class="badge-list">
+                {
+                  project.data.applicationType.map((type) => (
+                    <span is-="badge">
+                      <span>
+                        {applicationTypeIcons[type]} {type}
+                      </span>
+                    </span>
+                  ))
+                }
               </div>
-            </div>
-          )
-        }
-      </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Stack</th>
+            <td>
+              <div class="badge-list">
+                {
+                  project.data.stack.map((technology) => (
+                    <SkillBadge technology={technologies.find((t) => t.name === technology)} />
+                  ))
+                }
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Tools</th>
+            <td>
+              {
+                project.data.tools && project.data.tools.length > 0 ? (
+                  <div class="badge-list">
+                    {project.data.tools.map((technology) => (
+                      <SkillBadge technology={technologies.find((t) => t.name === technology)} />
+                    ))}
+                  </div>
+                ) : (
+                  <span>None</span>
+                )
+              }
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <MarkdownContent content={Content} />
     </div>
   </dialog>
@@ -70,6 +130,7 @@ const closeHref = `/projects`;
   .project-dialog {
     position: fixed;
     min-width: 60%;
+    min-height: 60%;
     z-index: 100;
   }
 
@@ -80,57 +141,9 @@ const closeHref = `/projects`;
     padding: 1lh 2ch;
   }
 
-  .project-dialog-header {
-    display: flex;
-    justify-content: space-between;
-    gap: 1ch;
-    align-items: center;
-  }
-
-  .project-dialog-summary {
-    text-align: center;
-    padding: 1ch;
-  }
-
-  .project-dialog-technologies {
-    padding: 1ch;
-  }
-
-  .project-dialog-content {
-    padding: 1ch;
-  }
-
-  .technologies-section {
-    display: flex;
-    flex-direction: column;
-    gap: 2ch;
-  }
-
-  .technology-group h3 {
-    text-align: center;
-    margin-bottom: 1ch;
-  }
-
-  .technology-list {
+  .badge-list {
     display: flex;
     flex-wrap: wrap;
     gap: 1ch;
-    justify-content: center;
-  }
-
-  .project-dialog-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1ch;
-    justify-content: flex-end;
-  }
-
-  .project-dialog-links a,
-  .project-dialog-close {
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    height: 1lh;
-    padding: 0 1ch;
   }
 </style>

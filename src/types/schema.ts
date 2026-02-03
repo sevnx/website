@@ -5,6 +5,8 @@ export const employmentType = z.union([z.literal('Full-time'), z.literal('Appren
 
 export const projectType = z.union([z.literal('Personal'), z.literal('Academic'), z.literal('Professional')]);
 
+export const projectStatus = z.union([z.literal('In progress'), z.literal('Completed'), z.literal('In production')]);
+
 export const applicationType = z.union([
   z.literal('Web'),
   z.literal('Desktop'),

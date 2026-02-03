@@ -2,6 +2,7 @@
 name: 'Portfolio'
 startDate: 2025-09-01
 endDate: 'Present'
+status: 'In production'
 projectType: 'Personal'
 shortDescription: "This very website you're looking at."
 stack: ['Astro', 'CSS']

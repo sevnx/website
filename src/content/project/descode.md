@@ -2,6 +2,7 @@
 name: 'DesCode'
 startDate: 2025-09-01
 endDate: 2025-06-25
+status: 'Completed'
 projectType: 'Academic'
 shortDescription: 'Descode, a platform created to teach programming.'
 stack: ['React', 'TypeScript', 'Rust', 'NextJS']
