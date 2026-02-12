@@ -47,7 +47,7 @@ const statusStyle = statusStyles[project.data.status];
   <ProjectGrid projects={projects} />
   <a class="dialog-backdrop" href={closeHref} aria-label="Close project view"></a>
   <dialog open aria-label={`Project details: ${project.data.name}`} class="project-dialog">
-    <div class="project-dialog-panel" box-="square">
+    <div class="project-dialog-panel">
       <h1># {project.data.name}</h1>
       <table class="project-info-table">
         <tbody>
@@ -145,7 +145,8 @@ const statusStyle = statusStyles[project.data.status];
     flex-direction: column;
     pointer-events: auto;
     padding: 1lh 2ch;
-    overflow-y: auto;
+    overflow: auto;
+    border: solid var(--box-border-width) var(--box-border-color);
   }
 
   .badge-list {
