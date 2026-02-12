@@ -101,22 +101,20 @@ const statusStyle = statusStyles[project.data.status];
               </div>
             </td>
           </tr>
-          <tr>
-            <th scope="row">Tools</th>
-            <td>
-              {
-                project.data.tools && project.data.tools.length > 0 ? (
+          {
+            project.data.tools && project.data.tools.length > 0 && (
+              <tr>
+                <th scope="row">Tools</th>
+                <td>
                   <div class="badge-list">
                     {project.data.tools.map((technology) => (
                       <SkillBadge technology={technologies.find((t) => t.name === technology)} />
                     ))}
                   </div>
-                ) : (
-                  <span>None</span>
-                )
-              }
-            </td>
-          </tr>
+                </td>
+              </tr>
+            )
+          }
         </tbody>
       </table>
       <MarkdownContent content={Content} />
@@ -136,7 +134,9 @@ const statusStyle = statusStyles[project.data.status];
   .project-dialog {
     position: fixed;
     min-width: 60%;
-    min-height: 60%;
+    width: fit-content;
+    height: auto;
+    max-height: 90vh;
     z-index: 100;
   }
 
@@ -145,6 +145,7 @@ const statusStyle = statusStyles[project.data.status];
     flex-direction: column;
     pointer-events: auto;
     padding: 1lh 2ch;
+    overflow-y: auto;
   }
 
   .badge-list {
