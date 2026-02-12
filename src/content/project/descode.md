@@ -1,22 +1,43 @@
 ---
 name: 'DesCode'
-startDate: 2025-09-01
+startDate: 2024-09-01
 endDate: 2025-06-25
 status: 'Completed'
 projectType: 'Academic'
-shortDescription: 'Descode, a platform created to teach programming.'
+shortDescription: 'A mobile application to learn programming.'
 stack: ['React', 'TypeScript', 'Rust', 'NextJS']
 tools: ['PostgreSQL', 'Docker']
 applicationType: ['Web', 'Mobile']
 githubUrl: 'https://github.com/desforgehub/descode'
 ---
 
-# Key responsibilities
+## Presentation
 
-- Led the development of the Rust backend, a REST API, with automatic type generation for the frontend.
-- Implemented a CI/CD pipeline to automate the deployment of the application.
-- Handled the deployment of the application on a VPS instance.
-- Implemented the authentication and authorization system, using JWT tokens.
-- Designed and implemented the various exercises, inclunding a code execution exercise, using Piston.
-- Developed and integrated an exercise type with a simulated shell environment, using WebSockets.
-- In the administration panel, implemented an AI-powered translation feature, using OpenRouter.
+DesCode is a mobile learning platform designed to teach programming through interactive exercises and gamified experiences. Developed as part of my third-year Bachelor's degree in Computer Science, this cross-platform application offers four distinct learning modes:
+
+- Campaign (fundamental concepts)
+- Languages (technology-specific tracks)
+- Concepts (transversal programming principles)
+- Learning Paths (curated curricula like "BUT Informatique")
+
+The project is composed of three main components: a React Native mobile application, a NextJS administration panel for content management, and a Rust REST API. The platform supports multiple exercise types, such as: multiple-choice quizzes, code completion, interactive terminal simulation for Shell, and more.
+
+## Key responsibilities
+
+### Backend Development
+
+- Architected a **type-safe REST API** in **Rust** using Axum and Tokio
+- Implemented **automated TypeScript generation** using `ts-rs` to synchronize types between Rust backend and TypeScript frontends, eliminating API contract drift
+- Designed PostgreSQL schema with **SeaORM** migrations
+- Built a custom integration testing framework with Docker-isolated environments
+
+### DevOps & Infrastructure
+
+- Deployed containerized architecture on **OVH Cloud VPS** using **Docker Compose** and **Traefik** reverse proxy
+- Built **CI/CD pipeline with GitHub Actions** featuring: automated testing, Clippy/ESLint checks, security dependency auditing, Docker image optimization, and automatic NPM package publishing to private registry
+
+### Interactive Features
+
+- Created **sandboxed code execution environment** using Piston API for safe runtime validation of user-submitted code
+- Built **WebSocket-based Shell simulator** providing real-time terminal interaction for command-line learning exercises
+- Implemented **AI-powered translation** using OpenRouter (Gemini Flash) to automatically translate educational content in the admin panel

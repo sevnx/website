@@ -11,4 +11,8 @@ websiteUrl: 'https://sevnx.dev/'
 githubUrl: 'https://github.com/sevnx/website'
 ---
 
-# Portfolio
+## Presentation
+
+A portfolio website made in style of a terminal, thanks to the [webtui](https://github.com/webtui/webtui) library.
+
+You will find here all of the projects I have worked on, and the experiences I have had.
