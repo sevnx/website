@@ -13,4 +13,4 @@ githubUrl: 'https://github.com/sevnx/lolfetch'
 # Key features
 
 - Gather data from the League of Legends API and display it in a neofetch-like style.
-- Various configuration options to customize the output, and what information is displayed.
+- Various configuration options to customize the output, and the information that is displayed.

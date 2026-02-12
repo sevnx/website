@@ -2,6 +2,6 @@
 const { technology } = Astro.props;
 ---
 
-<div is-="badge" style={`--badge-color: ${technology.backgroundColor};`}>
+<div is-="badge" style={`--badge-color: ${technology.backgroundColor}; --badge-text: ${technology.textColor};`}>
     {technology.nerdFontLogo}&nbsp;{technology.name}
 </div>

@@ -52,6 +52,12 @@ const statusStyle = statusStyles[project.data.status];
       <table class="project-info-table">
         <tbody>
           <tr>
+            <th scope="row">Description</th>
+            <td>
+              <span>{project.data.shortDescription}</span>
+            </td>
+          </tr>
+          <tr>
             <th scope="row">Status</th>
             <td>
               <span is-="badge" style={`--badge-color: ${statusStyle.color}; --badge-text: ${statusStyle.text};`}>
