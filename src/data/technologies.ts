@@ -50,6 +50,12 @@ export const technologies: Technology[] = [
     textColor: 'black',
   },
   {
+    name: 'React Native',
+    nerdFontLogo: '',
+    backgroundColor: '#61DAFB',
+    textColor: 'black',
+  },
+  {
     name: 'PHP',
     nerdFontLogo: '',
     backgroundColor: '#777BB4',
