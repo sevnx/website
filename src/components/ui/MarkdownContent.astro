@@ -13,49 +13,56 @@ const { content: Content } = Astro.props;
 </div>
 
 <style>
-    .markdown-content {
-        ul li::before {
-            content: '* ';
-        }
-
-        h1, h2 {
-            font-weight: bold;
-            margin-top: 1lh;
-            margin-bottom: 1lh;
-        }
-
-        h3, h4 {
-            margin-top: 0.75lh;
-            margin-bottom: 0.75lh;
-        }
-
-        h5, h6 {
-            margin-top: 0.5lh;
-            margin-bottom: 0.5lh;
-        }
-
-        h1::before {
-            content: "# "; 
-        }
-
-        h2::before {
-            content: "## "; 
-        }
-
-        h3::before {
-            content: "### "; 
-        }
-
-        h4::before {
-            content: "#### "; 
-        }
-
-        h5::before {
-            content: "##### "; 
-        }
-
-        h6::before {
-            content: "###### "; 
-        }
+  .markdown-content {
+    ul li::before {
+      content: '* ';
     }
+
+    h1,
+    h2 {
+      font-weight: bold;
+      margin-top: 1lh;
+      margin-bottom: 1lh;
+    }
+
+    h3,
+    h4 {
+      margin-top: 0.75lh;
+      margin-bottom: 0.75lh;
+    }
+
+    h5,
+    h6 {
+      margin-top: 0.5lh;
+      margin-bottom: 0.5lh;
+    }
+
+    h1::before {
+      content: '# ';
+    }
+
+    h2::before {
+      content: '## ';
+    }
+
+    h3::before {
+      content: '### ';
+    }
+
+    h4::before {
+      content: '#### ';
+    }
+
+    h5::before {
+      content: '##### ';
+    }
+
+    h6::before {
+      content: '###### ';
+    }
+
+    td::after {
+      width: 100%;
+    }
+  }
 </style>
