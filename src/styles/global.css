@@ -29,6 +29,19 @@
   font-display: swap;
 }
 
+/*
+ * WebTUI's table.css uses :last-of-type to shorten the last column's horizontal separator
+ * (th/td::after). When using <th scope="row"> in the first column, the th is the only th
+ * in each row and therefore matches :last-of-type — incorrectly shortening its separator
+ * and leaving a gap at the column separator. This override resets it to full width for
+ * th elements that are not the last child (i.e. row-header th cells, not column headers).
+ */
+@layer components {
+  table tr th:not(:last-child):after {
+    width: 100%;
+  }
+}
+
 @layer base {
   :root {
     --font-size: 19px;
