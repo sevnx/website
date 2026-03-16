@@ -44,13 +44,14 @@
 
 @layer base {
   :root {
+    --border-color: #4c4f69; /* base border color for components */
     --font-size: 19px;
     --font-family: 'CommitMono Nerd Font', monospace, Menlo, Monaco, monospace, 'Symbols Nerd Font';
-    --box-border-color: #4c4f69;
-    --separator-color: #4c4f69;
+    --box-border-color: var(--border-color);
+    --separator-color: var(--border-color);
     --separator-width: 1px;
     --table-border-width: 2px;
-    --table-border-color: #4c4f69;
+    --table-border-color: var(--border-color);
   }
 
   @media (max-width: 100ch) {
