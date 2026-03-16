@@ -1,0 +1,192 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import DurationBadge from '@/components/badges/DurationBadge.astro';
+import LocationBadge from '@/components/badges/LocationBadge.astro';
+import { technologies as allTechnologies } from '@/data/technologies';
+import SkillBadge from '../badges/SkillBadge.astro';
+
+export interface Props {
+  education: CollectionEntry<'education'>;
+  projects: CollectionEntry<'project'>[];
+}
+
+const { education, projects: allProjects } = Astro.props;
+const { data } = education;
+
+function getTech(name: string) {
+  return allTechnologies.find((t) => t.name === name);
+}
+
+const linkedProjects = (data.projects ?? [])
+  .map((project) => allProjects.find((p) => p.slug === project))
+  .filter((p): p is CollectionEntry<'project'> => p !== undefined);
+---
+
+<div>
+  <div class="header">
+    <h2>## {data.degree} @ {data.institution}</h2>
+    <div class="header-badges">
+    <DurationBadge
+      startDate={data.startDate}
+      endDate={data.endDate === 'Present' ? null : data.endDate}
+      withDuration={false}
+    />
+      <LocationBadge location={data.location} />
+    </div>
+  </div>
+
+  <ul>
+    {
+      (data.classwork?.length ?? 0) > 0 && (
+        <li class="branch">
+          <h3 class="branch-label">### Classwork</h3>
+          <ul class="branch-items">
+            {data.classwork?.map((course) => {
+              const name = typeof course === 'string' ? course : course.name;
+              const techs = typeof course === 'string' ? [] : course.technologies.map(getTech).filter(Boolean);
+              return (
+                <li class="branch-item">
+                  {name}
+                  <div class="inline-techs">
+                    {techs.map((tech) => (
+                      <SkillBadge technology={tech} />
+                    ))}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </li>
+      )
+    }
+    {linkedProjects.length > 0 && (
+      <li class="branch">
+        <h3 class="branch-label">### Projects</h3>
+        <ul class="branch-items">
+          {linkedProjects.map((project) => (
+            <li>
+              <a href={`/projects/${project.slug}`} class="project-link">
+                [[ {project.data.name} ]]
+              </a>
+              <span>- {project.data.shortDescription}</span>
+            </li>
+          ))}
+        </ul>
+      </li>
+    )}
+    {(data.highlights?.length ?? 0) > 0 && (
+      <li class="branch">
+        <h3 class="branch-label">### Highlights</h3>
+        <ul class="branch-items">
+          {data.highlights!.map((highlight) => (
+            <li>{highlight}</li>
+          ))}
+        </ul>
+      </li>
+    )}
+  </ul>
+</div>
+
+<style>
+  .header {
+    display: flex;
+    flex-direction: row;
+    gap: 1ch;
+    justify-content: space-between;
+    margin-bottom: 0.25lh;
+  }
+
+  .branch {
+    position: relative;
+    padding-left: 3ch;
+    padding-bottom: 0.25lh;
+  }
+
+  .branch::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5lh;
+    width: 2ch;
+    border-top: 2px solid var(--border-color);
+  }
+
+  .branch-label {
+    margin-bottom: 0.25lh;
+  }
+
+  .branch::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    border-left: 2px solid var(--border-color);
+  }
+
+  .branch:last-child::after {
+    bottom: auto;
+    height: 0.5lh;
+  }
+
+  .branch-items {
+    list-style: none;
+    padding: 0;
+    margin-left: 0ch;
+  }
+
+  .branch-items li {
+    position: relative;
+    padding-left: 3ch;
+    padding-bottom: 0.25lh;
+  }
+
+  .branch-items li:last-child {
+    padding-bottom: 0;
+  }
+
+  .branch-items li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5lh;
+    width: 2ch;
+    border-top: 2px solid var(--border-color);
+  }
+
+  .branch-items li::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    border-left: 2px solid var(--border-color);
+  }
+
+  .branch-items li:last-child::after {
+    bottom: auto;
+    height: 0.5lh;
+  }
+
+  .project-link {
+    text-decoration: none;
+  }
+
+  .project-link:hover {
+    text-decoration: underline;
+  }
+
+  .branch-item {
+    display: flex;
+    flex-direction: row;
+    gap: 1ch;
+  }
+
+  .inline-techs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1ch;
+  }
+</style>

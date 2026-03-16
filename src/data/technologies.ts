@@ -127,4 +127,22 @@ export const technologies: Technology[] = [
     backgroundColor: '#000000',
     textColor: 'white',
   },
+  {
+    name: 'Oracle',
+    nerdFontLogo: '',
+    backgroundColor: '#E94C4C',
+    textColor: 'black',
+  },
+  {
+    name: 'SQL',
+    nerdFontLogo: '',
+    backgroundColor: '#336791',
+    textColor: 'black',
+  },
+  {
+    name: "Spring",
+    nerdFontLogo: '',
+    backgroundColor: '#6DB33F',
+    textColor: 'black',
+  }
 ];

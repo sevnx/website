@@ -1,9 +1,90 @@
 ---
-import TuiLayout from "../layouts/TuiLayout.astro";
+import { getCollection } from 'astro:content';
+import TuiLayout from '../layouts/TuiLayout.astro';
+import EducationTree from '@/components/trees/EducationTree.astro';
 
-export const name = "Education"
+export const name = 'Education';
+
+const educations = await getCollection('education');
+const projects = await getCollection('project');
+
+const sorted = educations.sort(
+  (a, b) => b.data.startDate.getTime() - a.data.startDate.getTime(),
+);
 ---
 
 <TuiLayout name={name}>
-<h1># My academic journey and qualifications</h1>
+  <div class="page">
+    <h1># My academic journey</h1>
+
+    <div class="timeline">
+      {
+        sorted.map((education) => (
+          <div class="timeline-entry">
+            <EducationTree education={education} projects={projects} />
+          </div>
+        ))
+      }
+    </div>
+  </div>
 </TuiLayout>
+
+<style>
+  /* Page container, used so we can make the timeline fill the rest of the page */
+  .page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .timeline {
+    position: relative;
+    padding-top: 1lh;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  /* Line segment above the first entry */
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.45ch;
+    top: 0;
+    height: 1lh;
+    width: 0;
+    border-left: 2px solid var(--border-color);
+  }
+
+  .timeline-entry {
+    position: relative;
+    padding-left: 2ch;
+    padding-bottom: 1lh;
+  }
+
+  /* Node marker — same color as the line */
+  .timeline-entry::before {
+    content: '●';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--border-color);
+    line-height: 1lh;
+  }
+
+  /* Vertical line below each node */
+  .timeline-entry::after {
+    content: '';
+    position: absolute;
+    left: 0.45ch;
+    top: 1lh;
+    bottom: 0;
+    width: 0;
+    border-left: 2px solid var(--border-color);
+  }
+
+  /* Last entry: line extends to fill the rest of the scroll area */
+  .timeline-entry:last-child {
+    flex: 1;
+  }
+</style>
