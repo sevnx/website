@@ -144,5 +144,29 @@ export const technologies: Technology[] = [
     nerdFontLogo: '',
     backgroundColor: '#6DB33F',
     textColor: 'black',
+  },
+  {
+    name: 'Linux',
+    nerdFontLogo: '',
+    backgroundColor: '#FCC624',
+    textColor: 'black',
+  },
+  {
+    name: 'Windows Server',
+    nerdFontLogo: '',
+    backgroundColor: '#0078D6',
+    textColor: 'black',
+  },
+  {
+    name: 'Assembly',
+    nerdFontLogo: '',
+    backgroundColor: '#000000',
+    textColor: 'white',
+  },
+  {
+    name: 'Bash',
+    nerdFontLogo: '',
+    backgroundColor: '#4EAA25',
+    textColor: 'black',
   }
 ];
