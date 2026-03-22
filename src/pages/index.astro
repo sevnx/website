@@ -1,9 +1,35 @@
 ---
-import TuiLayout from "../layouts/TuiLayout.astro";
+import MarkdownContent from '@/components/ui/MarkdownContent.astro';
+import TuiLayout from '../layouts/TuiLayout.astro';
 
-export const name = "Profile"
+export const name = 'Profile';
 ---
 
 <TuiLayout name={name}>
-<h1># Seweryn Czykinowski | Software Engineer</h1>
+  <h1># Seweryn Czykinowski | Software Engineer</h1>
+  <br />
+  <MarkdownContent>
+    <p class="learn-more-cta">
+      If any of this interests you, <button popovertarget="contact-dialog">feel free to reach out</button>.
+    </p>
+  </MarkdownContent>
 </TuiLayout>
+
+<style>
+  .learn-more-cta {
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+
+  .learn-more-cta button {
+    height: 1lh;
+    color: var(--text);
+    line-height: 0lh;
+    padding: 0;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+</style>
