@@ -51,8 +51,17 @@ const project = defineCollection({
   }),
 });
 
+const blog = defineCollection({
+	type: 'content',
+	schema: z.object({
+		title: z.string(),
+		publishedDate: z.coerce.date(),
+	}),
+});
+
 export const collections = {
   education,
   experience,
   project,
+  blog,
 };

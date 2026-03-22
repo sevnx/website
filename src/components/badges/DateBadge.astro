@@ -1,0 +1,15 @@
+---
+import FormattedDate from '../ui/FormattedDate.astro';
+
+export interface Props {
+  date: Date;
+}
+
+const { date } = Astro.props;
+---
+
+<span class="date-badge" is-="badge">
+  <span></span>
+  &nbsp;
+  <FormattedDate date={date} />
+</span>

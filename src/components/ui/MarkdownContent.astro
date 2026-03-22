@@ -2,14 +2,14 @@
 import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 
 export interface Props {
-  content: AstroComponentFactory;
+  content?: AstroComponentFactory;
 }
 
 const { content: Content } = Astro.props;
 ---
 
 <div class="markdown-content">
-  <Content />
+  {Content ? <Content /> : <slot />}
 </div>
 
 <style>

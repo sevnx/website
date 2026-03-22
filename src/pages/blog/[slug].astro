@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import TuiLayout from '../../layouts/TuiLayout.astro';
+import FormattedDate from '@/components/ui/FormattedDate.astro';
+
+export async function getStaticPaths() {
+  const blogs = await getCollection('blog');
+  return blogs.map((blog) => ({
+    params: { slug: blog.slug },
+    props: { blog },
+  }));
+}
+
+const { blog } = Astro.props;
+const { Content } = await blog.render();
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+<TuiLayout name="Blog">
+  <article class="post">
+    <header class="post-header">
+      <span class="post-title">{blog.data.title}</span>
+      <span class="post-date">
+        <FormattedDate date={blog.data.publishedDate} />
+      </span>
+    </header>
+    <div is-="separator"></div>
+    <div class="post-body">
+      <Content />
+    </div>
+  </article>
+</TuiLayout>
+
+<style>
+  .post {
+    max-width: 72ch;
+    margin: 1lh auto 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post :global(*) {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 2ch;
+    padding-bottom: 0.5lh;
+    line-height: 1.4;
+  }
+
+  .post-title {
+    font-weight: 600;
+    background-color: transparent;
+    padding: 0;
+  }
+
+  .post-date {
+    white-space: nowrap;
+    opacity: 0.65;
+    background-color: transparent;
+    padding: 0;
+    font-style: italic;
+  }
+
+  .post-body {
+    padding-top: 0.75lh;
+  }
+</style>
