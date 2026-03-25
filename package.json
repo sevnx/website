@@ -9,11 +9,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/mdx": "^5.0.2",
     "@webtui/css": "^0.1.6",
     "@webtui/plugin-nf": "^0.1.1",
     "@webtui/theme-catppuccin": "^0.0.3",
-    "astro": "^5.17.1"
+    "astro": "^6.0.8"
   },
   "devDependencies": {
     "prettier": "3.6.2"

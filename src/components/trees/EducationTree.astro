@@ -18,7 +18,7 @@ function getTech(name: string) {
 }
 
 const linkedProjects = (data.projects ?? [])
-  .map((project) => allProjects.find((p) => p.slug === project))
+  .map((project) => allProjects.find((p) => p.id === project))
   .filter((p): p is CollectionEntry<'project'> => p !== undefined);
 ---
 
@@ -65,7 +65,7 @@ const linkedProjects = (data.projects ?? [])
         <ul class="branch-items">
           {linkedProjects.map((project) => (
             <li>
-              <a href={`/projects/${project.slug}`} class="project-link">
+              <a href={`/projects/${project.id}`} class="project-link">
                 [[ {project.data.name} ]]
               </a>
               <span>- {project.data.shortDescription}</span>

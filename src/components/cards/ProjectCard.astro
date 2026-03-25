@@ -33,7 +33,7 @@ const { project } = Astro.props;
     }
   </div>
   <div class="project-links">
-    <TuiLink href={`/projects/${project.slug}`} text="Learn more" />
+    <TuiLink href={`/projects/${project.id}`} text="Learn more" />
     {project.data.githubUrl && <TuiLink href={project.data.githubUrl} text=" GitHub" />}
     {project.data.websiteUrl && <TuiLink href={project.data.websiteUrl} text=" Website" />}
   </div>

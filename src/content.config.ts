@@ -1,5 +1,7 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { applicationType, employmentType, projectStatus, projectType, technologyNameSchema } from '@/types/schema';
+import { glob, file } from 'astro/loaders';
 
 const classworkItem = z.union([
   z.string(),
@@ -7,7 +9,7 @@ const classworkItem = z.union([
 ]);
 
 const education = defineCollection({
-  type: 'content',
+  loader: glob({ base: './content/education', pattern: '*.mdx' }),
   schema: z.object({
     institution: z.string(),
     degree: z.string(),
@@ -21,7 +23,7 @@ const education = defineCollection({
 });
 
 const experience = defineCollection({
-  type: 'content',
+  loader: glob({ base: './content/experience', pattern: '*.mdx' }),
   schema: z.object({
     jobTitle: z.string(),
     company: z.string(),
@@ -35,7 +37,7 @@ const experience = defineCollection({
 });
 
 const project = defineCollection({
-  type: 'content',
+  loader: glob({ base: './content/project', pattern: '*.mdx' }),
   schema: z.object({
     name: z.string(),
     startDate: z.coerce.date(),
@@ -46,13 +48,13 @@ const project = defineCollection({
     stack: z.array(technologyNameSchema),
     tools: z.array(technologyNameSchema).optional(),
     applicationType: z.array(applicationType),
-    githubUrl: z.string().url().optional(),
-    websiteUrl: z.string().url().optional(),
+    githubUrl: z.url().optional(),
+    websiteUrl: z.url().optional(),
   }),
 });
 
 const blog = defineCollection({
-	type: 'content',
+	loader: glob({ base: './content/blog', pattern: '*.mdx' }),
 	schema: z.object({
 		title: z.string(),
 		publishedDate: z.coerce.date(),

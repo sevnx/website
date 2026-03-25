@@ -1,5 +1,5 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import { render, type CollectionEntry } from 'astro:content';
 import DurationBadge from '@/components/badges/DurationBadge.astro';
 import SkillBadge from '@/components/badges/SkillBadge.astro';
 import { technologies } from '@/data/technologies';
@@ -12,7 +12,7 @@ export interface Props {
 }
 
 const { experience } = Astro.props;
-const { Content } = await experience.render();
+const { Content } = await render(experience);
 ---
 
 <div class="experience-card" box-="square">

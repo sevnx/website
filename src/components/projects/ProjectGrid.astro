@@ -12,7 +12,7 @@ const { projects } = Astro.props;
 <div class="projects">
   {
     projects.map((project) => (
-      <div class="project" id={`project-${project.slug}`}>
+      <div class="project" id={`project-${project.id}`}>
         <ProjectCard project={project} />
       </div>
     ))

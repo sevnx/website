@@ -18,7 +18,7 @@ const sorted = blogs.sort((a, b) => b.data.publishedDate.getTime() - a.data.publ
       {
         sorted.map((blog) => (
           <div class="timeline-entry">
-            <a href={`/blog/${blog.slug}`}>[ {blog.data.title} ]</a>
+            <a href={`/blog/${blog.id}`}>[ {blog.data.title} ]</a>
             <span>-</span>
             <DateBadge date={blog.data.publishedDate} />
           </div>
