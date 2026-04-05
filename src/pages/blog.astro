@@ -14,17 +14,23 @@ const sorted = blogs.sort((a, b) => b.data.publishedDate.getTime() - a.data.publ
   <div class="page">
     <h1># Some of my thoughts</h1>
 
-    <div class="timeline">
-      {
-        sorted.map((blog) => (
-          <div class="timeline-entry">
-            <a href={`/blog/${blog.id}`}>[ {blog.data.title} ]</a>
-            <span>-</span>
-            <DateBadge date={blog.data.publishedDate} />
-          </div>
-        ))
-      }
-    </div>
+    {
+      sorted.length === 0 ? (
+        <div class="empty-state">
+          <p>Nothing here yet</p>
+        </div>
+      ) : (
+        <div class="timeline">
+          {sorted.map((blog) => (
+            <div class="timeline-entry">
+              <a href={`/blog/${blog.id}`}>[ {blog.data.title} ]</a>
+              <span>-</span>
+              <DateBadge date={blog.data.publishedDate} />
+            </div>
+          ))}
+        </div>
+      )
+    }
   </div>
 </TuiLayout>
 
@@ -33,6 +39,17 @@ const sorted = blogs.sort((a, b) => b.data.publishedDate.getTime() - a.data.publ
     display: flex;
     flex-direction: column;
     height: 100%;
+  }
+
+  .empty-state {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-state p {
+    margin: 0;
   }
 
   .timeline {
