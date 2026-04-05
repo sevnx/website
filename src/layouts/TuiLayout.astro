@@ -87,7 +87,7 @@ const sections: Section[] = [
         <div class="links">
           <div class="contact">
             <dialog id="contact-dialog" popover>
-              <form method="POST" action="" class="contact-form" box-="square" shear-="top">
+              <form id="contact-form" class="contact-form" box-="square" shear-="top">
                 <div class="header">
                   <span>Message</span>
                 </div>
@@ -153,6 +153,35 @@ const sections: Section[] = [
     <Footer />
   </div>
 </Layout>
+
+<script is:inline>
+  (function () {
+    const form = document.getElementById('contact-form');
+    const dialog = document.getElementById('contact-dialog');
+    if (!form || !dialog) return;
+
+    const endpoint = 'https://api.website.sevnx.dev/contact';
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const data = new FormData(form);
+      const body = {
+        name: String(data.get('name') || '').trim(),
+        subject: String(data.get('subject') || '').trim(),
+        content: String(data.get('content') || '').trim(),
+      };
+
+      form.reset();
+      dialog.hidePopover();
+
+      void fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(body),
+      }).catch(function () {});
+    });
+  })();
+</script>
 
 <style>
   .profile-card img {
