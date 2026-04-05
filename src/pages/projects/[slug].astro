@@ -5,9 +5,10 @@ import ProjectGrid from '@/components/projects/ProjectGrid.astro';
 import SkillBadge from '@/components/badges/SkillBadge.astro';
 import { technologies } from '@/data/technologies';
 import MarkdownContent from '@/components/ui/MarkdownContent.astro';
+import { sortProjectsByRelevance } from '@/lib/projects';
 
 export async function getStaticPaths() {
-  const projects = await getCollection('project');
+  const projects = sortProjectsByRelevance(await getCollection('project'));
 
   return projects.map((project) => ({
     params: { slug: project.id },

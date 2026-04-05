@@ -48,6 +48,8 @@ const project = defineCollection({
     stack: z.array(technologyNameSchema),
     tools: z.array(technologyNameSchema).optional(),
     applicationType: z.array(applicationType),
+    /** 1 = most relevant on the projects page, 10 = least. */
+    relevance: z.number().int().min(1).max(10),
     githubUrl: z.url().optional(),
     websiteUrl: z.url().optional(),
   }),

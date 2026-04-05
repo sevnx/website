@@ -2,10 +2,11 @@
 import { getCollection } from 'astro:content';
 import TuiLayout from '../layouts/TuiLayout.astro';
 import ProjectGrid from '@/components/projects/ProjectGrid.astro';
+import { sortProjectsByRelevance } from '@/lib/projects';
 
 export const name = 'Projects';
 
-const projects = await getCollection('project');
+const projects = sortProjectsByRelevance(await getCollection('project'));
 ---
 
 <TuiLayout name={name}>
