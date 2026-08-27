@@ -1,0 +1,10 @@
+/* Commit Mono v1.43, upstream revision d407cd2bf8e01ca1db70544052fbbb9606406c3b.
+ * Distributed under the SIL Open Font License in public/fonts/LICENSE.CommitMono.txt.
+ */
+@font-face {
+  font-family: 'Commit Mono';
+  src: url('/fonts/CommitMono.woff2') format('woff2');
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}

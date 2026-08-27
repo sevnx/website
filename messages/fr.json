@@ -1,0 +1,106 @@
+{
+  "greeting": "Seweryn Czykinowski",
+  "job": "Ingénieur logiciel en alternance @ Nokia",
+  "student": "Étudiant @ ESIEA Paris",
+  "work_education": "Travail et formation",
+  "social_links": "Réseaux sociaux",
+  "explore_work": "Explorez mon travail",
+  "invitation": "J'aime créer toutes sortes de choses.",
+  "invitation_description": "Voici mon portfolio interactif.",
+  "language": "Langue",
+  "projects": "Projets",
+  "experience": "Expérience",
+  "stack": "Stack",
+  "education": "Formation",
+  "previous_section": "Section précédente",
+  "next_section": "Section suivante",
+  "portfolio_sections": "Sections du portfolio",
+  "learn_more": "En savoir plus",
+  "website": "Site web",
+  "back": "Retour",
+  "back_portfolio": "Retour au portfolio",
+  "present": "Aujourd'hui",
+  "about": "à propos",
+  "status": "statut",
+  "type": "type",
+  "platform": "plateforme",
+  "range": "période",
+  "tools": "outils",
+  "repo": "dépôt",
+  "site": "site",
+  "languages": "Langages : {values}",
+  "status_in_progress": "En cours",
+  "status_completed": "Terminé",
+  "status_in_production": "En production",
+  "type_personal": "Personnel",
+  "type_academic": "Académique",
+  "type_professional": "Professionnel",
+  "platform_web": "Web",
+  "platform_desktop": "Bureau",
+  "platform_mobile": "Mobile",
+  "employment_full_time": "Temps plein",
+  "employment_apprenticeship": "Alternance",
+  "classwork": "Enseignements",
+  "highlights": "Points marquants",
+  "hint_tab": "onglet",
+  "hint_select": "sélectionner",
+  "hint_open": "ouvrir",
+  "hint_back": "retour",
+  "stack_heading": "Les outils avec lesquels je travaille",
+  "stack_description": "Je crée des applications web et des outils, souvent pour répondre à mes propres envies. J'aime travailler sur l'ensemble, y compris leur fonctionnement en production.",
+  "stack_defaults": "Mes choix habituels",
+  "stack_approach": "Ma façon de construire",
+  "role_frontend": "Frontend",
+  "role_backend": "Backend",
+  "role_systems": "Systèmes",
+  "role_database": "Base de données",
+  "role_small_apps": "Applications",
+  "role_deployment": "Déploiement",
+  "role_tools": "Outils",
+  "role_ai": "IA",
+  "principle_use_title": "Créer quelque chose d'utile",
+  "principle_use_description": "Beaucoup de mes projets naissent de mes intérêts ou de ce qui me passionne. J'aime créer des choses que j'aurais moi-même envie d'utiliser. C'est une des raisons pour lesquelles j'apporte autant de soin à ce que je fais.",
+  "principle_types_title": "Typage et vérification",
+  "principle_types_description": "Je suis un fervent défenseur du typage strict. Définir des règles explicites m'aide à prévenir les erreurs et à gérer précisément celles qui peuvent survenir. Je vérifie aussi le comportement de mes applications, avec des tests pertinents et en les utilisant moi-même.",
+  "principle_craft_title": "Soigner le travail",
+  "principle_craft_description": "Le processus de création d'un logiciel compte beaucoup pour moi. Je veux que ce que je crée porte une attention réelle aux personnes qui l'utilisent. La clarté d'une interface, le choix des mots, la façon de réagir à une erreur : ces petites décisions reflètent mes goûts.",
+  "open": "Ouvrir",
+  "project_breakdown": "Détail du projet",
+  "blog": "Blog",
+  "blog_heading": "# Quelques réflexions",
+  "nothing_yet": "Rien ici pour le moment",
+  "available_english": "Disponible en anglais",
+  "page_title": "Seweryn Czykinowski | Ingénieur logiciel",
+  "page_description": "Seweryn Czykinowski. Ingénieur logiciel en alternance chez Nokia et étudiant à ESIEA Paris. Découvrez mes projets, mon expérience et mes outils.",
+  "duration_years": [
+    {
+      "declarations": ["input count", "input suffix", "local category = count: plural"],
+      "selectors": ["category"],
+      "match": {
+        "category=one": "{count}{suffix} an",
+        "category=*": "{count}{suffix} ans"
+      }
+    }
+  ],
+  "duration_months": [
+    {
+      "declarations": ["input count", "input suffix", "local category = count: plural"],
+      "selectors": ["category"],
+      "match": {
+        "category=*": "{count}{suffix} mois"
+      }
+    }
+  ],
+  "duration_days": [
+    {
+      "declarations": ["input count", "input suffix", "local category = count: plural"],
+      "selectors": ["category"],
+      "match": {
+        "category=one": "{count}{suffix} jour",
+        "category=*": "{count}{suffix} jours"
+      }
+    }
+  ],
+  "platform_cli": "CLI",
+  "platform_tui": "TUI"
+}

@@ -1,0 +1,8 @@
+---
+import { locales, baseLocale, pageLocale } from '@/i18n/locales';
+import { localizedHref } from '@/i18n/links';
+export function getStaticPaths() {
+  return locales.filter((locale) => locale !== baseLocale).map((locale) => ({ params: { locale } }));
+}
+return Astro.redirect(`${localizedHref('/', pageLocale(Astro.currentLocale))}?tab=projects#work`, 301);
+---

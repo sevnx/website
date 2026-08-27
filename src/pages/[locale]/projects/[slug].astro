@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import { projectHref } from '@/lib/projects';
+import { pageLocale } from '@/i18n/locales';
+export async function getStaticPaths() {
+  return (await getCollection('project', ({ data }) => data.locale !== 'en')).map((project) => ({
+    params: { locale: project.data.locale, slug: project.data.key },
+  }));
+}
+const { slug } = Astro.params;
+if (!slug) throw new Error('Missing project slug');
+return Astro.redirect(projectHref(slug, pageLocale(Astro.currentLocale)), 301);
+---

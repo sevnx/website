@@ -1,45 +1,42 @@
 ---
+import UiIcon, { type IconName } from './UiIcon.astro';
+
 export interface Props {
   href: string;
   text: string;
+  icon?: IconName;
 }
 
-const { href, text } = Astro.props;
+const { href, text, icon } = Astro.props;
 ---
 
-<div box-="square" shear-="both" class="tui-link">
-  <div class="header">
-    <span></span>
-    <span></span>
-  </div>
-  <div class="content">
-    {(<a href={href}>{text}</a>)}
-  </div>
-  <div class="header">
-    <span></span>
-    <span></span>
-  </div>
-</div>
+<a class="tui-link" href={href}>{icon && <><UiIcon name={icon} />{' '}</>}{text}</a>
 
 <style>
-  .tui-link .header {
-    display: flex;
-    height: 0.75lh;
-    min-width: 50%;
-    flex: 1;
-    background-color: var(--background0);
-  }
-
-  .tui-link .content {
-    display: flex;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    padding: 0lh 1ch;
-  }
-
-  .tui-link a {
+  .tui-link {
+    color: var(--foreground0);
     text-decoration: none;
-    color: inherit;
+    text-underline-offset: 0.3em;
+    white-space: nowrap;
+  }
+
+  /* inline-block keeps the brackets out of the hover underline. */
+  .tui-link::before,
+  .tui-link::after {
+    display: inline-block;
+    color: var(--box-border-color);
+  }
+
+  .tui-link::before {
+    content: '[';
+  }
+
+  .tui-link::after {
+    content: ']';
+  }
+
+  .tui-link:hover {
+    color: var(--theme-accent);
+    text-decoration: underline;
   }
 </style>

@@ -1,0 +1,29 @@
+---
+// Scope WebTUI's reset to the terminal, leaving the surrounding page untouched.
+import base from '@webtui/css/base.css?inline';
+import boxes from '@webtui/css/utils/box.css?inline';
+import buttons from '@webtui/css/components/button.css?inline';
+import typography from '@webtui/css/components/typography.css?inline';
+import badges from '@webtui/css/components/badge.css?inline';
+import separators from '@webtui/css/components/separator.css?inline';
+import tables from '@webtui/css/components/table.css?inline';
+import rosePine from '@/styles/themes/rose-pine.css?inline';
+const css = `@layer base, utils, components; @scope (.webtui-portfolio) { ${[base, boxes, buttons, typography, badges, separators, tables].join('\n')} }\n${rosePine}`;
+---
+<style is:inline set:html={css} />
+<style is:global>
+  .webtui-portfolio {
+    --separator-width:1px;
+    --font-family:'Commit Mono',monospace;
+    --font-size:14px;
+    --line-height:1.5;
+    --font-weight-normal:400;
+    --font-weight-bold:400;
+    color:var(--foreground0);
+    background:var(--background0);
+    font:var(--font-size)/var(--line-height) var(--font-family);
+  }
+  .webtui-portfolio :focus-visible { outline:2px solid var(--theme-focus); outline-offset:2px; }
+  .webtui-portfolio table tr th:not(:last-child)::after { width:100%; }
+  @media(max-width:700px) { .webtui-portfolio { --font-size:12px; } }
+</style>

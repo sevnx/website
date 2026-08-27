@@ -1,9 +1,12 @@
 ---
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
 import type { CollectionEntry } from 'astro:content';
-import DurationBadge from '@/components/badges/DurationBadge.astro';
-import LocationBadge from '@/components/badges/LocationBadge.astro';
+import FormattedTimeRange from '@/components/ui/FormattedTimeRange.astro';
 import { technologies as allTechnologies } from '@/data/technologies';
 import SkillBadge from '../badges/SkillBadge.astro';
+import { projectHref } from '@/lib/projects';
+const locale = pageLocale(Astro.currentLocale);
 
 export interface Props {
   education: CollectionEntry<'education'>;
@@ -12,34 +15,30 @@ export interface Props {
 
 const { education, projects: allProjects } = Astro.props;
 const { data } = education;
+const endDate = data.endDate === 'Present' ? null : data.endDate;
 
 function getTech(name: string) {
   return allTechnologies.find((t) => t.name === name);
 }
 
 const linkedProjects = (data.projects ?? [])
-  .map((project) => allProjects.find((p) => p.id === project))
+  .map((project) => allProjects.find((p) => p.data.key === project))
   .filter((p): p is CollectionEntry<'project'> => p !== undefined);
 ---
 
 <div>
   <div class="header">
-    <h2>## {data.degree} @ {data.institution}</h2>
-    <div class="header-badges">
-    <DurationBadge
-      startDate={data.startDate}
-      endDate={data.endDate === 'Present' ? null : data.endDate}
-      withDuration={false}
-    />
-      <LocationBadge location={data.location} />
-    </div>
+    <h2>{data.degree} <span class="muted">@ {data.institution}</span></h2>
+    <span class="muted">
+      <FormattedTimeRange startDate={data.startDate} endDate={endDate} /> · {data.location}
+    </span>
   </div>
 
   <ul>
     {
       (data.classwork?.length ?? 0) > 0 && (
         <li class="branch">
-          <h3 class="branch-label">### Classwork</h3>
+          <h3 class="branch-label">{m.classwork({}, { locale })}</h3>
           <ul class="branch-items">
             {data.classwork?.map((course) => {
               const name = typeof course === 'string' ? course : course.name;
@@ -61,11 +60,11 @@ const linkedProjects = (data.projects ?? [])
     }
     {linkedProjects.length > 0 && (
       <li class="branch">
-        <h3 class="branch-label">### Projects</h3>
+        <h3 class="branch-label">{m.projects({}, { locale })}</h3>
         <ul class="branch-items">
           {linkedProjects.map((project) => (
             <li>
-              <a href={`/projects/${project.id}`} class="project-link">
+              <a href={projectHref(project.data.key, locale)} class="project-link">
                 [[ {project.data.name} ]]
               </a>
               <span>- {project.data.shortDescription}</span>
@@ -76,7 +75,7 @@ const linkedProjects = (data.projects ?? [])
     )}
     {(data.highlights?.length ?? 0) > 0 && (
       <li class="branch">
-        <h3 class="branch-label">### Highlights</h3>
+        <h3 class="branch-label">{m.highlights({}, { locale })}</h3>
         <ul class="branch-items">
           {data.highlights!.map((highlight) => (
             <li>{highlight}</li>
@@ -91,9 +90,15 @@ const linkedProjects = (data.projects ?? [])
   .header {
     display: flex;
     flex-direction: row;
-    gap: 1ch;
+    flex-wrap: wrap;
+    column-gap: 2ch;
     justify-content: space-between;
+    align-items: baseline;
     margin-bottom: 0.25lh;
+  }
+
+  .muted {
+    color: var(--foreground2);
   }
 
   .branch {

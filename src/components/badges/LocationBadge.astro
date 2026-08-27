@@ -1,4 +1,6 @@
 ---
+import UiIcon from '@/components/ui/UiIcon.astro';
+
 export interface Props {
     location: string;
 }
@@ -7,5 +9,5 @@ const { location } = Astro.props;
 ---
 
 <div is-="badge">
-    <span> {location}</span>
+    <span><UiIcon name="location" /> {location}</span>
 </div>

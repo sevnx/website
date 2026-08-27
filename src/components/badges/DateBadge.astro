@@ -1,5 +1,6 @@
 ---
 import FormattedDate from '../ui/FormattedDate.astro';
+import UiIcon from '../ui/UiIcon.astro';
 
 export interface Props {
   date: Date;
@@ -9,7 +10,7 @@ const { date } = Astro.props;
 ---
 
 <span class="date-badge" is-="badge">
-  <span></span>
+  <UiIcon name="clock" />
   &nbsp;
   <FormattedDate date={date} />
 </span>

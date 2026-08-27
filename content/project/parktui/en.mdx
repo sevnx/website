@@ -1,0 +1,16 @@
+---
+shortDescription: TUI parking lot management simulator.
+---
+
+import parktuiMenu from '@/assets/parktui_menu.jpg';
+import parktuiGame from '@/assets/parktui_game.jpg';
+
+## Description
+
+ParkTui is a parking lot management game written in C for an academic team project. Players manage vehicle traffic, collect revenue, buy upgrades, and respond to events while balancing money, satisfaction, and prestige.
+
+The game has several difficulty levels, custom maps, and a manual mode where players drive vehicles with the arrow keys.
+
+I built the application state machine and game loop, vehicle movement and collision checks, and manual driving controls. I also wrote the arena allocator and terminal view stack, with memory cleanup for overlays and redraws limited to changed map cells.
+
+<Figure src={[parktuiMenu, parktuiGame]} alt="ParkTui menu and parking simulation" />

@@ -1,0 +1,19 @@
+---
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
+import FormattedTime from './FormattedTime.astro';
+const locale = pageLocale(Astro.currentLocale);
+
+interface Props {
+  startDate: Date;
+  endDate: Date | null;
+  separator?: string;
+}
+
+const { startDate, endDate, separator = ' – ' } = Astro.props;
+const sameMonth = endDate !== null
+  && startDate.getFullYear() === endDate.getFullYear()
+  && startDate.getMonth() === endDate.getMonth();
+---
+
+<FormattedTime date={startDate} />{!sameMonth && <>{separator}{endDate ? <FormattedTime date={endDate} /> : m.present({}, { locale })}</>}

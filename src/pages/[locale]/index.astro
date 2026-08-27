@@ -1,0 +1,10 @@
+---
+import PortfolioLayout from '@/layouts/PortfolioLayout.astro';
+import PortfolioHome from '@/components/portfolio/PortfolioHome.astro';
+import { locales, baseLocale } from '@/i18n/locales';
+
+export function getStaticPaths() {
+  return locales.filter((locale) => locale !== baseLocale).map((locale) => ({ params: { locale } }));
+}
+---
+<PortfolioLayout><PortfolioHome /></PortfolioLayout>

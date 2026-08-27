@@ -1,0 +1,21 @@
+---
+interface Props {
+  icon: string;
+}
+
+const { icon } = Astro.props;
+const icons = import.meta.glob<string>('../../assets/technology-icons/*.svg', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+});
+const svg = icons[`../../assets/technology-icons/${icon}.svg`];
+if (!svg) throw new Error(`Unknown technology SVG "${icon}"`);
+---
+
+<span class="technology-icon" aria-hidden="true" set:html={svg} />
+
+<style>
+  .technology-icon { display:inline-flex; width:1em; height:1em; flex:none; }
+  .technology-icon :global(svg) { display:block; width:100%; height:100%; }
+</style>

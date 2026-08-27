@@ -1,0 +1,44 @@
+{
+  "institution": "IUT de Paris - Rives de Seine",
+  "startDate": "2022-09-01",
+  "endDate": "2025-06-30",
+  "location": "Paris, France",
+  "projects": [
+    "descode",
+    "l-academicien",
+    "la-forge-solidaire"
+  ],
+  "technologies": [
+    "Python",
+    "Java",
+    "PostgreSQL",
+    "JavaScript",
+    "HTML",
+    "CSS"
+  ],
+  "courses": {
+    "data-structures-and-algorithms": [
+      "C"
+    ],
+    "introduction-to-web-development": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "PHP"
+    ],
+    "database-management-systems": [
+      "SQL",
+      "Oracle"
+    ],
+    "multi-threaded-programming": [
+      "Java"
+    ],
+    "object-oriented-programming-design-patterns": [
+      "Java"
+    ],
+    "full-stack-web-development": [
+      "React",
+      "Spring"
+    ]
+  }
+}

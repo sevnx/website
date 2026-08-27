@@ -1,0 +1,33 @@
+---
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
+const locale = pageLocale(Astro.currentLocale);
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+}
+
+const { href, title, description } = Astro.props;
+const site = new URL(href).hostname.replace(/^www\./, '');
+---
+
+<a class="article-card" href={href} aria-label={title}>
+  <div class="title">{title} <span class="site">({site})</span></div>
+  <p>{description}</p>
+  <div class="actions"><span class="open" aria-hidden="true">{m.open({}, { locale })}</span></div>
+</a>
+
+<style>
+  .article-card { position:relative; display:grid; gap:0.5lh; max-width:72ch; margin-block:1lh; padding:1lh 3ch; color:var(--foreground0); text-decoration:none; }
+  .article-card::before,.article-card::after { content:''; position:absolute; inset-block:0; width:2ch; border:2px solid var(--box-border-color); pointer-events:none; }
+  .article-card::before { left:0; border-right:0; border-radius:4px 0 0 4px; }
+  .article-card::after { right:0; border-left:0; border-radius:0 4px 4px 0; }
+  .title { color:var(--theme-accent); }
+  .site { color:var(--muted); overflow-wrap:anywhere; }
+  .article-card p { color:var(--foreground2); }
+  .actions { display:flex; justify-content:flex-end; margin-top:0.5lh; }
+  .open::before { content:'['; color:var(--box-border-color); }
+  .open::after { content:']'; color:var(--box-border-color); }
+  .article-card:is(:hover, :focus-visible) .open { color:var(--theme-accent); text-decoration:underline; text-underline-offset:0.3em; }
+</style>

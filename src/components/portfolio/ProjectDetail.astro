@@ -1,0 +1,145 @@
+---
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
+import { render, type CollectionEntry } from 'astro:content';
+import { root, srcDir } from 'astro:config/server';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import TuiLink from '@/components/ui/TuiLink.astro';
+import UiIcon from '@/components/ui/UiIcon.astro';
+import MarkdownContent from '@/components/ui/MarkdownContent.astro';
+import ProjectLogo from './ProjectLogo.astro';
+import FormattedTimeRange from '@/components/ui/FormattedTimeRange.astro';
+import Figure from '@/components/mdx/Figure.astro';
+import Callout from '@/components/mdx/Callout.astro';
+import ProjectTable from '@/components/mdx/ProjectTable.astro';
+import { technologies } from '@/data/technologies';
+import { formatDuration } from '@/lib/time';
+import { localizedHref } from '@/i18n/links';
+import type { PaletteColor } from '@/types';
+const locale = pageLocale(Astro.currentLocale);
+
+export interface Props {
+  project: CollectionEntry<'project'>;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+
+const technology = (name: string) => {
+  const found = technologies.find((t) => t.name === name);
+  if (!found) throw new Error(`Unknown technology "${name}"`);
+  return found;
+};
+
+const statusColors: Record<typeof data.status, PaletteColor> = {
+  'In progress': 'gold',
+  Completed: 'pine',
+  'In production': 'foam',
+};
+
+const statusMessages = { 'In progress': m.status_in_progress, Completed: m.status_completed, 'In production': m.status_in_production };
+const typeMessages = { Personal: m.type_personal, Academic: m.type_academic, Professional: m.type_professional };
+const platformMessages = { Web: m.platform_web, Desktop: m.platform_desktop, Mobile: m.platform_mobile, CLI: m.platform_cli, TUI: m.platform_tui };
+
+const endDate = data.endDate === 'Present' ? null : data.endDate;
+const logo = technology(data.stack[0]);
+let logoSource = fileURLToPath(new URL(`assets/technology-icons/${logo.logo}.svg`, srcDir));
+if (data.coverSrc) {
+  if (!project.filePath) throw new Error(`Missing source path for project "${data.key}"`);
+  logoSource = resolve(fileURLToPath(root), dirname(project.filePath), data.coverSrc);
+}
+
+const languageTotal = Object.values(data.languages ?? {}).reduce((sum, value) => sum + value, 0);
+const languages = Object.entries(data.languages ?? {})
+  .map(([name, value]) => ({ name, color: technology(name).color, share: (value / languageTotal) * 100 }))
+  .sort((a, b) => b.share - a.share);
+const percent = (share: number) => `${share < 10 ? share.toFixed(1) : Math.round(share)}%`;
+
+const repoLabel = data.githubUrl?.replace('https://github.com/', '');
+const siteLabel = data.websiteUrl?.replace(/^https?:\/\//, '').replace(/\/$/, '');
+---
+
+<!-- A project opened in place of the Projects list; the explorer script toggles it via data-project. -->
+<article class="project-detail" data-project={data.key} tabindex="-1" hidden>
+  <div class="detail-actions">
+    <a class="tui-back" href={`${localizedHref('/', locale)}?tab=projects#work`} data-close-project>[ <UiIcon name="chevron-left" /> {m.back({}, { locale })} ]</a>
+  </div>
+
+  <!-- neofetch: an ASCII logo beside the project facts. -->
+  <header class="fetch">
+    <div class="logo" style={`--logo-color: var(--${logo.color})`}>
+      <ProjectLogo source={logoSource} />
+    </div>
+    <div class="info">
+      <h1><span class="user" aria-hidden="true">sev@</span>{data.name}</h1>
+      <div class="rule" aria-hidden="true">{'─'.repeat(data.name.length + 4)}</div>
+      <dl>
+        <dt>{m.about({}, { locale })}</dt><dd>{data.shortDescription}</dd>
+        <dt>{m.status({}, { locale })}</dt><dd style={`color: var(--${statusColors[data.status]})`}>{statusMessages[data.status]({}, { locale })}</dd>
+        <dt>{m.type({}, { locale })}</dt><dd>{typeMessages[data.projectType]({}, { locale })}</dd>
+        <dt>{m.platform({}, { locale })}</dt><dd>{data.applicationType.map((platform) => platformMessages[platform]({}, { locale })).join(', ')}</dd>
+        <dt>{m.range({}, { locale })}</dt><dd><FormattedTimeRange startDate={data.startDate} endDate={endDate} separator=" → " /> <span class="faint">({formatDuration(data.startDate, endDate, locale)})</span></dd>
+        <dt>{m.stack({}, { locale })}</dt><dd>{data.stack.join(', ')}</dd>
+        {data.tools && <><dt>{m.tools({}, { locale })}</dt><dd>{data.tools.join(', ')}</dd></>}
+        {data.githubUrl && <><dt>{m.repo({}, { locale })}</dt><dd><TuiLink href={data.githubUrl} icon="github" text={`${repoLabel}`} /></dd></>}
+        {data.websiteUrl && <><dt>{m.site({}, { locale })}</dt><dd><TuiLink href={data.websiteUrl} icon="compass" text={`${siteLabel}`} /></dd></>}
+      </dl>
+      {languages.length > 0 && (
+        <div class="languages">
+          <div class="language-bar" role="img" aria-label={m.languages({ values: languages.map((l) => `${l.name} ${percent(l.share)}`).join(', ') }, { locale })}>
+            {languages.map((l) => <span style={`flex-grow: ${l.share}; background: var(--${l.color})`} />)}
+          </div>
+          <div class="language-legend" aria-hidden="true">
+            {languages.map((l) => <span><span style={`color: var(--${l.color})`}>■</span> {l.name} <span class="faint">{percent(l.share)}</span></span>)}
+          </div>
+        </div>
+      )}
+    </div>
+  </header>
+
+  <div class="body">
+    <MarkdownContent><Content components={{ Figure, Callout, table: ProjectTable }} /></MarkdownContent>
+  </div>
+</article>
+
+<style>
+  .project-detail { display:grid; grid-template-columns:minmax(0, 1fr); gap:1lh; min-width:0; padding-block:0.5lh; }
+  .project-detail:focus { outline:none; }
+  .project-detail[hidden] { display:none; }
+  .detail-actions { display:flex; justify-content:space-between; column-gap:2ch; }
+  .tui-back { color:var(--theme-accent); text-decoration:none; white-space:nowrap; }
+  .tui-back:hover { text-decoration:underline; text-underline-offset:0.3em; }
+  .faint { color:var(--muted); }
+
+  /* A small logo beside the facts, centred on each other like neofetch's logo and info. */
+  .fetch { display:grid; grid-template-columns:max-content minmax(0, 1fr); column-gap:4ch; align-items:center; }
+  .logo { display:grid; place-items:center; width:max-content; aspect-ratio:1; color:var(--logo-color); }
+
+  h1 { text-transform:lowercase; }
+  .user { color:var(--foreground0); font-weight:normal; }
+  .rule { color:var(--muted); overflow:hidden; white-space:nowrap; }
+  dl { display:grid; grid-template-columns:max-content minmax(0, 1fr); column-gap:2ch; }
+  dt { color:var(--rose); text-transform:lowercase; }
+
+  .languages { display:grid; gap:0.25lh; max-width:60ch; margin-top:0.75lh; }
+  .language-bar { display:flex; height:0.6lh; gap:2px; }
+  .language-bar span { flex-basis:0; min-width:2px; }
+  .language-legend { display:flex; flex-wrap:wrap; column-gap:2ch; }
+
+  /* Article body: readable measure, quieter markers, room between paragraphs. */
+  .body :global(:is(p, ul, ol)) { max-width:72ch; }
+  .body :global(p + p) { margin-top:0.5lh; }
+  .body :global(:is(h2, h3)::before) { color:var(--muted); }
+  .body :global(.markdown-content ul li::before) { color:var(--muted); }
+  .body :global(li) { padding-left:2ch; text-indent:-2ch; }
+  .body :global(:not(pre) > code) { background:var(--background2); padding-inline:0.5ch; }
+  .body :global(pre) { padding:0.5lh 1ch; overflow:auto; border:1px solid var(--background3); }
+  .body :global(img) { max-width:100%; height:auto; }
+
+  @media (max-width:700px) {
+    .fetch { grid-template-columns:minmax(0, 1fr); row-gap:1lh; }
+    .logo { justify-self:start; }
+  }
+</style>

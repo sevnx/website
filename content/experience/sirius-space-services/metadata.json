@@ -1,0 +1,11 @@
+{
+  "company": "Sirius Space Services",
+  "startDate": "2023-12-04",
+  "endDate": "2025-08-31",
+  "location": "Nanterre, France",
+  "employmentType": "Apprenticeship",
+  "technologies": [
+    "Rust",
+    "GitLab"
+  ]
+}

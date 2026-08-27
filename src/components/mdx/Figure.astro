@@ -1,0 +1,29 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata | ImageMetadata[];
+  alt: string;
+}
+
+const { alt } = Astro.props;
+const images = [Astro.props.src].flat();
+---
+
+<!-- Screenshots side by side on desktop, stacked on mobile. -->
+<figure class="figure">
+  <div class="shots" style={`--count: ${images.length}`}>
+    {images.map((image, index) => <Image src={image} alt={images.length > 1 ? `${alt} (${index + 1}/${images.length})` : alt} />)}
+  </div>
+</figure>
+
+<style>
+  .figure { margin-block:1lh; }
+  .shots { display:grid; grid-template-columns:repeat(var(--count), minmax(0, 1fr)); gap:2ch; align-items:start; }
+  .shots img { display:block; width:100%; height:auto; border:1px solid var(--background3); }
+
+  @media (max-width:700px) {
+    .shots { grid-template-columns:minmax(0, 1fr); gap:1lh; }
+  }
+</style>

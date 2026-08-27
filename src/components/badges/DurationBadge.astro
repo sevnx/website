@@ -1,6 +1,9 @@
 ---
-import { getDuration } from '@/lib/time';
-import FormattedTime from '@/components/ui/FormattedTime.astro';
+import { pageLocale } from '@/i18n/locales';
+import { formatDuration } from '@/lib/time';
+import FormattedTimeRange from '@/components/ui/FormattedTimeRange.astro';
+import UiIcon from '@/components/ui/UiIcon.astro';
+const locale = pageLocale(Astro.currentLocale);
 
 interface Props {
   startDate: Date;
@@ -9,38 +12,11 @@ interface Props {
 }
 
 const { startDate, endDate, withDuration } = Astro.props;
-
-function getDurationString(start: Date, end: Date | null) {
-  const duration = getDuration(start, end);
-
-  let amount = 0;
-  let unit = '';
-
-  if (duration.years >= 2) {
-    amount = duration.years;
-    unit = 'year' + (duration.years !== 1 ? 's' : '');
-  } else {
-    const totalMonths = duration.years * 12 + duration.months;
-    
-    if (totalMonths >= 1) {
-      amount = totalMonths;
-      unit = 'month' + (totalMonths !== 1 ? 's' : '');
-    } else {
-      amount = duration.days;
-      unit = 'day' + (duration.days !== 1 ? 's' : '');
-    }
-  }
-
-  return `${amount}${end === null ? '+' : ''} ${unit}`;
-}
-
 ---
 
 <span class="duration-badge" is-="badge">
-  <span></span>
+  <UiIcon name="clock" />
   &nbsp;
-  <FormattedTime date={startDate} />
-  <span>&nbsp;-&nbsp;</span>
-  {endDate ? <FormattedTime date={endDate} /> : 'Present'}
-  {withDuration && <span>&nbsp;({getDurationString(startDate, endDate)})</span>}
+  <FormattedTimeRange startDate={startDate} endDate={endDate} separator={'\u00a0-\u00a0'} />
+  {withDuration && <span>&nbsp;({formatDuration(startDate, endDate, locale)})</span>}
 </span>

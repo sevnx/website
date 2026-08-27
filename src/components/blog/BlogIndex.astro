@@ -1,0 +1,101 @@
+---
+import { getCollection } from 'astro:content';
+import TuiLayout from '@/layouts/TuiLayout.astro';
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
+import { localizedHref } from '@/i18n/links';
+import { blogSlug } from '@/lib/blog';
+import DateBadge from '@/components/badges/DateBadge.astro';
+const locale = pageLocale(Astro.currentLocale);
+
+const name = m.blog({}, { locale });
+
+const blogs = await getCollection('blog');
+
+const sorted = blogs.filter((blog) => blog.data.locale === locale).sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+const translatedSlugs = new Set(sorted.map(blogSlug));
+const englishOnly = locale === 'en' ? [] : blogs.filter((blog) => blog.data.locale === 'en' && !translatedSlugs.has(blogSlug(blog))).sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+---
+
+<TuiLayout name={name}>
+  <div class="page">
+    <h1>{m.blog_heading({}, { locale })}</h1>
+
+    {
+      sorted.length === 0 && englishOnly.length === 0 ? (
+        <div class="empty-state">
+          <p>{m.nothing_yet({}, { locale })}</p>
+        </div>
+      ) : (
+        <div class="timeline">
+          {sorted.map((blog) => (
+            <div class="timeline-entry">
+              <a href={localizedHref(`/blog/${blogSlug(blog)}`, locale)}>[ {blog.data.title} ]</a>
+              <span>-</span>
+              <DateBadge date={blog.data.publishedDate} />
+            </div>
+          ))}
+          {englishOnly.map((blog) => (
+            <div class="timeline-entry">
+              <a href={localizedHref(`/blog/${blogSlug(blog)}`, 'en')}><span lang="en">[ {blog.data.title} ]</span></a>
+              <span> · {m.available_english({}, { locale })}</span>
+            </div>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</TuiLayout>
+
+<style>
+  .page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .empty-state {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-state p {
+    margin: 0;
+  }
+
+  .timeline {
+    position: relative;
+    padding-top: 1lh;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .timeline a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+
+  .timeline-entry {
+    position: relative;
+    padding-left: 2ch;
+    padding-bottom: 1lh;
+  }
+
+  /* Node marker — same color as the line */
+  .timeline-entry::before {
+    content: '*';
+    position: absolute;
+    left: 0;
+    top: 0;
+    line-height: 1lh;
+  }
+
+  /* Last entry: line extends to fill the rest of the scroll area */
+  .timeline-entry:last-child {
+    flex: 1;
+  }
+</style>

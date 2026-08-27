@@ -1,15 +1,3 @@
 ---
-import { getCollection } from 'astro:content';
-import TuiLayout from '../layouts/TuiLayout.astro';
-import ProjectGrid from '@/components/projects/ProjectGrid.astro';
-import { sortProjectsByRelevance } from '@/lib/projects';
-
-export const name = 'Projects';
-
-const projects = sortProjectsByRelevance(await getCollection('project'));
+return Astro.redirect('/?tab=projects#work', 301);
 ---
-
-<TuiLayout name={name}>
-  <h1># The cool things I have had the opportunity to work on</h1>
-  <ProjectGrid projects={projects} />
-</TuiLayout>

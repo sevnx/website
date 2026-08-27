@@ -1,7 +1,19 @@
 ---
+import type { Technology } from '@/types';
+import TechnologyIcon from '@/components/ui/TechnologyIcon.astro';
+
+interface Props {
+  technology: Technology | undefined;
+}
+
 const { technology } = Astro.props;
+if (!technology) throw new Error('SkillBadge requires a known technology');
 ---
 
-<div is-="badge" style={`--badge-color: ${technology.backgroundColor}; --badge-text: ${technology.textColor};`}>
-    {technology.nerdFontLogo}&nbsp;{technology.name}
+<div class="skill-badge" is-="badge" variant-={technology.color}>
+  <TechnologyIcon icon={technology.logo} />&nbsp;{technology.name}
 </div>
+
+<style>
+  .skill-badge { align-items:center; }
+</style>

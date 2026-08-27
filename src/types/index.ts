@@ -4,16 +4,11 @@ export type LocationType = 'Remote' | 'On-site' | 'Hybrid';
 
 export type EmploymentType = 'Full-time' | 'Apprenticeship';
 
-export type RGB = `rgb(${number}, ${number}, ${number})`;
-export type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
-export type HEX = `#${string}`;
-
-export type Color = RGB | RGBA | HEX;
-export type TextColor = 'white' | 'black';
+/** A Rosé Pine palette color, resolved by the active WebTUI theme. */
+export type PaletteColor = 'love' | 'gold' | 'rose' | 'pine' | 'foam' | 'iris' | 'subtle';
 
 export interface Technology {
   name: string;
-  nerdFontLogo: string;
-  textColor: TextColor;
-  backgroundColor: Color;
+  logo: string;
+  color: PaletteColor;
 }

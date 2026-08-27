@@ -1,0 +1,28 @@
+{
+  "name": "Vibedle",
+  "startDate": "2026-04-01",
+  "endDate": "2026-04-01",
+  "status": "In production",
+  "projectType": "Personal",
+  "relevance": 2,
+  "stack": [
+    "NextJS",
+    "React",
+    "TypeScript",
+    "Tailwind"
+  ],
+  "tools": [
+    "Convex"
+  ],
+  "applicationType": [
+    "Web"
+  ],
+  "githubUrl": "https://github.com/sevnx/vibedle",
+  "websiteUrl": "https://vibedle.sevnx.dev/",
+  "languages": {
+    "TypeScript": 91022,
+    "JavaScript": 4735,
+    "CSS": 488
+  },
+  "languagesSource": "GitHub byte counts, October 2026"
+}

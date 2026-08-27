@@ -1,0 +1,39 @@
+---
+import { m } from '@/paraglide/messages.js';
+import { languageNames, locales, pageLocale, type Locale } from '@/i18n/locales';
+import { localizedHref } from '@/i18n/links';
+const locale = pageLocale(Astro.currentLocale);
+
+interface Props { availableLocales?: readonly Locale[]; }
+const { availableLocales = locales } = Astro.props;
+---
+<nav class="language-switcher" aria-label={m.language({}, { locale })} data-language-switcher>
+  {availableLocales.map((language, index) => <>
+    {index > 0 && <span class="slash" aria-hidden="true">/</span>}
+    <a href={localizedHref(Astro.url.pathname, language)} lang={language} hreflang={language} aria-current={language === locale ? 'page' : undefined}>{languageNames[language]}</a>
+  </>)}
+</nav>
+<script>
+  // Tab and project changes use the History API. Read their latest values at click time.
+  document.querySelectorAll<HTMLElement>('[data-language-switcher]').forEach((nav) => {
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>('a')];
+    const syncLinks = () => links.forEach((link) => {
+      const url = new URL(link.href);
+      url.search = window.location.search;
+      url.hash = window.location.hash;
+      link.href = url.href;
+    });
+    syncLinks();
+    nav.addEventListener('pointerdown', syncLinks);
+    nav.addEventListener('focusin', syncLinks);
+    nav.addEventListener('click', syncLinks);
+    window.addEventListener('popstate', syncLinks);
+  });
+</script>
+<style>
+  .language-switcher { display:flex; justify-content:flex-end; align-items:center; gap:12px; min-height:34px; font-size:13px; }
+  .language-switcher a { color:#b4637a; padding-block:7px; text-underline-offset:5px; }
+  .language-switcher a[aria-current='page'] { color:#575279; font-weight:700; text-decoration:none; }
+  .slash { color:#797593; }
+  @media(max-width:520px) { .language-switcher { gap:11px; font-size:12px; } }
+</style>

@@ -1,0 +1,27 @@
+{
+  "name": "Farsight",
+  "startDate": "2026-07-11",
+  "endDate": "Present",
+  "status": "In progress",
+  "projectType": "Personal",
+  "relevance": 1,
+  "stack": [
+    "TanStack Start",
+    "React",
+    "TypeScript",
+    "Effect",
+    "Rust",
+    "Tailwind"
+  ],
+  "tools": [
+    "Convex",
+    "Cloudflare"
+  ],
+  "applicationType": [
+    "Web",
+    "Desktop"
+  ],
+  "githubUrl": "https://github.com/sevnx/kairos",
+  "websiteUrl": "https://farsight.ink/",
+  "coverSrc": "../../../src/assets/farsight/logo.svg"
+}

@@ -1,5 +1,9 @@
 ---
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
 import type { EmploymentType } from '@/types';
+import UiIcon, { type IconName } from '@/components/ui/UiIcon.astro';
+const locale = pageLocale(Astro.currentLocale);
 
 export interface Props {
     employmentType: EmploymentType;
@@ -8,13 +12,15 @@ export interface Props {
 const { employmentType } = Astro.props;
 
 const employmentTypeBadge = {
-    'Full-time': '󰦑',
-    'Apprenticeship': '',
-}
+    'Full-time': 'briefcase',
+    'Apprenticeship': 'graduation-cap',
+} satisfies Record<EmploymentType, IconName>;
+
+const employmentMessages = { 'Full-time': m.employment_full_time, Apprenticeship: m.employment_apprenticeship };
 
 const employmentTypeLogo = employmentTypeBadge[employmentType];
 ---
 
 <div is-="badge">
-    <span>{employmentTypeLogo} {employmentType}</span>
+    <span><UiIcon name={employmentTypeLogo} /> {employmentMessages[employmentType]({}, { locale })}</span>
 </div>

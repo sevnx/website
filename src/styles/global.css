@@ -15,19 +15,10 @@
 @import '@webtui/css/components/separator.css';
 @import '@webtui/css/components/table.css';
 
-/* Nerd font */
-@import '@webtui/plugin-nf';
+@import './fonts.css';
 
 /* Themes */
-@import '@webtui/theme-catppuccin';
-
-@font-face {
-  font-family: 'CommitMono Nerd Font';
-  src: url('/fonts/CommitMonoNerdFontMono-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
+@import './themes/rose-pine.css';
 
 /*
  * WebTUI's table.css uses :last-of-type to shorten the last column's horizontal separator
@@ -44,14 +35,10 @@
 
 @layer base {
   :root {
-    --border-color: #4c4f69; /* base border color for components */
     --font-size: 19px;
-    --font-family: 'CommitMono Nerd Font', monospace, Menlo, Monaco, monospace, 'Symbols Nerd Font';
-    --box-border-color: var(--border-color);
-    --separator-color: var(--border-color);
+    --font-family: 'Commit Mono', Menlo, Monaco, monospace;
     --separator-width: 1px;
     --table-border-width: 2px;
-    --table-border-color: var(--border-color);
   }
 
   @media (max-width: 100ch) {

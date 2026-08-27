@@ -1,0 +1,365 @@
+---
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
+import WebTuiStyles from './WebTuiStyles.astro';
+import { getCollection } from 'astro:content';
+import FormattedTimeRange from '@/components/ui/FormattedTimeRange.astro';
+import TuiLink from '@/components/ui/TuiLink.astro';
+import UiIcon from '@/components/ui/UiIcon.astro';
+import ExperienceCommit from '@/components/trees/ExperienceCommit.astro';
+import EducationTree from '@/components/trees/EducationTree.astro';
+import PortfolioStack from './PortfolioStack.astro';
+import ProjectDetail from './ProjectDetail.astro';
+import { projectHref, sortProjectsByRelevance } from '@/lib/projects';
+const locale = pageLocale(Astro.currentLocale);
+const projects = sortProjectsByRelevance(await getCollection('project', ({ data }) => data.locale === locale));
+const experiences = (await getCollection('experience', ({ data }) => data.locale === locale)).sort((a,b) => b.data.startDate.getTime() - a.data.startDate.getTime());
+const education = (await getCollection('education', ({ data }) => data.locale === locale)).sort((a,b) => b.data.startDate.getTime() - a.data.startDate.getTime());
+const tabs = [
+  { id: 'projects', label: m.projects({}, { locale }) },
+  { id: 'experience', label: m.experience({}, { locale }) },
+  { id: 'stack', label: m.stack({}, { locale }) },
+  { id: 'education', label: m.education({}, { locale }) },
+];
+---
+<WebTuiStyles />
+<div class="webtui-portfolio" data-webtui-portfolio data-webtui-theme="rose-pine-dawn">
+  <div class="terminal" box-="square" shear-="both">
+    <!-- Tabs and status sit on the frame's top and bottom borders; their backgrounds mask the border line. -->
+    <div class="terminal-bar">
+      <button type="button" class="carousel-arrow" data-step="-1" aria-label={m.previous_section({}, { locale })}><span><UiIcon name="chevron-left" /></span></button>
+      <div class="portfolio-tabs" role="tablist" aria-label={m.portfolio_sections({}, { locale })}>
+        {tabs.map((tab,i) => <button type="button" role="tab" data-section={tab.id} id={`work-tab-${i}`} aria-controls={`work-panel-${i}`} aria-selected={i === 0} tabindex={i === 0 ? 0 : -1}>{tab.label}</button>)}
+      </div>
+      <button type="button" class="carousel-arrow" data-step="1" aria-label={m.next_section({}, { locale })}><span><UiIcon name="chevron-right" /></span></button>
+    </div>
+    <div class="terminal-body">
+      <section role="tabpanel" id="work-panel-0" aria-labelledby="work-tab-0" tabindex="0">
+        <div data-project-list>
+        {projects.map((project, index) => <>
+          {index > 0 && <div class="project-divider" />}
+          <article class="project-row" data-item data-open={project.data.key} tabindex="-1">
+            <div class="project-summary">
+              <div class="project-heading">
+                <h1><span class="project-marker" aria-hidden="true"></span> {project.data.name}</h1>
+                <span class="project-dates"><UiIcon name="calendar" />&nbsp;<FormattedTimeRange startDate={project.data.startDate} endDate={project.data.endDate === 'Present' ? null : project.data.endDate} /></span>
+              </div>
+              <p>{project.data.shortDescription}</p>
+            </div>
+            <div class="project-actions">
+              <TuiLink href={projectHref(project.data.key, locale)} text={m.learn_more({}, { locale })} />
+              {/* The website is the better showcase, so GitHub only appears when there is none. */}
+              {project.data.websiteUrl ? <TuiLink href={project.data.websiteUrl} icon="compass" text={m.website({}, { locale })} />
+                : project.data.githubUrl && <TuiLink href={project.data.githubUrl} icon="github" text="GitHub" />}
+            </div>
+          </article>
+        </>)}
+        </div>
+        {projects.map(project => <ProjectDetail project={project} />)}
+      </section>
+      <section role="tabpanel" id="work-panel-1" aria-labelledby="work-tab-1" tabindex="0" hidden><div>{experiences.map(experience => <ExperienceCommit experience={experience} />)}</div></section>
+      <section role="tabpanel" id="work-panel-2" aria-labelledby="work-tab-2" tabindex="0" hidden>
+        <PortfolioStack />
+      </section>
+      <section role="tabpanel" id="work-panel-3" aria-labelledby="work-tab-3" tabindex="0" hidden><div class="entries">{education.map(item => <div data-item tabindex="-1"><EducationTree education={item} projects={projects} /></div>)}</div></section>
+    </div>
+    <div class="terminal-status" aria-hidden="true">
+      <span data-path>~/projects</span>
+      <span class="status-right">
+        <span class="key-hints">h/l {m.hint_tab({}, { locale })}<span data-select-hint> · j/k {m.hint_select({}, { locale })}</span><span data-open-hint> · ⏎ {m.hint_open({}, { locale })}</span><span data-back-hint hidden> · q {m.hint_back({}, { locale })}</span></span>
+        <span data-section-index>1/{tabs.length}</span>
+      </span>
+    </div>
+    <span class="scroll-track" aria-hidden="true"><span class="scroll-thumb"></span></span>
+  </div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-webtui-portfolio]').forEach(root => {
+    const frame = root.querySelector<HTMLElement>('.terminal');
+    const body = root.querySelector<HTMLElement>('.terminal-body');
+    const path = root.querySelector<HTMLElement>('[data-path]');
+    const sectionIndex = root.querySelector<HTMLElement>('[data-section-index]');
+    const selectHint = root.querySelector<HTMLElement>('[data-select-hint]');
+    const openHint = root.querySelector<HTMLElement>('[data-open-hint]');
+    const backHint = root.querySelector<HTMLElement>('[data-back-hint]');
+    const projectList = root.querySelector<HTMLElement>('[data-project-list]');
+    if (!frame || !body || !path || !sectionIndex || !selectHint || !openHint || !backHint || !projectList) return;
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+    const details = [...root.querySelectorAll<HTMLElement>('[data-project]')];
+    let current = 0;
+    let openProjectId: string | undefined;
+    // Set when opening pushed a history entry, so closing can pop it instead of stacking another.
+    let pushedProject = false;
+    const visibleItems = () => [...(panels[current]?.querySelectorAll<HTMLElement>('[data-item]') ?? [])].filter(item => !item.closest('[hidden]'));
+    const updateHints = () => {
+      selectHint.hidden = visibleItems().length === 0;
+      openHint.hidden = !panels[current]?.querySelector('[data-open]') || openProjectId !== undefined;
+      backHint.hidden = openProjectId === undefined;
+    };
+
+    const updateScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = body;
+      const overflow = scrollHeight - clientHeight;
+      const progress = overflow > 0 ? Math.min(scrollTop / overflow, 1) : 0;
+      frame.style.setProperty('--thumb-size', `${(clientHeight / scrollHeight) * 100}%`);
+      frame.style.setProperty('--thumb-progress', String(progress));
+      frame.toggleAttribute('data-scrollable', overflow > 1);
+    };
+
+    const activate = (index: number, { updateUrl = true, direction }: { updateUrl?: boolean; direction?: 'next' | 'prev' } = {}) => {
+      current = index;
+      tabs.forEach((tab,i) => { tab.setAttribute('aria-selected',String(i === index)); tab.tabIndex = i === index ? 0 : -1; });
+      panels.forEach((panel,i) => {
+        // Set before unhiding so the enter animation starts when the panel becomes visible.
+        if (direction) panel.dataset.enter = direction; else delete panel.dataset.enter;
+        panel.hidden = i !== index;
+      });
+      const section = tabs[index]?.dataset.section ?? 'projects';
+      path.textContent = `~/${section}`;
+      sectionIndex.textContent = `${index + 1}/${tabs.length}`;
+      showProject(undefined);
+      body.scrollTo(0,0);
+      updateScroll();
+      if (updateUrl) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('tab', section);
+        url.searchParams.delete('project');
+        window.history.replaceState(null, '', url);
+        pushedProject = false;
+      }
+    };
+    // Swaps the Projects list for one project's page, like opening a file from a directory listing.
+    const showProject = (id: string | undefined) => {
+      const detail = details.find(item => item.dataset.project === id);
+      openProjectId = detail ? id : undefined;
+      projectList.hidden = openProjectId !== undefined;
+      details.forEach(item => { item.hidden = item !== detail; });
+      if (current === 0) path.textContent = openProjectId ? `~/projects/${openProjectId}` : '~/projects';
+      updateHints();
+    };
+    const revealFrame = () => {
+      // On mobile the page scrolls, so bring the frame's start back into view.
+      if (frame.getBoundingClientRect().top < 0) frame.scrollIntoView({ block: 'start' });
+    };
+    const openProject = (id: string) => {
+      // Leave the current entry alone so Back returns to the tab the link was in.
+      if (current !== 0) activate(0, { updateUrl: false });
+      showProject(id);
+      if (!openProjectId) return;
+      const url = new URL(window.location.href);
+      url.searchParams.set('tab', 'projects');
+      url.searchParams.set('project', id);
+      window.history.pushState(null, '', url);
+      pushedProject = true;
+      body.scrollTo(0,0);
+      updateScroll();
+      revealFrame();
+      details.find(item => item.dataset.project === id)?.focus({ preventScroll: true });
+    };
+    const closeProject = () => {
+      const id = openProjectId;
+      if (!id) return;
+      if (pushedProject) { window.history.back(); return; }
+      const url = new URL(window.location.href);
+      url.searchParams.delete('project');
+      window.history.replaceState(null, '', url);
+      restoreFocus(id);
+    };
+    // Back from a project lands on its row in the list.
+    const restoreFocus = (id: string) => {
+      showProject(undefined);
+      updateScroll();
+      const row = projectList.querySelector<HTMLElement>(`[data-open="${CSS.escape(id)}"]`);
+      row?.focus({ preventScroll: true });
+      row?.scrollIntoView({ block: 'nearest' });
+    };
+    const step = (delta: number) => {
+      activate((current + delta + tabs.length) % tabs.length, { direction: delta > 0 ? 'next' : 'prev' });
+      revealFrame();
+    };
+    const restoreTab = () => {
+      const params = new URLSearchParams(window.location.search);
+      const index = tabs.findIndex(tab => tab.dataset.section === params.get('tab'));
+      const previous = openProjectId;
+      activate(index < 0 ? 0 : index, { updateUrl: false });
+      const project = params.get('project');
+      if (current === 0 && project) showProject(project);
+      else if (previous) restoreFocus(previous);
+      pushedProject = false;
+    };
+    restoreTab();
+    window.addEventListener('popstate', restoreTab);
+
+    // Project links (here and in other tabs) open in place instead of reloading the page.
+    root.addEventListener('click', event => {
+      if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href]') : null;
+      if (!link) return;
+      if (link.hasAttribute('data-close-project')) { event.preventDefault(); closeProject(); return; }
+      const url = new URL(link.href);
+      const id = url.searchParams.get('project');
+      if (url.origin !== window.location.origin || url.pathname !== window.location.pathname || !id) return;
+      event.preventDefault();
+      openProject(id);
+    });
+    body.addEventListener('scroll', updateScroll, { passive: true });
+    new ResizeObserver(updateScroll).observe(body);
+
+    tabs.forEach((tab,index) => {
+      tab.addEventListener('click', () => activate(index));
+      tab.addEventListener('keydown', event => {
+        if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+        event.preventDefault(); event.stopPropagation();
+        const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+        activate(next); tabs[next]?.focus();
+      });
+    });
+    root.querySelectorAll<HTMLButtonElement>('.carousel-arrow').forEach(arrow => {
+      arrow.addEventListener('click', () => step(Number(arrow.dataset.step)));
+    });
+
+    let touchStart: { x: number; y: number } | undefined;
+    body.addEventListener('touchstart', event => {
+      // Horizontal gestures inside a table belong to its scroll container.
+      if (event.target instanceof Element && event.target.closest('.project-table')) {
+        touchStart = undefined;
+        return;
+      }
+      const touch = event.touches[0];
+      touchStart = touch && event.touches.length === 1 ? { x: touch.clientX, y: touch.clientY } : undefined;
+    }, { passive: true });
+    body.addEventListener('touchend', event => {
+      const touch = event.changedTouches[0];
+      if (!touchStart || !touch) return;
+      const dx = touch.clientX - touchStart.x;
+      const dy = touch.clientY - touchStart.y;
+      touchStart = undefined;
+      if (Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy)) step(dx < 0 ? 1 : -1);
+    });
+
+    // Arrow keys navigate from anywhere on the page; other shortcuts stay inside the terminal.
+    document.addEventListener('keydown', event => {
+      if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey) return;
+      const isArrowKey = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key);
+      if (isArrowKey && event.target instanceof Element && event.target.closest('.project-table')) return;
+      if (!isArrowKey && !(event.target instanceof Node && root.contains(event.target))) return;
+      const items = visibleItems();
+      const selected = items.findIndex(item => item.contains(document.activeElement));
+      const digit = Number(event.key);
+      if (['j', 'k', 'ArrowDown', 'ArrowUp'].includes(event.key)) {
+        const direction = event.key === 'j' || event.key === 'ArrowDown' ? 1 : -1;
+        const next = selected < 0 ? 0 : Math.max(0, Math.min(items.length - 1, selected + direction));
+        const item = items[next];
+        if (!item) return;
+        item.focus({ preventScroll: true });
+        item.scrollIntoView({ block: item.offsetHeight > body.clientHeight ? 'start' : 'nearest' });
+      } else if (['h', 'l', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        step(event.key === 'l' || event.key === 'ArrowRight' ? 1 : -1);
+        tabs[current]?.focus();
+      } else if (Number.isInteger(digit) && digit >= 1 && digit <= tabs.length) {
+        activate(digit - 1);
+        tabs[current]?.focus();
+      } else if (event.key === 'Enter' && event.target instanceof HTMLElement && event.target.dataset.open) {
+        openProject(event.target.dataset.open);
+      } else if (openProjectId && (event.key === 'q' || event.key === 'Escape' || event.key === 'Backspace')) {
+        closeProject();
+      } else {
+        return;
+      }
+      event.preventDefault();
+    });
+
+    // Enable shortcuts on arrival while keeping the intro in view and respecting existing focus.
+    if (document.activeElement === document.body) {
+      tabs[current]?.focus({ preventScroll: true });
+    }
+  });
+</script>
+<style>
+  .webtui-portfolio { width:100%; height:clamp(560px,75dvh,655px); }
+  .terminal { height:100%; display:flex; flex-direction:column; }
+
+  .terminal-bar,.terminal-status { flex:none; display:flex; align-items:center; height:1lh; padding-inline:1ch; }
+  .terminal-status > *,.status-right > * { background:var(--background0); }
+  .portfolio-tabs { display:flex; gap:1ch; min-width:0; }
+  /* Reset WebTUI's 3lh button so tabs read as labels on the border. */
+  .portfolio-tabs button { height:1lh; padding:0 1ch; background:var(--background0); background-image:none; color:var(--foreground2); font-weight:inherit; cursor:pointer; user-select:none; }
+  .portfolio-tabs button:hover { color:var(--foreground0); }
+  .portfolio-tabs button:focus { outline:none; font-weight:inherit; text-decoration:none; }
+  .portfolio-tabs button[aria-selected='true'] { background:var(--theme-accent); color:var(--background0); }
+  .carousel-arrow { display:none; }
+
+  .terminal-status { justify-content:space-between; color:var(--foreground2); }
+  .terminal-status > * { padding-inline:1ch; }
+  .status-right { display:flex; gap:1ch; background:none; padding:0; }
+  .status-right > * { padding-inline:1ch; }
+  [data-section-index] { display:none; }
+  .key-hints { display:none; }
+  @media(hover:hover) and (pointer:fine) { .key-hints { display:inline; } }
+
+  /* The body reaches the inner edge of the frame's 2px border, centered at 0.5ch,
+     so full-width dividers can meet it. --gutter is the content inset from that edge. */
+  .terminal-body { --gutter:2ch; flex:1; min-height:0; overflow:auto; margin-inline:calc(1px - 0.5ch); padding:0.5lh calc(var(--gutter) + 0.5ch - 1px) 0; scrollbar-width:none; }
+  .terminal-body::-webkit-scrollbar { display:none; }
+  /* The native scrollbar is hidden; this thumb rides the frame's right border instead. */
+  .scroll-track { position:absolute; top:1lh; bottom:1lh; right:calc(0.25ch + 2px); width:0.5ch; pointer-events:none; }
+  .scroll-thumb { position:absolute; inset-inline:0; height:var(--thumb-size,100%); top:calc((100% - var(--thumb-size,100%)) * var(--thumb-progress,0)); background:var(--theme-accent); }
+  .terminal:not([data-scrollable]) .scroll-track { display:none; }
+
+  /* Selection cursor for j/k, drawn in the body's left gutter. Global because items can live in child components. */
+  .terminal-body :global([data-item]) { position:relative; scroll-margin-block:0.5lh; }
+  .terminal-body :global([data-item]:focus-visible) { outline:none; }
+  .terminal-body :global([data-item]:focus-visible::after) { content:''; position:absolute; left:calc(var(--gutter) * -0.75); top:0; bottom:0; width:0.5ch; background:var(--theme-accent); }
+
+  .entries { display:grid; gap:1lh; }
+  /* Summary on the left, links stacked on the right so every row lines up. */
+  .project-row { --bleed:calc(1px - 0.5ch - var(--gutter)); isolation:isolate; padding-block:0.75lh; display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; gap:0 4ch; }
+  .project-summary { display:grid; justify-items:start; gap:0.35lh; min-width:0; }
+  .project-heading { display:flex; flex-wrap:wrap; align-items:baseline; column-gap:2ch; }
+  .project-dates { color:var(--foreground2); }
+  /* Selected row: a full-bleed band with the cursor bar on the frame edge, and the heading's # turns into a prompt. */
+  .project-row::before { content:''; position:absolute; z-index:-1; inset:0 var(--bleed); background:var(--overlay); opacity:0; transition:opacity 120ms; }
+  .project-row:focus-visible::before { opacity:1; }
+  .terminal-body .project-row:focus-visible::after { left:var(--bleed); }
+  .project-marker::before { content:'#'; }
+  .project-row:focus-visible .project-marker::before { content:'>'; }
+  .project-row:focus-visible h1 { color:var(--theme-accent); }
+  .project-summary p { max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .project-actions { display:flex; flex-direction:column; align-items:flex-start; gap:0.35lh; }
+  /* A plain rule rather than WebTUI's separator, whose gradient line can vanish at 1px. */
+  .project-divider { height:1px; background:var(--box-border-color); margin-inline:calc(1px - 0.5ch - var(--gutter)); }
+  [hidden] { display:none; }
+
+  @media(max-width:700px) {
+    .key-hints { display:none; }
+    /* One page scroll on mobile: the frame grows with its content. */
+    .webtui-portfolio,.terminal { height:auto; }
+    .terminal-body { --gutter:1ch; overflow:visible; overflow-x:clip; }
+    .scroll-track { display:none; }
+    .project-row { grid-template-columns:minmax(0,1fr); gap:0.35lh; }
+    .project-actions { flex-direction:row; flex-wrap:wrap; column-gap:2ch; }
+    [data-section-index] { display:inline; }
+    .terminal-bar { justify-content:space-between; padding-inline:0; }
+    .portfolio-tabs button[aria-selected='false'] { display:none; }
+    .carousel-arrow { display:inline-flex; align-items:center; justify-content:center; min-width:44px; height:44px; margin-block:calc((1lh - 44px) / 2); padding:0; background:none; background-image:none; color:var(--theme-accent); cursor:pointer; }
+    .carousel-arrow:focus { font-weight:inherit; text-decoration:none; }
+    .carousel-arrow span { background:var(--background0); padding-inline:1ch; }
+  }
+  @media(max-width:700px) and (prefers-reduced-motion:no-preference) {
+    [role='tabpanel'][data-enter='next'] { animation:enter-next 180ms ease-out; }
+    [role='tabpanel'][data-enter='prev'] { animation:enter-prev 180ms ease-out; }
+  }
+  @keyframes enter-next { from { opacity:0; translate:3ch 0; } }
+  @keyframes enter-prev { from { opacity:0; translate:-3ch 0; } }
+</style>
+<style is:global>
+  .webtui-portfolio :focus-visible { outline:2px solid var(--theme-focus); outline-offset:2px; }
+  .webtui-portfolio .project-card .header-title { flex-wrap:wrap; gap:1ch; }
+  .webtui-portfolio .project-card .project-links { flex-wrap:wrap; }
+  @media(max-width:700px) {
+    .webtui-portfolio .projects { grid-template-columns:minmax(0,1fr); }
+    .webtui-portfolio .project,.webtui-portfolio .project-card { min-width:0; }
+    .webtui-portfolio .header,.webtui-portfolio .branch-item { flex-wrap:wrap; }
+  }
+</style>

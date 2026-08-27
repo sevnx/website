@@ -1,0 +1,107 @@
+{
+  "greeting": "Hi, I'm Seweryn.",
+  "job": "Software Engineer Apprentice @ Nokia",
+  "student": "Student @ ESIEA Paris",
+  "work_education": "Work and education",
+  "social_links": "Social links",
+  "explore_work": "Explore my work",
+  "invitation": "I like building a lot of things.",
+  "invitation_description": "Have a look around my interactive portfolio.",
+  "language": "Language",
+  "projects": "Projects",
+  "experience": "Experience",
+  "stack": "Stack",
+  "education": "Education",
+  "previous_section": "Previous section",
+  "next_section": "Next section",
+  "portfolio_sections": "Portfolio sections",
+  "learn_more": "Learn more",
+  "website": "Website",
+  "back": "Back",
+  "back_portfolio": "Back to portfolio",
+  "present": "Present",
+  "about": "about",
+  "status": "status",
+  "type": "type",
+  "platform": "platform",
+  "range": "range",
+  "tools": "tools",
+  "repo": "repo",
+  "site": "site",
+  "languages": "Languages: {values}",
+  "status_in_progress": "In progress",
+  "status_completed": "Completed",
+  "status_in_production": "In production",
+  "type_personal": "Personal",
+  "type_academic": "Academic",
+  "type_professional": "Professional",
+  "platform_web": "Web",
+  "platform_desktop": "Desktop",
+  "platform_mobile": "Mobile",
+  "employment_full_time": "Full-time",
+  "employment_apprenticeship": "Apprenticeship",
+  "classwork": "Classwork",
+  "highlights": "Highlights",
+  "hint_tab": "tab",
+  "hint_select": "select",
+  "hint_open": "open",
+  "hint_back": "back",
+  "stack_heading": "What I build with",
+  "stack_description": "I build web apps and tools, often for things I'm interested in myself. I like working on the whole thing, including how it runs.",
+  "stack_defaults": "My defaults",
+  "stack_approach": "How I build",
+  "role_frontend": "Frontend",
+  "role_backend": "Backend",
+  "role_systems": "Systems",
+  "role_database": "Database",
+  "role_small_apps": "Apps",
+  "role_deployment": "Deployment",
+  "role_tools": "Tools",
+  "role_ai": "AI",
+  "principle_use_title": "Build something useful",
+  "principle_use_description": "Many of my projects grow out of my interests or things I'm passionate about. I like creating things I'd want to use. That's what drives me to put a lot of care into what I make.",
+  "principle_types_title": "Type safety and verification",
+  "principle_types_description": "I am a big believer in type safety, especially in the AI era. Constraining your types helps keep your codebase simple, maintainable, and less error-prone. I'm also always looking for ways to verify code before it ships.",
+  "principle_craft_title": "Care about the work",
+  "principle_craft_description": "The process of making software matters a lot to me. Both in the software I use and that I make, I want it to have that human touch. It's the small things that make the big difference.",
+  "open": "Open",
+  "project_breakdown": "Project breakdown",
+  "blog": "Blog",
+  "blog_heading": "# Some of my thoughts",
+  "nothing_yet": "Nothing here yet",
+  "available_english": "Available in English",
+  "page_title": "Seweryn Czykinowski | Software Engineer",
+  "page_description": "Seweryn Czykinowski. Software Engineer Apprentice at Nokia and student at ESIEA Paris. Explore my projects, experience, and stack.",
+  "duration_years": [
+    {
+      "declarations": ["input count", "input suffix", "local category = count: plural"],
+      "selectors": ["category"],
+      "match": {
+        "category=one": "{count}{suffix} year",
+        "category=*": "{count}{suffix} years"
+      }
+    }
+  ],
+  "duration_months": [
+    {
+      "declarations": ["input count", "input suffix", "local category = count: plural"],
+      "selectors": ["category"],
+      "match": {
+        "category=one": "{count}{suffix} month",
+        "category=*": "{count}{suffix} months"
+      }
+    }
+  ],
+  "duration_days": [
+    {
+      "declarations": ["input count", "input suffix", "local category = count: plural"],
+      "selectors": ["category"],
+      "match": {
+        "category=one": "{count}{suffix} day",
+        "category=*": "{count}{suffix} days"
+      }
+    }
+  ],
+  "platform_cli": "CLI",
+  "platform_tui": "TUI"
+}

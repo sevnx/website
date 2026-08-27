@@ -1,9 +1,13 @@
 ---
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
+import { projectHref } from '@/lib/projects';
 import type { CollectionEntry } from 'astro:content';
 import DurationBadge from '@/components/badges/DurationBadge.astro';
 import SkillBadge from '@/components/badges/SkillBadge.astro';
 import TuiLink from '@/components/ui/TuiLink.astro';
 import { technologies } from '@/data/technologies';
+const locale = pageLocale(Astro.currentLocale);
 
 export interface Props {
   project: CollectionEntry<'project'>;
@@ -33,9 +37,9 @@ const { project } = Astro.props;
     }
   </div>
   <div class="project-links">
-    <TuiLink href={`/projects/${project.id}`} text="Learn more" />
-    {project.data.githubUrl && <TuiLink href={project.data.githubUrl} text=" GitHub" />}
-    {project.data.websiteUrl && <TuiLink href={project.data.websiteUrl} text=" Website" />}
+    <TuiLink href={projectHref(project.data.key, locale)} text={m.learn_more({}, { locale })} />
+    {project.data.githubUrl && <TuiLink href={project.data.githubUrl} icon="github" text="GitHub" />}
+    {project.data.websiteUrl && <TuiLink href={project.data.websiteUrl} icon="compass" text={m.website({}, { locale })} />}
   </div>
 </div>
 

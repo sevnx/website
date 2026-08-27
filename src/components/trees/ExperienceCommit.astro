@@ -1,0 +1,180 @@
+---
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
+import { render, type CollectionEntry } from 'astro:content';
+import SkillBadge from '@/components/badges/SkillBadge.astro';
+import LocationBadge from '@/components/badges/LocationBadge.astro';
+import EmploymentTypeBadge from '@/components/badges/EmploymentTypeBadge.astro';
+import FormattedTime from '@/components/ui/FormattedTime.astro';
+import MarkdownContent from '@/components/ui/MarkdownContent.astro';
+import { technologies } from '@/data/technologies';
+import { formatDuration } from '@/lib/time';
+const locale = pageLocale(Astro.currentLocale);
+
+export interface Props {
+  experience: CollectionEntry<'experience'>;
+}
+
+const { experience } = Astro.props;
+const { data } = experience;
+const { Content } = await render(experience);
+const endDate = data.endDate === 'Present' ? null : data.endDate;
+---
+
+<!-- One commit on the experience graph: date gutter, rail with a node, then the role. -->
+<article class="commit" data-current={endDate === null} data-item tabindex="-1">
+  <div class="when">
+    <span>{endDate ? <FormattedTime date={endDate} /> : m.present({}, { locale })}</span>
+    <span class="since start"><FormattedTime date={data.startDate} /></span>
+    <span class="since">{formatDuration(data.startDate, endDate, locale)}</span>
+  </div>
+  <div class="rail" aria-hidden="true"><span class="node"></span></div>
+  <div class="body">
+    <h2>{data.jobTitle} @ {data.company}</h2>
+    <div class="badges">
+      <LocationBadge location={data.location} />
+      <EmploymentTypeBadge employmentType={data.employmentType} />
+      {data.technologies.map((name) => <SkillBadge technology={technologies.find((t) => t.name === name)} />)}
+    </div>
+    <p class="summary">{data.shortDescription}</p>
+    <div class="details"><MarkdownContent content={Content} /></div>
+  </div>
+</article>
+
+<style>
+  .commit {
+    display: grid;
+    grid-template-columns: 10ch 3ch minmax(0, 1fr);
+    column-gap: 1ch;
+  }
+
+  .when {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: var(--foreground2);
+  }
+
+  .since {
+    color: var(--muted);
+  }
+
+  /* The rail runs through every commit; the first and last stop at their node. */
+  .rail {
+    position: relative;
+  }
+
+  .rail::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    border-left: 2px solid var(--background3);
+    translate: -1px 0;
+  }
+
+  .commit:first-child .rail::before {
+    top: 0.5lh;
+  }
+
+  .commit:last-child .rail::before {
+    bottom: auto;
+    height: 0.5lh;
+  }
+
+  .commit:only-child .rail::before {
+    display: none;
+  }
+
+  .node {
+    position: absolute;
+    left: 50%;
+    top: 0.5lh;
+    width: 1.5ch;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border: 2px solid var(--theme-accent);
+    border-radius: 50%;
+    background: var(--background0);
+  }
+
+  .commit[data-current='true'] .node {
+    background: var(--theme-accent);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--theme-accent) 25%, transparent);
+  }
+
+  .body {
+    display: grid;
+    gap: 0.25lh;
+    padding-bottom: 1.5lh;
+  }
+
+  .commit:last-child .body {
+    padding-bottom: 0;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 1ch;
+  }
+
+  .summary {
+    color: var(--foreground2);
+  }
+
+  /* MDX sections read as branches, bullets as added lines. */
+  .details :global(h3) {
+    color: var(--iris);
+    margin-block: 0.25lh 0;
+  }
+
+  .details :global(h3::before) {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 1ch;
+    vertical-align: -0.125em;
+    background-color: currentColor;
+    mask: url('../../assets/ui-icons/git-branch.svg') center / contain no-repeat;
+  }
+
+  /* Out-specifies MarkdownContent's `ul li::before`. */
+  .commit .details :global(ul li::before) {
+    content: '+ ';
+    color: var(--pine);
+  }
+
+  .details :global(li) {
+    padding-left: 2ch;
+    text-indent: -2ch;
+  }
+
+  @media (max-width: 700px) {
+    /* Dates move above the title so the body keeps its width. */
+    .commit {
+      grid-template-columns: 3ch minmax(0, 1fr);
+    }
+
+    .rail {
+      grid-row: 1 / 3;
+    }
+
+    .when {
+      grid-column: 2;
+      flex-direction: row;
+      gap: 1ch;
+    }
+
+    .start {
+      order: -1;
+    }
+
+    .start::after {
+      content: ' →';
+    }
+  }
+</style>

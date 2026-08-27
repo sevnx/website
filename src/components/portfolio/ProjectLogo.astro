@@ -1,0 +1,37 @@
+---
+import { readFile } from 'node:fs/promises';
+import { imageToAscii } from '@/lib/image-to-ascii';
+
+interface Props {
+  source: string;
+}
+
+const { source } = Astro.props;
+const { ascii, color } = await imageToAscii(await readFile(source));
+---
+
+<pre class="project-logo" aria-hidden="true" style={color && `color:${color}`}>{ascii}</pre>
+
+<style>
+  /* 40 columns × 20 lines, with each line twice a character's width, form a square. */
+  .project-logo {
+    margin:0;
+    padding:0;
+    border:0;
+    background:none;
+    color:inherit;
+    font-family:inherit;
+    font-size:10px;
+    font-weight:normal;
+    font-variant-ligatures:none;
+    line-height:2ch;
+    letter-spacing:0;
+    width:40ch;
+    height:40ch;
+    white-space:pre;
+  }
+
+  @media (max-width:700px) {
+    .project-logo { font-size:9px; }
+  }
+</style>

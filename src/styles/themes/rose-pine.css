@@ -1,0 +1,102 @@
+/* Import after WebTUI. Apply data-webtui-theme="rose-pine" to its container.
+ * Use data-webtui-theme="rose-pine-dawn" for the light palette.
+ * Color-only theme: component geometry, typography, and interactions stay in WebTUI.
+ * Palette: https://rosepinetheme.com/palette/
+ */
+@layer base {
+  [data-webtui-theme|='rose-pine'] {
+    color-scheme: dark;
+
+    --base: #191724;
+    --surface: #1f1d2e;
+    --overlay: #26233a;
+    --muted: #6e6a86;
+    --subtle: #908caa;
+    --text: #e0def4;
+    --love: #eb6f92;
+    --gold: #f6c177;
+    --rose: #ebbcba;
+    --pine: #31748f;
+    --foam: #9ccfd8;
+    --iris: #c4a7e7;
+    --highlight-low: #21202e;
+    --highlight-med: #403d52;
+    --highlight-high: #524f67;
+
+    --background0: var(--base);
+    --background1: var(--surface);
+    --background2: var(--overlay);
+    --background3: var(--highlight-med);
+    --foreground0: var(--text);
+    --foreground1: var(--text);
+    --foreground2: var(--subtle);
+    --box-border-color: var(--rose);
+    --separator-color: var(--rose);
+    --table-border-color: var(--rose);
+
+    /* Existing portfolio components also consume these aliases. */
+    --border-color: var(--rose);
+    --text-muted: var(--subtle);
+    --theme-accent: var(--rose);
+    --theme-focus: var(--gold);
+  }
+}
+
+@layer base {
+  [data-webtui-theme='rose-pine-dawn'] {
+    color-scheme: light;
+    --base: #faf4ed;
+    --surface: #fffaf3;
+    --overlay: #f2e9e1;
+    --muted: #9893a5;
+    --subtle: #797593;
+    --text: #575279;
+    --love: #b4637a;
+    --gold: #ea9d34;
+    --rose: #d7827e;
+    --pine: #286983;
+    --foam: #56949f;
+    --iris: #907aa9;
+    --highlight-low: #f4ede8;
+    --highlight-med: #dfdad9;
+    --highlight-high: #cecacd;
+    --theme-accent: var(--love);
+    --theme-focus: var(--pine);
+  }
+}
+
+@layer components {
+  [data-webtui-theme|='rose-pine'] :is(h1, h2) { color: var(--rose); }
+  [data-webtui-theme|='rose-pine'] h3 { color: var(--foam); }
+  [data-webtui-theme|='rose-pine'] h4 { color: var(--iris); }
+  [data-webtui-theme|='rose-pine'] h5 { color: var(--gold); }
+  [data-webtui-theme|='rose-pine'] h6 { color: var(--love); }
+  [data-webtui-theme|='rose-pine'] a { color: var(--rose); }
+
+  /* Explicit variants only. */
+  [data-webtui-theme|='rose-pine'] [variant-='love'] { --rose-pine-variant: var(--love); }
+  [data-webtui-theme|='rose-pine'] [variant-='gold'] { --rose-pine-variant: var(--gold); }
+  [data-webtui-theme|='rose-pine'] [variant-='rose'] { --rose-pine-variant: var(--rose); }
+  [data-webtui-theme|='rose-pine'] [variant-='pine'] { --rose-pine-variant: var(--pine); }
+  [data-webtui-theme|='rose-pine'] [variant-='foam'] { --rose-pine-variant: var(--foam); }
+  [data-webtui-theme|='rose-pine'] [variant-='iris'] { --rose-pine-variant: var(--iris); }
+  [data-webtui-theme|='rose-pine'] [variant-='subtle'] { --rose-pine-variant: var(--subtle); }
+
+  [data-webtui-theme|='rose-pine'] :is(button, [is-~='button'], input[type='button'], input[type='submit'], input[type='reset']):is([variant-='love'], [variant-='gold'], [variant-='rose'], [variant-='pine'], [variant-='foam'], [variant-='iris']) {
+    --button-primary: var(--rose-pine-variant);
+    --button-secondary: var(--background0);
+  }
+
+  /* Tinted fill and readable ink per variant for badges:
+   * several Dawn accents are too light to carry text on a solid fill.
+   * Unvariant badges (dates, locations) use the neutral tint so technology colors stay the accent. */
+  [data-webtui-theme|='rose-pine'] [is-~='badge']:not([variant-]) { --rose-pine-variant: var(--subtle); }
+  [data-webtui-theme|='rose-pine'] :is([is-~='badge']:not([variant-]), [variant-='love'], [variant-='gold'], [variant-='rose'], [variant-='pine'], [variant-='foam'], [variant-='iris'], [variant-='subtle']) {
+    --rose-pine-tint: color-mix(in oklab, var(--rose-pine-variant) 18%, var(--background0));
+    --rose-pine-ink: color-mix(in oklab, var(--rose-pine-variant) 55%, var(--foreground0));
+  }
+  [data-webtui-theme|='rose-pine'] [is-~='badge']:is(:not([variant-]), [variant-='love'], [variant-='gold'], [variant-='rose'], [variant-='pine'], [variant-='foam'], [variant-='iris'], [variant-='subtle']) {
+    --badge-color: var(--rose-pine-tint);
+    --badge-text: var(--rose-pine-ink);
+  }
+}

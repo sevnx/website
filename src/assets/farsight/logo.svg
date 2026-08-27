@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" role="img" aria-labelledby="title">
+  <title id="title">Farsight mark</title>
+  <defs>
+    <linearGradient id="gold-a" x1="9" y1="5" x2="80" y2="85" gradientUnits="userSpaceOnUse"><stop stop-color="#ffc900"/><stop offset=".55" stop-color="#eea300"/><stop offset="1" stop-color="#ffd52a"/></linearGradient>
+    <linearGradient id="gold-b" x1="80" y1="5" x2="18" y2="78" gradientUnits="userSpaceOnUse"><stop stop-color="#ffdb32"/><stop offset="1" stop-color="#dc8c00"/></linearGradient>
+    <linearGradient id="gold-c" x1="34" y1="55" x2="79" y2="85" gradientUnits="userSpaceOnUse"><stop stop-color="#df9000"/><stop offset="1" stop-color="#ffce20"/></linearGradient>
+  </defs>
+  <path fill="url(#gold-a)" d="M8.6 5.2h15.1v13.5L8.6 33.8z"/><path fill="url(#gold-b)" d="m8.6 33.8 15.1-22.2v7.1z"/>
+  <path fill="url(#gold-a)" d="m8.6 40.2 15.1-15.2v36.8L8.6 81.4z"/><path fill="url(#gold-b)" d="m8.6 81.4 15.1-38v18.4z"/>
+  <path fill="url(#gold-a)" d="M28.9 5.2H80L65.2 20.3H28.9z"/><path fill="url(#gold-b)" d="M28.9 5.2H80L65.2 12.8H28.9z" opacity=".82"/>
+  <path fill="url(#gold-a)" d="M28.9 38.2h42.7L56.8 53.3H28.9z"/><path fill="url(#gold-c)" d="M28.9 45.7h35.3l-7.4 7.6H28.9z"/>
+</svg>

@@ -22,3 +22,10 @@ bun-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# compiled translations
+src/paraglide/
+project.inlang/cache/
+
+# isolated test builds
+.test-dist/

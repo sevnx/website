@@ -1,4 +1,6 @@
 ---
+import { pageLocale } from '@/i18n/locales';
+const locale = pageLocale(Astro.currentLocale);
 interface Props {
   date: Date;
 }
@@ -8,9 +10,10 @@ const { date } = Astro.props;
 
 <time datetime={date.toISOString()}>
   {
-    date.toLocaleDateString('en-us', {
+    date.toLocaleDateString(locale, {
       year: 'numeric',
       month: 'short',
+      timeZone: 'UTC',
     })
   }
 </time>
