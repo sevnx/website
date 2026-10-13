@@ -6,11 +6,6 @@ import { locales } from '@/i18n/locales';
 
 const localizedFields = { key: z.string(), locale: z.enum(locales) };
 
-const classworkItem = z.union([
-  z.string(),
-  z.object({ name: z.string(), technologies: z.array(technologyNameSchema) }),
-]);
-
 const education = defineCollection({
   loader: localizedContent('./content/education'),
   schema: z.object({
@@ -20,7 +15,6 @@ const education = defineCollection({
     startDate: z.coerce.date(),
     endDate: z.union([z.coerce.date(), z.literal('Present')]),
     location: z.string(),
-    classwork: z.array(classworkItem).optional(),
     projects: z.array(z.string()).optional(),
     highlights: z.array(z.string()).optional(),
   }),

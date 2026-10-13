@@ -1,20 +1,15 @@
 ---
-import { getCollection } from 'astro:content';
 import TuiLayout from '@/layouts/TuiLayout.astro';
 import { m } from '@/paraglide/messages.js';
 import { pageLocale } from '@/i18n/locales';
 import { localizedHref } from '@/i18n/links';
-import { blogSlug } from '@/lib/blog';
+import { blogSlug, localizedPosts } from '@/lib/blog';
 import DateBadge from '@/components/badges/DateBadge.astro';
 const locale = pageLocale(Astro.currentLocale);
 
 const name = m.blog({}, { locale });
 
-const blogs = await getCollection('blog');
-
-const sorted = blogs.filter((blog) => blog.data.locale === locale).sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
-const translatedSlugs = new Set(sorted.map(blogSlug));
-const englishOnly = locale === 'en' ? [] : blogs.filter((blog) => blog.data.locale === 'en' && !translatedSlugs.has(blogSlug(blog))).sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+const { translated: sorted, englishOnly } = await localizedPosts(locale);
 ---
 
 <TuiLayout name={name}>

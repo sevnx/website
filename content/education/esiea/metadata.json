@@ -5,22 +5,5 @@
   "location": "Paris, France",
   "projects": [
     "parktui"
-  ],
-  "courses": {
-    "object-oriented-programming": [
-      "Java"
-    ],
-    "network-administration": [
-      "Linux",
-      "Windows Server"
-    ],
-    "computer-architecture": [
-      "C",
-      "Assembly"
-    ],
-    "operating-systems": [
-      "Linux",
-      "Bash"
-    ]
-  }
+  ]
 }

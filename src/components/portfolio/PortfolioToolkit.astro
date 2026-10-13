@@ -1,0 +1,66 @@
+---
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
+import SkillBadge from '@/components/badges/SkillBadge.astro';
+import { technologies } from '@/data/technologies';
+const locale = pageLocale(Astro.currentLocale);
+
+const defaults = [
+  {
+    role: m.role_frontend({}, { locale }),
+    tools: ['React', 'TanStack Start', 'Tailwind', 'Effect', 'Astro'],
+  },
+  {
+    role: m.role_backend({}, { locale }),
+    tools: ['TypeScript', 'Rust'],
+  },
+  {
+    role: m.role_systems({}, { locale }),
+    tools: ['C', 'C++', 'Rust'],
+  },
+  {
+    role: m.role_database({}, { locale }),
+    tools: ['Convex', 'PostgreSQL'],
+  },
+  {
+    role: m.role_small_apps({}, { locale }),
+    tools: ['Rust'],
+  },
+  {
+    role: m.role_deployment({}, { locale }),
+    tools: ['VPS', 'Cloudflare'],
+  },
+  {
+    role: m.role_tools({}, { locale }),
+    tools: ['Docker', 'Git'],
+  },
+  {
+    role: m.role_ai({}, { locale }),
+    tools: ['Codex', 'Claude Code', 'T3 Code'],
+  },
+];
+---
+
+<div class="toolkit">
+  <p class="toolkit-intro">{m.stack_description({}, { locale })}</p>
+  <dl>
+    {defaults.map(({ role, tools }) => (
+      <div class="toolkit-row">
+        <dt>{role}</dt>
+        <dd>{tools.map(name => <SkillBadge technology={technologies.find(technology => technology.name === name)} />)}</dd>
+      </div>
+    ))}
+  </dl>
+</div>
+
+<style>
+  .toolkit { display:grid; gap:1lh; padding-top:0.5lh; padding-bottom:4ch; max-width:82ch; }
+  dl { margin:0; }
+  .toolkit-row { display:grid; grid-template-columns:12ch minmax(0, 1fr); gap:1ch; padding-block:0.75lh; border-top:1px solid var(--highlight-med); }
+  .toolkit-row:last-child { padding-bottom:0; }
+  dt { color:var(--pine); }
+  dd { margin:0; min-width:0; display:flex; flex-wrap:wrap; gap:1ch; }
+  @media(max-width:500px) {
+    .toolkit-row { grid-template-columns:minmax(0, 1fr); gap:0.35lh; }
+  }
+</style>

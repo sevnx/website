@@ -1,0 +1,81 @@
+---
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
+import { localizedHref } from '@/i18n/links';
+import { blogSlug, localizedPosts } from '@/lib/blog';
+import FormattedDate from '@/components/ui/FormattedDate.astro';
+const locale = pageLocale(Astro.currentLocale);
+
+const { translated, englishOnly } = await localizedPosts(locale);
+const posts = [
+  ...translated.map((blog) => ({ blog, locale, english: false })),
+  ...englishOnly.map((blog) => ({ blog, locale: 'en' as const, english: true })),
+];
+---
+
+<!-- One framed block of posts: title on the left, date on the right, a rule between each. -->
+<div class="blog-list" box-="square">
+  {posts.length === 0 ? (
+    <p class="empty">{m.nothing_yet({}, { locale })}</p>
+  ) : (
+    posts.map(({ blog, locale: postLocale, english }) => (
+      <a class="post-row" href={localizedHref(`/blog/${blogSlug(blog)}`, postLocale)}>
+        <span class="title" lang={english ? 'en' : undefined}>
+          {blog.data.title}
+          {english && <span class="muted"> · {m.available_english({}, { locale })}</span>}
+        </span>
+        <span class="muted date"><FormattedDate date={blog.data.publishedDate} /></span>
+      </a>
+    ))
+  )}
+</div>
+
+<style>
+  .blog-list {
+    display: grid;
+    padding: 0.5lh 1.5ch;
+  }
+
+  .empty {
+    min-height: 5lh;
+    display: grid;
+    place-items: center;
+    color: var(--foreground2);
+  }
+
+  .post-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 3ch;
+    padding: 0.5lh 1.5ch;
+    color: var(--foreground0);
+    text-decoration: none;
+  }
+
+  /* A plain rule, like the Projects list, rather than WebTUI's gradient separator. */
+  .post-row + .post-row {
+    border-top: 1px solid var(--box-border-color);
+  }
+
+  .post-row:hover .title {
+    color: var(--theme-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+
+  .muted {
+    color: var(--foreground2);
+  }
+
+  .date {
+    white-space: nowrap;
+  }
+
+  @media (max-width: 500px) {
+    .post-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+  }
+</style>

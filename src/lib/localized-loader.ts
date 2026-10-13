@@ -6,8 +6,6 @@ import { glob, type Loader } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 const metadataSchema = z.record(z.string(), z.unknown());
-const courseTechnologiesSchema = z.record(z.string(), z.array(z.string()));
-const courseNamesSchema = z.record(z.string(), z.string());
 
 /** Keep Astro's MDX rendering and asset handling, merging each item's shared facts before validation. */
 export function localizedContent(base: string): Loader {
@@ -38,34 +36,33 @@ export function localizedContent(base: string): Loader {
           const key = basename(dirname(options.filePath));
           const shared = metadata.get(key);
           if (!shared) throw new Error(`Missing metadata for ${key}`);
-          const { coverAlt, classwork: courseNames } = options.data;
-          const cover = shared.coverSrc ? { src: shared.coverSrc, alt: coverAlt } : undefined;
-          const classwork = shared.courses
-            ? Object.entries(courseTechnologiesSchema.parse(shared.courses)).map(([course, technologies]) => {
-                const name = courseNamesSchema.parse(courseNames)[course];
-                if (!name) throw new Error(`Missing course translation: ${key}/${course}`);
-                return { name, technologies };
-              })
-            : undefined;
+          const cover = shared.coverSrc ? { src: shared.coverSrc, alt: options.data.coverAlt } : undefined;
           return context.parseData({
             ...options,
-            data: { ...shared, ...options.data, key, locale: basename(options.filePath, '.mdx'), cover, classwork },
+            data: { ...shared, ...options.data, key, locale: basename(options.filePath, '.mdx'), cover },
           });
         },
       };
 
-      await loadMetadata();
       // glob() returns early for an empty collection, so remove deleted files before it runs.
-      for (const [id, entry] of context.store.entries()) {
-        if (entry.filePath && !existsSync(new URL(entry.filePath, context.config.root))) context.store.delete(id);
+      function pruneDeleted() {
+        for (const [id, entry] of context.store.entries()) {
+          if (entry.filePath && !existsSync(new URL(entry.filePath, context.config.root))) context.store.delete(id);
+        }
       }
+
+      await loadMetadata();
+      pruneDeleted();
       await mdx.load(mergedContext);
 
+      // glob() also skips registering its own watchers when the collection starts empty, so MDX changes reload here too.
       const reloadMetadata = async (changedPath: string) => {
-        if (basename(changedPath) !== 'metadata.json' || dirname(dirname(changedPath)) !== directory) return;
+        const file = basename(changedPath);
+        if ((file !== 'metadata.json' && !file.endsWith('.mdx')) || dirname(dirname(changedPath)) !== directory) return;
         try {
           await loadMetadata();
-          // The original glob loader already owns MDX watchers. Do not register them again.
+          pruneDeleted();
+          // Do not register glob's watchers again; unchanged entries are skipped by digest.
           await mdx.load({ ...mergedContext, watcher: undefined });
           context.logger.info(`Reloaded shared metadata from ${changedPath}`);
         } catch (error) {

@@ -1,0 +1,86 @@
+---
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
+import type { CollectionEntry } from 'astro:content';
+import UiIcon from '@/components/ui/UiIcon.astro';
+import TuiLink from '@/components/ui/TuiLink.astro';
+import CommitEntry from './CommitEntry.astro';
+import { projectHref } from '@/lib/projects';
+const locale = pageLocale(Astro.currentLocale);
+
+export interface Props {
+  education: CollectionEntry<'education'>;
+  projects: CollectionEntry<'project'>[];
+}
+
+const { education, projects: allProjects } = Astro.props;
+const { data } = education;
+
+const linkedProjects = (data.projects ?? [])
+  .map((project) => allProjects.find((p) => p.data.key === project))
+  .filter((p): p is CollectionEntry<'project'> => p !== undefined);
+---
+
+<CommitEntry startDate={data.startDate} endDate={data.endDate === 'Present' ? null : data.endDate}>
+  <header class="heading">
+    <h2>{data.degree} @ {data.institution}</h2>
+    <span class="location"><UiIcon name="location" /> {data.location}</span>
+  </header>
+  {(data.highlights?.length ?? 0) > 0 && (
+    <ul class="highlights">
+      {data.highlights!.map((highlight) => <li>{highlight}</li>)}
+    </ul>
+  )}
+  {linkedProjects.length > 0 && (
+    <p class="projects">
+      <span class="label">{m.projects({}, { locale })}</span>
+      {linkedProjects.map((project) => <TuiLink href={projectHref(project.data.key, locale)} text={project.data.name} />)}
+    </p>
+  )}
+</CommitEntry>
+
+<style>
+  .heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    column-gap: 2ch;
+  }
+
+  .location {
+    color: var(--foreground2);
+    white-space: nowrap;
+  }
+
+  /* Highlights read as added lines, like the bullets in Experience. */
+  .highlights {
+    list-style: none;
+    padding: 0;
+  }
+
+  .highlights li {
+    padding-left: 2ch;
+    text-indent: -2ch;
+  }
+
+  .highlights li::before {
+    content: '+ ';
+    color: var(--pine);
+  }
+
+  .projects {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 2ch;
+  }
+
+  .label {
+    color: var(--foreground2);
+  }
+
+  @media (max-width: 700px) {
+    .heading {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

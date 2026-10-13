@@ -1,0 +1,132 @@
+---
+import { m } from '@/paraglide/messages.js';
+import { pageLocale } from '@/i18n/locales';
+import FormattedTime from '@/components/ui/FormattedTime.astro';
+import { formatDuration } from '@/lib/time';
+const locale = pageLocale(Astro.currentLocale);
+
+export interface Props {
+  startDate: Date;
+  /** `null` while ongoing; the node fills in to mark it as current. */
+  endDate: Date | null;
+}
+
+const { startDate, endDate } = Astro.props;
+---
+
+<!-- One commit on a history graph: date gutter, rail with a node, then the slotted body. -->
+<article class="commit" data-current={endDate === null} data-item data-cursor="self" tabindex="-1">
+  <div class="when">
+    <span>{endDate ? <FormattedTime date={endDate} /> : m.present({}, { locale })}</span>
+    <span class="since start"><FormattedTime date={startDate} /></span>
+    <span class="since">{formatDuration(startDate, endDate, locale)}</span>
+  </div>
+  <div class="rail" aria-hidden="true"><span class="node"></span></div>
+  <div class="body"><slot /></div>
+</article>
+
+<style>
+  .commit {
+    display: grid;
+    grid-template-columns: 10ch 3ch minmax(0, 1fr);
+    column-gap: 1ch;
+  }
+
+  .when {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: var(--foreground2);
+  }
+
+  .since {
+    color: var(--muted);
+  }
+
+  /* The rail runs through every commit; the first and last stop at their node. */
+  .rail {
+    position: relative;
+  }
+
+  .rail::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    border-left: 2px solid var(--background3);
+    translate: -1px 0;
+  }
+
+  .commit:first-child .rail::before {
+    top: 0.5lh;
+  }
+
+  .commit:last-child .rail::before {
+    bottom: auto;
+    height: 0.5lh;
+  }
+
+  .commit:only-child .rail::before {
+    display: none;
+  }
+
+  .node {
+    position: absolute;
+    left: 50%;
+    top: 0.5lh;
+    width: 1.5ch;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border: 2px solid var(--theme-accent);
+    border-radius: 50%;
+    background: var(--background0);
+  }
+
+  /* The filled node marks the ongoing commit, and doubles as the j/k cursor: selecting a commit moves the fill to it. */
+  .commit[data-current='true'] .node,
+  .commit:focus-visible .node {
+    background: var(--theme-accent);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--theme-accent) 25%, transparent);
+  }
+
+  :global(:has(> .commit:focus-visible)) > .commit[data-current='true']:not(:focus-visible) .node {
+    background: var(--background0);
+    box-shadow: none;
+  }
+
+  .body {
+    display: grid;
+    gap: 0.25lh;
+    padding-bottom: 1.5lh;
+  }
+
+  .commit:last-child .body {
+    padding-bottom: 0;
+  }
+
+  @media (max-width: 700px) {
+    /* Dates move above the title so the body keeps its width. */
+    .commit {
+      grid-template-columns: 3ch minmax(0, 1fr);
+    }
+
+    .rail {
+      grid-row: 1 / 3;
+    }
+
+    .when {
+      grid-column: 2;
+      flex-direction: row;
+      gap: 1ch;
+    }
+
+    .start {
+      order: -1;
+    }
+
+    .start::after {
+      content: ' →';
+    }
+  }
+</style>

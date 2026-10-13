@@ -15,30 +15,5 @@
     "JavaScript",
     "HTML",
     "CSS"
-  ],
-  "courses": {
-    "data-structures-and-algorithms": [
-      "C"
-    ],
-    "introduction-to-web-development": [
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "PHP"
-    ],
-    "database-management-systems": [
-      "SQL",
-      "Oracle"
-    ],
-    "multi-threaded-programming": [
-      "Java"
-    ],
-    "object-oriented-programming-design-patterns": [
-      "Java"
-    ],
-    "full-stack-web-development": [
-      "React",
-      "Spring"
-    ]
-  }
+  ]
 }

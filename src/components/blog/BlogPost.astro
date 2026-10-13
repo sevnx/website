@@ -19,12 +19,9 @@ const availableLocales = (await getCollection('blog'))
 <TuiLayout name={blog.data.title} availableLocales={availableLocales}>
   <article class="post">
     <header class="post-header">
-      <span class="post-title">{blog.data.title}</span>
-      <span class="post-date">
-        <FormattedDate date={blog.data.publishedDate} />
-      </span>
+      <h1>{blog.data.title}</h1>
+      <span class="post-date"><FormattedDate date={blog.data.publishedDate} /></span>
     </header>
-    <div is-="separator"></div>
     <div class="post-body">
       <Content />
     </div>
@@ -34,41 +31,125 @@ const availableLocales = (await getCollection('blog'))
 <style>
   .post {
     max-width: 72ch;
-    margin: 1lh auto 0;
-    display: flex;
-    flex-direction: column;
+    margin: 0 auto;
   }
 
-  .post :global(*) {
-    font-family: 'Lora', Georgia, serif;
-    font-size: 1.05rem;
-    line-height: 1.8;
-  }
-
+  /* Header matches the blog list: mono title, grey date on the right. */
   .post-header {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: baseline;
-    gap: 2ch;
-    padding-bottom: 0.5lh;
-    line-height: 1.4;
+    gap: 3ch;
+    padding-bottom: 1lh;
+    border-bottom: 1px solid var(--box-border-color);
   }
 
-  .post-title {
-    font-weight: 600;
-    background-color: transparent;
-    padding: 0;
+  .post-header h1 {
+    color: var(--foreground0);
+    font-size: 1.15em;
   }
 
   .post-date {
+    color: var(--foreground2);
     white-space: nowrap;
-    opacity: 0.65;
-    background-color: transparent;
-    padding: 0;
+  }
+
+  /* Prose reads in a serif; code stays monospace. WebTUI resets margins, so spacing is restored here. */
+  .post-body {
+    --prose-size: 17px;
+    padding-top: 1lh;
+    line-height: 1.75;
+  }
+
+  /* WebTUI sets the mono font and size on every element, so prose elements opt in to the serif one by one. */
+  .post-body :global(:is(p, li, blockquote, em, strong, a)) {
+    font-family: 'Lora', Georgia, serif;
+    font-size: var(--prose-size);
+  }
+
+  .post-body :global(:is(p, ul, ol, blockquote, pre, figure)) {
+    margin-block: 0 1.1em;
+  }
+
+  .post-body :global(:is(h2, h3)) {
+    font-family: 'Commit Mono', monospace;
+    color: var(--theme-accent);
+    line-height: 1.4;
+    margin-block: 1.8em 0.6em;
+  }
+
+  .post-body :global(h2) {
+    font-size: 19px;
+  }
+
+  .post-body :global(h3) {
+    font-size: 17px;
+    color: var(--iris);
+  }
+
+  .post-body :global(:is(ul, ol)) {
+    padding-left: 1.5em;
+  }
+
+  .post-body :global(ul) {
+    list-style: disc;
+  }
+
+  .post-body :global(ol) {
+    list-style: decimal;
+  }
+
+  .post-body :global(li::before) {
+    content: none;
+  }
+
+  .post-body :global(li + li) {
+    margin-top: 0.3em;
+  }
+
+  .post-body :global(a) {
+    color: var(--theme-accent);
+    text-underline-offset: 0.2em;
+  }
+
+  .post-body :global(blockquote) {
+    padding-left: 1.2em;
+    border-left: 2px solid var(--rose);
+    color: var(--foreground2);
     font-style: italic;
   }
 
-  .post-body {
-    padding-top: 0.75lh;
+  .post-body :global(code) {
+    font-family: 'Commit Mono', monospace;
+    font-size: 14px;
+  }
+
+  .post-body :global(:not(pre) > code) {
+    padding: 0.1em 0.4em;
+    background: var(--overlay);
+  }
+
+  /* Shiki's rose-pine-dawn background matches the page, so its inline style is overridden to set blocks apart. */
+  .post-body :global(pre) {
+    padding: 1em 1.2em;
+    overflow-x: auto;
+    background: var(--overlay) !important;
+    line-height: 1.6;
+  }
+
+  .post-body :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 700px) {
+    .post-header {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.25lh;
+    }
+
+    .post-body {
+      --prose-size: 16px;
+    }
   }
 </style>

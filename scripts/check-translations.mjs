@@ -15,7 +15,7 @@ for (const [index, dictionary] of messages.entries()) {
   }
 }
 let count = 0;
-const fields = { project: ['shortDescription', 'coverAlt'], experience: ['jobTitle', 'shortDescription'], education: ['degree', 'classwork', 'highlights'], blog: ['title'] };
+const fields = { project: ['shortDescription', 'coverAlt'], experience: ['jobTitle', 'shortDescription'], education: ['degree', 'highlights'], blog: ['title'] };
 for (const collection of Object.keys(fields)) {
   const base = `content/${collection}`;
   for (const item of await readdir(base, { withFileTypes: true })) {
@@ -33,9 +33,6 @@ for (const collection of Object.keys(fields)) {
         if (!fields[collection].includes(field)) throw new Error(`Shared fact belongs in metadata.json: ${path}/${field}`);
       }
       if (shared.coverSrc && !data.coverAlt) throw new Error(`Missing translated cover alt: ${path}`);
-      if (shared.courses && Object.keys(shared.courses).sort().join(',') !== Object.keys(data.classwork ?? {}).sort().join(',')) {
-        throw new Error(`Course translations must match shared course identifiers: ${path}`);
-      }
       count++;
     }
   }

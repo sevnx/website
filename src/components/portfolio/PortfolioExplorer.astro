@@ -7,8 +7,8 @@ import FormattedTimeRange from '@/components/ui/FormattedTimeRange.astro';
 import TuiLink from '@/components/ui/TuiLink.astro';
 import UiIcon from '@/components/ui/UiIcon.astro';
 import ExperienceCommit from '@/components/trees/ExperienceCommit.astro';
-import EducationTree from '@/components/trees/EducationTree.astro';
-import PortfolioStack from './PortfolioStack.astro';
+import EducationCommit from '@/components/trees/EducationCommit.astro';
+import PortfolioToolkit from './PortfolioToolkit.astro';
 import ProjectDetail from './ProjectDetail.astro';
 import { projectHref, sortProjectsByRelevance } from '@/lib/projects';
 const locale = pageLocale(Astro.currentLocale);
@@ -18,7 +18,7 @@ const education = (await getCollection('education', ({ data }) => data.locale ==
 const tabs = [
   { id: 'projects', label: m.projects({}, { locale }) },
   { id: 'experience', label: m.experience({}, { locale }) },
-  { id: 'stack', label: m.stack({}, { locale }) },
+  { id: 'toolkit', label: m.toolkit({}, { locale }) },
   { id: 'education', label: m.education({}, { locale }) },
 ];
 ---
@@ -59,9 +59,9 @@ const tabs = [
       </section>
       <section role="tabpanel" id="work-panel-1" aria-labelledby="work-tab-1" tabindex="0" hidden><div>{experiences.map(experience => <ExperienceCommit experience={experience} />)}</div></section>
       <section role="tabpanel" id="work-panel-2" aria-labelledby="work-tab-2" tabindex="0" hidden>
-        <PortfolioStack />
+        <PortfolioToolkit />
       </section>
-      <section role="tabpanel" id="work-panel-3" aria-labelledby="work-tab-3" tabindex="0" hidden><div class="entries">{education.map(item => <div data-item tabindex="-1"><EducationTree education={item} projects={projects} /></div>)}</div></section>
+      <section role="tabpanel" id="work-panel-3" aria-labelledby="work-tab-3" tabindex="0" hidden><div>{education.map(item => <EducationCommit education={item} projects={projects} />)}</div></section>
     </div>
     <div class="terminal-status" aria-hidden="true">
       <span data-path>~/projects</span>
@@ -307,12 +307,12 @@ const tabs = [
   .scroll-thumb { position:absolute; inset-inline:0; height:var(--thumb-size,100%); top:calc((100% - var(--thumb-size,100%)) * var(--thumb-progress,0)); background:var(--theme-accent); }
   .terminal:not([data-scrollable]) .scroll-track { display:none; }
 
-  /* Selection cursor for j/k, drawn in the body's left gutter. Global because items can live in child components. */
+  /* Selection cursor for j/k, drawn in the body's left gutter. Global because items can live in child components.
+     Items with data-cursor="self" mark the selection themselves. */
   .terminal-body :global([data-item]) { position:relative; scroll-margin-block:0.5lh; }
   .terminal-body :global([data-item]:focus-visible) { outline:none; }
-  .terminal-body :global([data-item]:focus-visible::after) { content:''; position:absolute; left:calc(var(--gutter) * -0.75); top:0; bottom:0; width:0.5ch; background:var(--theme-accent); }
+  .terminal-body :global([data-item]:not([data-cursor='self']):focus-visible::after) { content:''; position:absolute; left:calc(var(--gutter) * -0.75); top:0; bottom:0; width:0.5ch; background:var(--theme-accent); }
 
-  .entries { display:grid; gap:1lh; }
   /* Summary on the left, links stacked on the right so every row lines up. */
   .project-row { --bleed:calc(1px - 0.5ch - var(--gutter)); isolation:isolate; padding-block:0.75lh; display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; gap:0 4ch; }
   .project-summary { display:grid; justify-items:start; gap:0.35lh; min-width:0; }
