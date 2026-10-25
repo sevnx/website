@@ -6,11 +6,11 @@ import { m } from '@/paraglide/messages.js';
 import { localizedHref } from '@/i18n/links';
 import { pageLocale, type Locale } from '@/i18n/locales';
 const locale = pageLocale(Astro.currentLocale);
-interface Props { name: string; availableLocales?: readonly Locale[]; }
-const { name, availableLocales } = Astro.props;
+interface Props { availableLocales?: readonly Locale[]; }
+const { availableLocales } = Astro.props;
 const backHref = localizedHref('/', locale);
 ---
-<PortfolioLayout title={`${name} | Seweryn Czykinowski`} availableLocales={availableLocales}>
+<PortfolioLayout availableLocales={availableLocales}>
   <WebTuiStyles />
   <main class="detail-page">
     <LanguageSwitcher availableLocales={availableLocales} />

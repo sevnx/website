@@ -7,12 +7,11 @@ import { blogSlug, localizedPosts } from '@/lib/blog';
 import DateBadge from '@/components/badges/DateBadge.astro';
 const locale = pageLocale(Astro.currentLocale);
 
-const name = m.blog({}, { locale });
 
 const { translated: sorted, englishOnly } = await localizedPosts(locale);
 ---
 
-<TuiLayout name={name}>
+<TuiLayout>
   <div class="page">
     <h1>{m.blog_heading({}, { locale })}</h1>
 
