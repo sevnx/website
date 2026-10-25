@@ -298,9 +298,9 @@ const tabs = [
   .key-hints { display:none; }
   @media(hover:hover) and (pointer:fine) { .key-hints { display:inline; } }
 
-  /* The body reaches the inner edge of the frame's 2px border, centered at 0.5ch,
-     so full-width dividers can meet it. --gutter is the content inset from that edge. */
-  .terminal-body { --gutter:2ch; flex:1; min-height:0; overflow:auto; margin-inline:calc(1px - 0.5ch); padding:0.5lh calc(var(--gutter) + 0.5ch - 1px) 0; scrollbar-width:none; }
+  /* The body reaches the outer edge of the frame's 2px border, centered at 0.5ch, so the cursor bar can cover
+     that border instead of being clipped beside it. --gutter is the content inset from the border's inner edge. */
+  .terminal-body { --gutter:2ch; flex:1; min-height:0; overflow:auto; margin-inline:calc(-1px - 0.5ch); padding:0.5lh calc(var(--gutter) + 0.5ch + 1px) 0; scrollbar-width:none; }
   .terminal-body::-webkit-scrollbar { display:none; }
   /* The native scrollbar is hidden; this thumb rides the frame's right border instead. */
   .scroll-track { position:absolute; top:1lh; bottom:1lh; right:calc(0.25ch + 2px); width:0.5ch; pointer-events:none; }
@@ -315,20 +315,23 @@ const tabs = [
 
   /* Summary on the left, links stacked on the right so every row lines up. */
   .project-row { --bleed:calc(1px - 0.5ch - var(--gutter)); isolation:isolate; padding-block:0.75lh; display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; gap:0 4ch; }
+  /* The first row starts at the top of the body, so its selected band leaves no gap under the tabs. */
+  [data-project-list] { margin-top:-0.5lh; }
   .project-summary { display:grid; justify-items:start; gap:0.35lh; min-width:0; }
   .project-heading { display:flex; flex-wrap:wrap; align-items:baseline; column-gap:2ch; }
   .project-dates { color:var(--foreground2); }
   /* Selected row: a full-bleed band with the cursor bar on the frame edge, and the heading's # turns into a prompt. */
   .project-row::before { content:''; position:absolute; z-index:-1; inset:0 var(--bleed); background:var(--overlay); opacity:0; transition:opacity 120ms; }
   .project-row:focus-visible::before { opacity:1; }
-  .terminal-body .project-row:focus-visible::after { left:var(--bleed); }
+  .terminal-body .project-row:focus-visible::after { left:calc(var(--bleed) - 2px); width:calc(0.5ch + 2px); }
   .project-marker::before { content:'#'; }
   .project-row:focus-visible .project-marker::before { content:'>'; }
   .project-row:focus-visible h1 { color:var(--theme-accent); }
   .project-summary p { max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .project-actions { display:flex; flex-direction:column; align-items:flex-start; gap:0.35lh; }
-  /* A plain rule rather than WebTUI's separator, whose gradient line can vanish at 1px. */
-  .project-divider { height:1px; background:var(--box-border-color); margin-inline:calc(1px - 0.5ch - var(--gutter)); }
+  /* A plain rule rather than WebTUI's separator, whose gradient line can vanish at 1px.
+     A border, not a 1px-tall box: rows sit at fractional offsets, and only border widths snap to whole device pixels. */
+  .project-divider { border-top:1px solid var(--box-border-color); margin-inline:calc(1px - 0.5ch - var(--gutter)); }
   [hidden] { display:none; }
 
   @media(max-width:700px) {
@@ -339,9 +342,15 @@ const tabs = [
     .scroll-track { display:none; }
     .project-row { grid-template-columns:minmax(0,1fr); gap:0.35lh; }
     .project-actions { flex-direction:row; flex-wrap:wrap; column-gap:2ch; }
+    /* Each action shares the row equally, brackets at its ends and the label centred between them. */
+    .project-actions :global(.tui-link) { flex:1; display:flex; align-items:center; column-gap:1ch; }
+    .project-actions :global(.tui-link)::before { margin-right:auto; }
+    .project-actions :global(.tui-link)::after { margin-left:auto; }
     [data-section-index] { display:inline; }
     .terminal-bar { justify-content:space-between; padding-inline:0; }
     .portfolio-tabs button[aria-selected='false'] { display:none; }
+    /* The current tab stretches between the arrows. */
+    .portfolio-tabs,.portfolio-tabs button[aria-selected='true'] { flex:1; }
     .carousel-arrow { display:inline-flex; align-items:center; justify-content:center; min-width:44px; height:44px; margin-block:calc((1lh - 44px) / 2); padding:0; background:none; background-image:none; color:var(--theme-accent); cursor:pointer; }
     .carousel-arrow:focus { font-weight:inherit; text-decoration:none; }
     .carousel-arrow span { background:var(--background0); padding-inline:1ch; }
